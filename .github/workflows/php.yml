@@ -19,10 +19,10 @@ jobs:
     - name: Checkout
     - uses: actions/checkout@v2
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+#    - name: Validate composer.json and composer.lock
+#      run: composer validate --strict
 
-  - name: Install PHP
+    - name: Install PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
