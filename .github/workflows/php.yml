@@ -16,16 +16,14 @@ jobs:
         php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    
     - name: Build Composer
       uses: php-actions/composer@v5
       with:
-        ssh_key: ${{ secrets.ssh_key }}
-        ssh_key_pub: ${{ secrets.ssh_key_pub }}
         php_version: ${{ matrix.php-versions }}
-      
+    
+    - name: Checkout
+      uses: actions/checkout@v2      
+    
     - name: Check PHP Version
       run: php -v
       
