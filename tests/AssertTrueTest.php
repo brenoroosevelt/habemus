@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Habemus\Tests;
+namespace Habemus\Test;
 
 
 use PHPUnit\Framework\TestCase;
