@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macOS-latest]
-        php-versions: ['7.2', '7.3']
+        php-versions: ['7.1', '7.2', '7.3', '7.4']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
     - name: Checkout
@@ -25,3 +25,9 @@ jobs:
         ini-values: "post_max_size=256M" #optional
     - name: Check PHP Version
       run: php -v
+      
+    - name: Install dependencies
+    run: composer install --prefer-dist --no-progress --no-suggest
+    
+    - name: Install dependencies
+    run: composer run-script test
