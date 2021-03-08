@@ -40,7 +40,7 @@
   "scripts": {
     "test": [
       "phpunit",
-      "phpcs -p src"
+      "phpcs --ignore=src/Autowire/Attributes/Inject.php -p src"
     ]
   }
 }
