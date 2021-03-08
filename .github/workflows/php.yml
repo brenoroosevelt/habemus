@@ -16,17 +16,13 @@ jobs:
         php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
-    - name: Build Composer
-      uses: php-actions/composer@v5
-      with:
-        php_version: ${{ matrix.php-versions }}
     
     - name: Checkout
-      uses: actions/checkout@v2      
+      uses: actions/checkout@v2
     
     - name: Check PHP Version
-      run: php -v
-      
+      run: php -v 
+    
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
     
