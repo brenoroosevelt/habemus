@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<ruleset name="Habemus">
+    <description>Habemus coding standard</description>
+    <arg name="basepath" value="."/>
+    <rule ref="PSR2"/>
+</ruleset>

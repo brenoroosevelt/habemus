@@ -1,0 +1,46 @@
+{
+  "name": "brenoroosevelt/habemus",
+  "description": "PSR-11 Container for Dependency Injection (auto-wiring, attributes, factories, closures, array access)",
+  "keywords": [
+    "dependency injection",
+    "container",
+    "PSR-11",
+    "autowire",
+    "auto-wiring",
+    "attributes",
+    "property dependency injection"
+  ],
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "homepage": "https://github.com/brenoroosevelt/habemus",
+  "authors": [
+    {
+      "name": "Breno Roosevelt",
+      "email": "breno.roosevelt@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "psr/container": "1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.0",
+    "squizlabs/php_codesniffer": "@stable"
+  },
+  "autoload": {
+    "psr-4": {
+      "Habemus\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Habemus\\Test\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": [
+      "phpunit",
+      "phpcs -p src"
+    ]
+  }
+}
