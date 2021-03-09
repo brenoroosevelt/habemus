@@ -14,13 +14,16 @@ jobs:
         # windows-latest, macOS-latest?
         operating-system: [ubuntu-latest]
         php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
-        coverage: [xdebug]
-        coverage-driver:
-          - "pcov"
-          - "xdebug"
-          - "xdebug3"    
+      
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
+    
+    - name: Setup PHP with PCOV
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        #ini-values: pcov.directory=api #optional, see above for usage.
+        coverage: pcov
     
     - name: Checkout
       uses: actions/checkout@v2
