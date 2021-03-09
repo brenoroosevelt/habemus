@@ -24,7 +24,7 @@
     "psr/container": "^1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "@stable",
+    "phpunit/phpunit": "^6 || ^8",
     "squizlabs/php_codesniffer": "@stable"
   },
   "autoload": {
@@ -39,7 +39,7 @@
   },
   "scripts": {
     "test": [
-      "phpunit",
+      "phpunit tests",
       "phpcs -p src"
     ]
   }

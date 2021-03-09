@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  run:    
+  tests:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
@@ -17,7 +17,7 @@ jobs:
       
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
-    
+
     - name: Setup PHP with Xdebug
       uses: shivammathur/setup-php@v2
       with:
@@ -34,13 +34,35 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
     
-    #- name: Run test suite
-    #  run: composer run-script test
+    - name: Run test suite
+      run: composer run-script test
       
-    - name: "Run tests with phpunit/phpunit"
-      run: "vendor/bin/phpunit tests/ --coverage-filter=src/ --coverage-clover=coverage.xml "
+#    - name: "Run tests with phpunit/phpunit"
+#      run: "vendor/bin/phpunit tests/"
 
-    - name: "Send code coverage report to Codecov.io"
-      env:
-        CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
-      run: "bash <(curl -s https://codecov.io/bash) || true"
+  codecov:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP with Xdebug
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          coverage: xdebug
+
+      - name: Check PHP Version
+        run: php -v
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Tests with code coverage
+        run: "vendor/bin/phpunit tests/ --coverage-filter=src/ --coverage-clover=coverage.xml"
+
+      - name: "Send code coverage report to Codecov.io"
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
+        run: "bash <(curl -s https://codecov.io/bash) || true"
