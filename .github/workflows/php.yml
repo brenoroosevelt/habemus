@@ -38,7 +38,7 @@ jobs:
     #  run: composer run-script test
       
     - name: "Run tests with phpunit/phpunit"
-      run: "vendor/bin/phpunit tests/ --coverage-clover=coverage.xml"
+      run: "vendor/bin/phpunit tests/ --coverage-filter=src/ --coverage-clover=coverage.xml "
 
     - name: "Send code coverage report to Codecov.io"
       env:
