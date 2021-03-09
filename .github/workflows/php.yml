@@ -34,11 +34,11 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
     
-    - name: Run test suite
-      run: composer run-script test
+    #- name: Run test suite
+    #  run: composer run-script test
       
     - name: "Run tests with phpunit/phpunit"
-      run: "vendor/bin/phpunit --coverage-clover=coverage.xml"
+      run: "vendor/bin/phpunit tests/ --coverage-clover=coverage.xml"
 
     - name: "Send code coverage report to Codecov.io"
       env:
