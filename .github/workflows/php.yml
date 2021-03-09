@@ -13,8 +13,16 @@ jobs:
       matrix:
         # windows-latest, macOS-latest?
         operating-system: [ubuntu-latest]
-        php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
+        php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
         coverage: [xdebug]
+        coverage-driver:
+          - "pcov"
+          - "xdebug"
+          - "xdebug3"
+
+        exclude:
+          - php-version: "8.0"
+            coverage-driver: "xdebug"
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
     
