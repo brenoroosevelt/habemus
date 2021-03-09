@@ -3,7 +3,6 @@
 
 namespace Habemus\Test;
 
-
 use PHPUnit\Framework\TestCase;
 
 class AssertTrueTest extends TestCase
