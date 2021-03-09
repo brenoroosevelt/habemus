@@ -15,7 +15,7 @@ trait ShareableTrait
         return $this->shared;
     }
 
-    public function setShared(bool $share): self
+    public function setShared(bool $share)
     {
         $this->shared = $share;
         return $this;
