@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Test\Definitions;
 
+use Closure;
 use Habemus\Container;
 use Habemus\Definition\Available\IdDefinition;
 use Habemus\Definition\Available\RawDefinition;
@@ -32,7 +33,7 @@ class MethodCallTest extends TestCase
         $container->add("id2", 1);
 
         $definition = new RawDefinition($object);
-        $definition->addMethodCall("addValue", [Container::id('id2'), 2, Container::id('id2')]);
+        $definition->addMethodCall("addValue", [new IdDefinition('id2'), 2, new IdDefinition('id2')]);
 
         $callback = $definition->getMethodCall();
         $callback($object, $container);
@@ -44,6 +45,6 @@ class MethodCallTest extends TestCase
         $definition = new IdDefinition("anId");
         $callback = $definition->getMethodCall();
         $callback(new \stdClass(), new Container);
-        $this->assertInstanceOf(\Closure::class, $callback);
+        $this->assertInstanceOf(Closure::class, $callback);
     }
 }
