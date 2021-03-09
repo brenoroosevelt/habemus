@@ -37,7 +37,7 @@ jobs:
     - name: Run Test Suite
       run: "vendor/bin/phpunit tests"
       
-    - name: "Check Code Standard (phpcs)
+    - name: Check Code Standard (phpcs)
       run: "vendor/bin/phpcs -p src"
 
   codecov:
