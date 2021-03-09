@@ -112,7 +112,7 @@ class Container implements ContainerInterface, ArrayAccess
         return new DefinitionWrapper($definition);
     }
 
-    public function has(string $id): bool
+    public function has($id): bool
     {
         return
             $this->resolved->has($id)           ||
@@ -123,7 +123,7 @@ class Container implements ContainerInterface, ArrayAccess
             $this->shouldAutowireResolve($id);
     }
 
-    public function get(string $id)
+    public function get($id)
     {
         if ($this->resolved->has($id)) {
             return $this->resolved->get($id);
