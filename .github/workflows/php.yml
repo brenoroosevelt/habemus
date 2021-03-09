@@ -18,11 +18,7 @@ jobs:
         coverage-driver:
           - "pcov"
           - "xdebug"
-          - "xdebug3"
-
-        exclude:
-          - php-version: "8.0"
-            coverage-driver: "xdebug"
+          - "xdebug3"    
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
     
