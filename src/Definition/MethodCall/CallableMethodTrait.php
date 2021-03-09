@@ -14,7 +14,7 @@ trait CallableMethodTrait
      */
     protected $methodsCallback;
 
-    public function addMethodCall(string $method, array $parameters = []): self
+    public function addMethodCall(string $method, array $parameters = [])
     {
         $current = $this->getMethodCall();
         $newCallback =

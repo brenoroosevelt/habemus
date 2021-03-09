@@ -5,7 +5,11 @@ namespace Habemus\Definition\Tag;
 
 interface Taggable
 {
-    public function addTag(string $tag): self;
+    /**
+     * @param string $tag
+     * @return self
+     */
+    public function addTag(string $tag);
     public function hasTag(string $tag): bool;
     public function getTags(): array;
 }

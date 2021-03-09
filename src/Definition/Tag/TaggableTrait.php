@@ -11,7 +11,7 @@ trait TaggableTrait
      */
     protected $tags = [];
 
-    public function addTag(string $tag): self
+    public function addTag(string $tag)
     {
         $this->tags[] = $tag;
         return $this;

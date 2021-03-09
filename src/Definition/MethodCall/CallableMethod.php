@@ -7,6 +7,11 @@ use Closure;
 
 interface CallableMethod
 {
-    public function addMethodCall(string $method, array $parameters = []): self;
+    /**
+     * @param string $method
+     * @param array $parameters
+     * @return self
+     */
+    public function addMethodCall(string $method, array $parameters = []);
     public function getMethodCall(): Closure;
 }
