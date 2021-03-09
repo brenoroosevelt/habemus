@@ -3,4 +3,5 @@
     <description>Habemus coding standard</description>
     <arg name="basepath" value="."/>
     <rule ref="PSR2"/>
+    <exclude-pattern>src/Autowire/Attributes/Inject.php</exclude-pattern>
 </ruleset>

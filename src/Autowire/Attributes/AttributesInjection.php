@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Habemus\Autowire\Attributes;
 
-use Habemus\Autowire\Attributes\Inject;
 use Habemus\Autowire\Reflector;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
