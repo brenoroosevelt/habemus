@@ -1,4 +1,4 @@
-name: Habemus PHP Test
+name: CI Build
 
 on:
   push:
