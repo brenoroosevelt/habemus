@@ -8,7 +8,6 @@ use Habemus\Definition\Sharing\Shareable;
 use Habemus\Definition\Sharing\ShareableTrait;
 use Habemus\Definition\Tag\Taggable;
 use Habemus\Definition\Tag\TaggableTrait;
-use Habemus\Definition\Available\IdDefinition;
 use Psr\Container\ContainerInterface;
 
 class ArrayDefinition implements Definition, Shareable, Taggable

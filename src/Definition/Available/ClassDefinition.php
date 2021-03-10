@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Habemus\Definition\Available;
 
-use Habemus\Container;
-use Habemus\Definition\Available\ArrayDefinition;
 use Habemus\Definition\Definition;
 use Habemus\Definition\MethodCall\CallableMethod;
 use Habemus\Definition\MethodCall\CallableMethodTrait;

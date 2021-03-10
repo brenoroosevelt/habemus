@@ -9,10 +9,8 @@ use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\FactoryDefinition;
 use Habemus\Definition\Available\FnDefinition;
 use Habemus\Definition\Available\IdDefinition;
-use Habemus\Definition\Available\IdsDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\Available\IterateDefinition;
-use Habemus\Definition\Definition;
 
 /**
  * @method static IdDefinition id(string $id)

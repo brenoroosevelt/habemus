@@ -38,7 +38,7 @@ class DefinitionResolver implements DefinitionResolverInterface
         $instance = $definition->getConcrete($this->container);
 
         if ($definition instanceof CallableMethod) {
-            ($definition->getMethodCall())($instance, $this);
+            ($definition->getMethodCall())($instance, $this->container);
         }
 
         if ($this->shouldShare($definition)) {

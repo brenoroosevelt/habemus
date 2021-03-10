@@ -13,5 +13,10 @@ interface CallableMethod
      * @return self
      */
     public function addMethodCall(string $method, array $parameters = []);
+
+    /**
+     * Returns an anonymous function "fn($instance, ContainerInterface $container): void"
+     * @return Closure
+     */
     public function getMethodCall(): Closure;
 }
