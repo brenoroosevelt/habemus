@@ -18,11 +18,10 @@ class TaggableTraitTest extends TestCase
 
     public function testShouldTagTraitImplementsTaggable()
     {
-        $object = new class implements Taggable{
+        $object = new class implements Taggable {
             use TaggableTrait;
         };
-
-        $this->assertCount(0, $object->getTags());
+        $this->assertInstanceOf(Taggable::class, $object);
     }
 
     public function testShouldAddTag()
