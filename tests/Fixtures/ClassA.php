@@ -7,10 +7,16 @@ use Habemus\Autowire\Attributes\Inject;
 
 class ClassA
 {
-    public $value = 0;
+    public $value;
 
     #[Inject('property_id')]
-    protected $property = null;
+    protected $property;
+
+    public function __construct()
+    {
+        $this->property = null;
+        $this->value = 0;
+    }
 
     public function method()
     {
