@@ -51,6 +51,24 @@ class ServiceProviderManagerTest extends TestCase
         $this->assertEquals(1, $providers->count());
     }
 
+    public function testShouldRegisterServicesProviderAutomatically()
+    {
+        $container = new Container();
+        $providers = new ServiceProviderManager($container);
+        $this->assertFalse($container->has('id1'));
+        $providers->add($this->newProvider());
+        $this->assertTrue($container->has('id1'));
+    }
+
+    public function testShouldNotRegisterLazyServicesProviderAutomatically()
+    {
+        $container = new Container();
+        $providers = new ServiceProviderManager($container);
+        $this->assertFalse($container->has('id1'));
+        $providers->add($this->newLazyProvider());
+        $this->assertFalse($container->has('id1'));
+    }
+
     public function testShouldCheckForServicesInLazyServiceProvider()
     {
         $providers = new ServiceProviderManager(new Container());
