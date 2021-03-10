@@ -15,7 +15,7 @@ class DefinitionListTest extends TestCase
         $this->assertTrue($definitionList->isEmpty());
     }
 
-    public function testShouldAddGetAnItemToDefinitionList()
+    public function testShouldAddGetAnItemDefinitionList()
     {
         $definitionList = new DefinitionList();
         $item = new RawDefinition("value");
@@ -156,8 +156,7 @@ class DefinitionListTest extends TestCase
         $definitionList = new DefinitionList();
         $definitionList->add('id1', (new RawDefinition("value1"))->addTag('tag1')->addTag('tag2'));
         $definitionList->add('id2', (new RawDefinition("value1"))->addTag('tag1')->addTag('tag3'));
-        // replace definition without tags
-        $definitionList->add('id1', (new RawDefinition("value1")));
+        $definitionList->add('id1', (new RawDefinition("value1"))); // replace definition 'id1'
 
         $this->assertTrue($definitionList->hasTag('tag1'));
         $this->assertTrue($definitionList->hasTag('tag3'));
