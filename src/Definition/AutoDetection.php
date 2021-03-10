@@ -5,6 +5,8 @@ namespace Habemus\Definition;
 
 use Closure;
 use Habemus\Container;
+use Habemus\Definition\Available\ArrayDefinition;
+use Habemus\Definition\Available\IdDefinition;
 use Habemus\Definition\Definition;
 use Habemus\Definition\DefinitionDetection;
 use Habemus\Definition\Available\ClassDefinition;
@@ -35,6 +37,18 @@ class AutoDetection implements DefinitionDetection
 
         if ($this->container->autowireEnabled() && !is_object($value) && is_string($value) && class_exists($value)) {
             return new ClassDefinition($value);
+        }
+
+        if (is_array($value)) {
+            $hasDefinition = false;
+            array_walk_recursive($value, function ($item) use (&$hasDefinition) {
+                if ($item instanceof IdDefinition) {
+                    $hasDefinition = true;
+                }
+            });
+            if ($hasDefinition) {
+                return new ArrayDefinition($value, true);
+            }
         }
 
         return new RawDefinition($value);

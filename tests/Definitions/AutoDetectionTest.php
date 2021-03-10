@@ -5,8 +5,10 @@ namespace Habemus\Test\Definitions;
 
 use Habemus\Container;
 use Habemus\Definition\AutoDetection;
+use Habemus\Definition\Available\ArrayDefinition;
 use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\FnDefinition;
+use Habemus\Definition\Available\IdDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\TestCase;
@@ -60,6 +62,10 @@ class AutoDetectionTest extends TestCase
             'class_autowire'=> [
                 ClassDefinition::class,
                 ClassA::class
+            ],
+            'array_with_id_alias'=> [
+                ArrayDefinition::class,
+                [1, 2, [new IdDefinition('id1')]]
             ],
         ];
     }
