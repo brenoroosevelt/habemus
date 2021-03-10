@@ -43,6 +43,11 @@ class ClassDefinition implements Definition, Shareable, CallableMethod, Taggable
         return $this;
     }
 
+    public function getConstructorParameters(): array
+    {
+        return $this->constructorParameters;
+    }
+
     public function getConcrete(ContainerInterface $container)
     {
         $arguments = (new ArrayDefinition($this->constructorParameters))->getConcrete($container);

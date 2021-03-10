@@ -26,6 +26,10 @@ class CallableMethodTraitTest extends TestCase
             public $value1 = 'default1';
             public $value2 = 'default2';
 
+            public function withoutParams()
+            {
+            }
+
             public function singleParam($value1)
             {
                 $this->value1 = $value1;
@@ -74,6 +78,15 @@ class CallableMethodTraitTest extends TestCase
         $trait->addMethodCall('singleParam', [1]);
         ($trait->getMethodCall())($object, new Container());
         $this->assertSame(1, $object->value1);
+    }
+
+    public function testShouldCallMethodWithoutParameter()
+    {
+        $trait = $this->newTraitInstance();
+        $object = $this->newObjectInstance();
+        $trait->addMethodCall('withoutParams');
+        ($trait->getMethodCall())($object, new Container());
+        $this->assertSame('default1', $object->value1);
     }
 
     public function testShouldCallMethodManyParameter()
