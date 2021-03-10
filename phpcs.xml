@@ -4,4 +4,5 @@
     <arg name="basepath" value="."/>
     <rule ref="PSR2"/>
     <exclude-pattern>src/Autowire/Attributes/Inject.php</exclude-pattern>
+    <exclude-pattern>tests/Fixtures/ClassA.php</exclude-pattern>
 </ruleset>
