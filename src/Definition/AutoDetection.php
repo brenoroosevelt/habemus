@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Definition;
 
+use Closure;
 use Habemus\Container;
 use Habemus\Definition\Definition;
 use Habemus\Definition\DefinitionDetection;
@@ -28,7 +29,7 @@ class AutoDetection implements DefinitionDetection
             return $value;
         }
 
-        if (is_callable($value)) {
+        if (!is_scalar($value) && !is_array($value) && !is_resource($value) && get_class($value) === Closure::class) {
             return new FnDefinition($value);
         }
 
