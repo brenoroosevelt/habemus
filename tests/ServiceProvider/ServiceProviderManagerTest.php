@@ -7,7 +7,7 @@ use Habemus\Container;
 use Habemus\ServiceProvider\LazyServiceProvider;
 use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\ServiceProvider\ServiceProviderManager;
-use PHPUnit\Framework\TestCase;
+use Habemus\Test\TestCase;
 
 class ServiceProviderManagerTest extends TestCase
 {

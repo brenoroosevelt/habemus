@@ -7,7 +7,7 @@ use Closure;
 use Habemus\Container;
 use Habemus\Definition\Available\IdDefinition;
 use Habemus\Definition\Available\RawDefinition;
-use PHPUnit\Framework\TestCase;
+use Habemus\Test\TestCase;
 
 class MethodCallTest extends TestCase
 {

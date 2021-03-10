@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Habemus\Test;
 
 use Habemus\ResolvedList;
-use PHPUnit\Framework\TestCase;
 
 class ResolvedListTest extends TestCase
 {
