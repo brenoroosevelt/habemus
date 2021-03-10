@@ -70,4 +70,9 @@ class ServiceProviderManager
 
         return false;
     }
+
+    public function count(): int
+    {
+        return count($this->providers);
+    }
 }
