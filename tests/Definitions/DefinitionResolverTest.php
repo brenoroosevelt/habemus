@@ -70,7 +70,7 @@ class DefinitionResolverTest extends TestCase
     public function testShouldResolveAndInjectProperties()
     {
         if (!Reflector::attributesAvailable()) {
-            $this->assertTrue(true); //skip test... property injection: php >=8.0
+            $this->markTestSkipped('Attributes available in PHP version >= 8.0');
             return;
         }
 
@@ -93,7 +93,7 @@ class DefinitionResolverTest extends TestCase
     public function testShouldResolveNotInjectPropertiesRawDefinition()
     {
         if (!Reflector::attributesAvailable()) {
-            $this->assertTrue(true); //skip test... property injection: php >=8.0
+            $this->markTestSkipped('Attributes available in PHP version >= 8.0');
             return;
         }
 
