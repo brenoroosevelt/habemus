@@ -69,7 +69,8 @@ class DefinitionResolver implements DefinitionResolverInterface
             function (Definition $definition, $id) {
                 return $this->resolve($id, $definition);
             },
-            $filteredDefnitions
+            $filteredDefnitions,
+            array_keys($filteredDefnitions)
         );
     }
 

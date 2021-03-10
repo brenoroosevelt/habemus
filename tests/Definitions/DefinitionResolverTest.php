@@ -5,12 +5,14 @@ namespace Habemus\Test\Definitions;
 
 use Habemus\Autowire\Reflector;
 use Habemus\Container;
+use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\FnDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\DefinitionResolver;
 use Habemus\ResolvedList;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\TestCase;
+use stdClass;
 
 class DefinitionResolverTest extends TestCase
 {
@@ -25,6 +27,42 @@ class DefinitionResolverTest extends TestCase
         $resolver = new DefinitionResolver(new Container(), new ResolvedList());
         $value = $resolver->resolve('id1', new RawDefinition("value"));
         $this->assertSame("value", $value);
+    }
+
+    public function testShouldResolveManyDefinitions()
+    {
+        $definitions = [
+            'id1' => new RawDefinition(1),
+            'id2' => new FnDefinition(function () {
+                return new stdClass();
+            }),
+            'id3' => new ClassDefinition(ClassA::class)
+        ];
+
+        $resolver = new DefinitionResolver(new Container(), new ResolvedList());
+        $resolved = $resolver->resolveMany($definitions);
+        $this->assertCount(3, $resolved);
+        $this->assertEquals(1, $resolved[0]);
+        $this->assertInstanceOf(stdClass::class, $resolved[1]);
+        $this->assertInstanceOf(ClassA::class, $resolved[2]);
+    }
+
+    public function testShouldResolveManyDefinitionsSharing()
+    {
+        $definitions = [
+            'id1' => (new RawDefinition(1))->setShared(true),
+            'id2' => (new FnDefinition(function () {
+                return new stdClass();
+            }))->setShared(true),
+            'id3' => (new ClassDefinition(ClassA::class))->setShared(true)
+        ];
+
+        $resolvedList = new ResolvedList();
+        $resolver = new DefinitionResolver(new Container(), $resolvedList);
+        $resolved = $resolver->resolveMany($definitions);
+        $this->assertTrue($resolvedList->has('id1'));
+        $this->assertTrue($resolvedList->has('id2'));
+        $this->assertTrue($resolvedList->has('id3'));
     }
 
     public function testShouldResolveAndShareDefinition()
