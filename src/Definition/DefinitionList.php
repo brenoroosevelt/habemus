@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Habemus\Definition;
 
-use Habemus\Definition\Definition;
 use Habemus\Definition\Tag\Taggable;
 use Habemus\Util\Lists\KeyValueList;
+use IteratorAggregate;
 
 /**
  * @method Definition get($id):
  */
-class DefinitionList implements \IteratorAggregate
+class DefinitionList implements IteratorAggregate
 {
     use KeyValueList {
         set as private;
