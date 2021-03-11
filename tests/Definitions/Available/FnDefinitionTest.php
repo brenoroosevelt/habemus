@@ -11,13 +11,20 @@ use stdClass;
 
 class FnDefinitionTest extends TestCase
 {
-    public function testShouldCreateAndResolveFnDefinition()
+    public function testShouldResolveFnDefinition()
     {
-        $definition = new FnDefinition(function ($container) {
-            $this->assertInstanceOf(ContainerInterface::class, $container);
+        $definition = new FnDefinition(function () {
             return new stdClass();
         });
         $value = $definition->getConcrete(new Container());
         $this->assertInstanceOf(stdClass::class, $value);
+    }
+
+    public function testShouldFnDefinitionParameterInstanceOfContainerPsr11()
+    {
+        $definition = new FnDefinition(function ($container) {
+            $this->assertInstanceOf(ContainerInterface::class, $container);
+        });
+        $definition->getConcrete(new Container());
     }
 }

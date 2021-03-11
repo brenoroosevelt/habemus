@@ -13,6 +13,7 @@ use Habemus\Definition\Available\IterateDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\DefinitionFactory;
 use Habemus\Test\Fixtures\ClassA;
+use Habemus\Test\Fixtures\FactoryClass;
 use Habemus\Test\TestCase;
 use RuntimeException;
 
@@ -52,7 +53,7 @@ class DefinitionFactoryTest extends TestCase
 
     public function testShouldFactoryCreateFactoryDefinition()
     {
-        $definition = DefinitionFactory::factory('class', 'method');
+        $definition = DefinitionFactory::factory(FactoryClass::class, 'newObject');
         $this->assertInstanceOf(FactoryDefinition::class, $definition);
     }
 

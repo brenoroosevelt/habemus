@@ -27,6 +27,14 @@ class NotFound extends \RuntimeException implements NotFoundExceptionInterface
         );
     }
 
+    public static function classNotFound(string $class): self
+    {
+        return new static(
+            $class,
+            sprintf("Class not found (%s)", $class)
+        );
+    }
+
     public function id(): string
     {
         return $this->id;

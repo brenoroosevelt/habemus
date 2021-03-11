@@ -32,7 +32,7 @@ class ReflectionClassResolver implements ClassResolver
     public function resolveClass(string $className, array $constructorArguments = [])
     {
         if (!class_exists($className)) {
-            throw NotFound::noEntryWasFound($className);
+            throw NotFound::classNotFound($className);
         }
 
         $class = new ReflectionClass($className);
