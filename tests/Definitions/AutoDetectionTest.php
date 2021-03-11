@@ -67,6 +67,26 @@ class AutoDetectionTest extends TestCase
                 ArrayDefinition::class,
                 [1, 2, [new IdDefinition('id1')]]
             ],
+            'null_value'=> [
+                RawDefinition::class,
+                null
+            ],
+            'empty_array'=> [
+                RawDefinition::class,
+                []
+            ],
+            'zero'=> [
+                RawDefinition::class,
+                0
+            ],
+            'boolean_true'=> [
+                RawDefinition::class,
+                true
+            ],
+            'boolean_false'=> [
+                RawDefinition::class,
+                false
+            ],
         ];
     }
 

@@ -2,7 +2,10 @@
 <ruleset name="Habemus">
     <description>Habemus coding standard</description>
     <arg name="basepath" value="."/>
+    <rule ref="PSR1"/>
     <rule ref="PSR2"/>
+
+    <!-- PHP8 Support: https://github.com/squizlabs/PHP_CodeSniffer/issues/3182 -->
     <exclude-pattern>src/Autowire/Attributes/Inject.php</exclude-pattern>
     <exclude-pattern>tests/Fixtures/ClassA.php</exclude-pattern>
 </ruleset>

@@ -31,6 +31,10 @@ class AutoDetection implements DefinitionDetection
             return $value;
         }
 
+        if (is_null($value)) {
+            return new RawDefinition($value);
+        }
+
         if (!is_scalar($value) && !is_array($value) && !is_resource($value) && get_class($value) === Closure::class) {
             return new FnDefinition($value);
         }
