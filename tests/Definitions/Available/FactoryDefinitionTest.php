@@ -14,8 +14,8 @@ class FactoryDefinitionTest extends TestCase
     public function testShouldCreateFactoryDefinitionWithDefaults()
     {
         $factory = new FactoryDefinition(FactoryClass::class, 'newObject');
-        $this->assertEquals('newObject', $factory->getMethod());
-        $this->assertEquals(FactoryClass::class, $factory->getClassOrObject());
+        $this->assertEquals('newObject', $factory->getMethodName());
+        $this->assertEquals(FactoryClass::class, $factory->getObjectOrClass());
         $this->assertEmpty($factory->getMethodParams());
         $this->assertFalse($factory->isStaticCall());
         $this->assertFalse($factory->isShared());
@@ -54,6 +54,14 @@ class FactoryDefinitionTest extends TestCase
         $this->assertInstanceOf(FactoryClass::class, $factoryInstance);
     }
 
+    public function testShouldFactoryDefinitionReturnClassNameWhenCallStatic()
+    {
+        $factory = new FactoryDefinition(FactoryClass::class, 'newObject');
+        $factory->staticCall(true);
+        $factoryInstance = $this->invokeMethod($factory, 'factoryInstance', [new Container()]);
+        $this->assertEquals(FactoryClass::class, $factoryInstance);
+    }
+
     public function testShouldFactoryDefinitionUseFactoryObject()
     {
         $myFactory = new FactoryClass();
@@ -77,5 +85,21 @@ class FactoryDefinitionTest extends TestCase
         $factoryInstance1 = $this->invokeMethod($factory, 'factoryInstance', [new Container()]);
         $factoryInstance2 = $this->invokeMethod($factory, 'factoryInstance', [new Container()]);
         $this->assertSame($factoryInstance1, $factoryInstance2);
+    }
+
+    public function testShouldNotFactoryDefinitionResolveParametersWithContainer()
+    {
+        $factory =
+            new FactoryDefinition(
+                FactoryClass::class,
+                'newObject',
+                ['param1', new IdDefinition('containerParam')]
+            );
+
+        $container =  new Container();
+        $container->add('containerParam', 500);
+
+        $params = $this->invokeMethod($factory, 'resolveParams', [$container]);
+        $this->assertSame(['param1', 500], $params);
     }
 }

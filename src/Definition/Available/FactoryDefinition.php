@@ -19,7 +19,7 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
     use TaggableTrait;
 
     /** @var string|object|IdDefinition */
-    protected $classOrObject;
+    protected $objectOrClass;
 
     /** @var string|object */
     protected $factory;
@@ -27,7 +27,7 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
     /**
      * @var string
      */
-    protected $method;
+    protected $methodName;
 
     /**
      * @var array
@@ -40,13 +40,13 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
     protected $staticCall;
 
     public function __construct(
-        $classOrObject,
-        string $method = "__invoke",
+        $objectOrClass,
+        string $methodName = "__invoke",
         array $methodParams = [],
         bool $static = false
     ) {
-        $this->classOrObject = $classOrObject;
-        $this->method = $method;
+        $this->objectOrClass = $objectOrClass;
+        $this->methodName = $methodName;
         $this->methodParams = $methodParams;
         $this->factory = null;
         $this->staticCall = $static;
@@ -65,9 +65,9 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
         return $this;
     }
 
-    public function getClassOrObject()
+    public function getObjectOrClass()
     {
-        return $this->classOrObject;
+        return $this->objectOrClass;
     }
 
     public function isStaticCall(): bool
@@ -75,9 +75,9 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
         return $this->staticCall;
     }
 
-    public function getMethod(): ?string
+    public function getMethodName(): string
     {
-        return $this->method;
+        return $this->methodName;
     }
 
     public function getMethodParams(): array
@@ -89,11 +89,11 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
     {
         $this->factory = $this->factoryInstance($container);
 
-        if (!method_exists($this->factory, $this->method)) {
+        if (!method_exists($this->factory, $this->methodName)) {
             throw new \InvalidArgumentException("invalid");
         }
 
-        return call_user_func_array([$this->factory, $this->method], $this->resolveParams($container));
+        return call_user_func_array([$this->factory, $this->methodName], $this->resolveParams($container));
     }
 
     protected function factoryInstance(ContainerInterface $container)
@@ -102,19 +102,19 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
             return $this->factory;
         }
 
-        if ($this->classOrObject instanceof IdDefinition) {
-            return $this->factory = $container->get($this->classOrObject->id());
+        if ($this->objectOrClass instanceof IdDefinition) {
+            return $this->factory = $container->get($this->objectOrClass->id());
         }
 
         if ($this->staticCall) {
-            return $this->factory = $this->classOrObject;
+            return $this->factory = $this->objectOrClass;
         }
 
-        if (!is_object($this->classOrObject) && is_string($this->classOrObject)) {
-            return $this->factory = $container->get($this->classOrObject);
+        if (!is_object($this->objectOrClass) && is_string($this->objectOrClass)) {
+            return $this->factory = $container->get($this->objectOrClass);
         }
 
-        return $this->factory = $this->classOrObject;
+        return $this->factory = $this->objectOrClass;
     }
 
     protected function resolveParams(ContainerInterface $container): array

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Test;
 
 use Habemus\ResolvedList;
+use LogicException;
 
 class ResolvedListTest extends TestCase
 {
@@ -111,5 +112,12 @@ class ResolvedListTest extends TestCase
             "id2" => "value2",
             "id3" => "value3",
         ], $items);
+    }
+
+    public function testShouldThrowsExceptionIfElementDoesNotExists()
+    {
+        $resolvedList = new ResolvedList();
+        $this->expectException(LogicException::class);
+        $resolvedList->get('id1');
     }
 }

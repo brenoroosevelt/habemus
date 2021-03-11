@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Util\Lists;
 
 use Generator;
+use LogicException;
 
 trait KeyValueList
 {
@@ -20,7 +21,9 @@ trait KeyValueList
     public function get($id)
     {
         if (!$this->has($id)) {
-            throw new \LogicException("Element (%s) not found in list (%).", $id, get_class($this));
+            throw new LogicException(
+                sprintf("Element (%s) not found in list (%).", $id, get_class($this))
+            );
         }
 
         return $this->elements[$id];
