@@ -34,6 +34,6 @@ class IdDefinitionTest extends TestCase
     {
         $definition = new IdDefinition('id1');
         $this->expectException(NotFound::class);
-        $this->assertEquals(10, $definition->getConcrete(new Container()));
+        $definition->getConcrete(new Container());
     }
 }
