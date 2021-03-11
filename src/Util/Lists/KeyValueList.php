@@ -22,7 +22,7 @@ trait KeyValueList
     {
         if (!$this->has($id)) {
             throw new LogicException(
-                sprintf("Element (%s) not found in list (%).", $id, get_class($this))
+                sprintf("Element (%s) not found in list (%s).", $id, get_class($this))
             );
         }
 
