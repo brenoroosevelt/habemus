@@ -29,10 +29,15 @@ class IterateDefinition implements Definition, Shareable, CallableMethod, Taggab
         $this->ids = $id;
     }
 
+    public function ids(): array
+    {
+        return $this->ids;
+    }
+
     public function getConcrete(ContainerInterface $container): Traversable
     {
         foreach ($this->ids as $id) {
-            yield $container->get($id);
+            yield $id => $container->get($id);
         }
     }
 }
