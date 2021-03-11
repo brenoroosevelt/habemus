@@ -6,8 +6,11 @@ namespace Habemus\Test\Definitions\Available;
 use Habemus\Container;
 use Habemus\Definition\Available\FactoryDefinition;
 use Habemus\Definition\Available\IdDefinition;
+use Habemus\Exception\NotFound;
 use Habemus\Test\Fixtures\FactoryClass;
 use Habemus\Test\TestCase;
+use InvalidArgumentException;
+use stdClass;
 
 class FactoryDefinitionTest extends TestCase
 {
@@ -101,5 +104,45 @@ class FactoryDefinitionTest extends TestCase
 
         $params = $this->invokeMethod($factory, 'resolveParams', [$container]);
         $this->assertSame(['param1', 500], $params);
+    }
+
+    public function testShouldFactoryDefinitionGetErrorIfClassNotExists()
+    {
+        $factory = new FactoryDefinition('InvalidFactory', 'newObject');
+        $this->expectException(NotFound::class);
+        $factory->getConcrete(new Container());
+    }
+
+    public function testShouldFactoryDefinitionGetErrorIfMethodNotExists()
+    {
+        $factory = new FactoryDefinition(FactoryClass::class, 'invalidMethod');
+        $this->expectException(InvalidArgumentException::class);
+        $factory->getConcrete(new Container());
+    }
+
+    public function testShouldFactoryDefinitionCreateInstances()
+    {
+        $factory = new FactoryDefinition(FactoryClass::class, 'newObject');
+        $object1 = $factory->getConcrete(new Container());
+        $object2 = $factory->getConcrete(new Container());
+        $this->assertInstanceOf(stdClass::class, $object1);
+        $this->assertInstanceOf(stdClass::class, $object2);
+        $this->assertNotSame($object1, $object2);
+    }
+
+    public function testShouldFactoryDefinitionCreateInstanceWithStaticCall()
+    {
+        $factory = new FactoryDefinition(FactoryClass::class, 'createObject');
+        $factory->staticCall(true);
+        $object = $factory->getConcrete(new Container());
+        $this->assertInstanceOf(stdClass::class, $object);
+    }
+
+    public function testShouldFactoryDefinitionCreateInstanceWithParameter()
+    {
+        $factory = new FactoryDefinition(FactoryClass::class, 'newObject', [100]);
+        $object = $factory->getConcrete(new Container());
+        $this->assertInstanceOf(stdClass::class, $object);
+        $this->assertEquals(100, $object->value);
     }
 }

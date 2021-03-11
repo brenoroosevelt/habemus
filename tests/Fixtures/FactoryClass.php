@@ -7,9 +7,14 @@ use stdClass;
 
 class FactoryClass
 {
-    public function newObject(): stdClass
+    public function newObject($optionalValue = null): stdClass
     {
-        return new stdClass();
+        $object = new stdClass();
+        if ($optionalValue !== null) {
+            $object->value = $optionalValue;
+        }
+
+        return $object;
     }
 
     public static function createObject(): stdClass
