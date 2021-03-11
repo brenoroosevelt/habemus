@@ -9,6 +9,7 @@ use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\FactoryDefinition;
 use Habemus\Definition\Available\FnDefinition;
 use Habemus\Definition\Available\IdDefinition;
+use Habemus\Definition\Available\IdsDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\Available\IterateDefinition;
 
@@ -17,7 +18,7 @@ use Habemus\Definition\Available\IterateDefinition;
  * @method static IdsDefinition ids(string ...$id)
  * @method static RawDefinition raw(mixed $value)
  * @method static ClassDefinition class(string $class, array $args = [])
- * @method static FactoryDefinition factory(string $class, string $method, array $params = [], bool $static = false)
+ * @method static FactoryDefinition factory($class, string $method, array $params = [], bool $static = false)
  * @method static ArrayDefinition array(array $arr, bool $recursive = false)
  * @method static FnDefinition fn(callable $fn)
  * @method static IterateDefinition iterate(string ...$id)

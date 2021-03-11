@@ -59,7 +59,7 @@ class DefinitionResolverTest extends TestCase
 
         $resolvedList = new ResolvedList();
         $resolver = new DefinitionResolver(new Container(), $resolvedList);
-        $resolved = $resolver->resolveMany($definitions);
+        $resolver->resolveMany($definitions);
         $this->assertTrue($resolvedList->has('id1'));
         $this->assertTrue($resolvedList->has('id2'));
         $this->assertTrue($resolvedList->has('id3'));
