@@ -53,9 +53,9 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
         $this->shared = false;
     }
 
-    public function methodParam($param): self
+    public function methodParams(array $params): self
     {
-        $this->methodParams[] = $param;
+        $this->methodParams = $params;
         return $this;
     }
 
@@ -63,6 +63,11 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
     {
         $this->staticCall = $static;
         return $this;
+    }
+
+    public function getClassOrObject()
+    {
+        return $this->classOrObject;
     }
 
     public function isStaticCall(): bool
@@ -98,18 +103,18 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
         }
 
         if ($this->classOrObject instanceof IdDefinition) {
-            return $container->get($this->classOrObject->id());
+            return $this->factory = $container->get($this->classOrObject->id());
         }
 
         if ($this->staticCall) {
-            return $this->classOrObject;
+            return $this->factory = $this->classOrObject;
         }
 
         if (!is_object($this->classOrObject) && is_string($this->classOrObject)) {
-            return $container->get($this->classOrObject);
+            return $this->factory = $container->get($this->classOrObject);
         }
 
-        return $this->classOrObject;
+        return $this->factory = $this->classOrObject;
     }
 
     protected function resolveParams(ContainerInterface $container): array

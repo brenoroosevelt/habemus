@@ -11,4 +11,9 @@ class FactoryClass
     {
         return new stdClass();
     }
+
+    public static function createObject(): stdClass
+    {
+        return new stdClass();
+    }
 }

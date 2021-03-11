@@ -10,17 +10,28 @@ use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\FnDefinition;
 use Habemus\Definition\Available\IdDefinition;
 use Habemus\Definition\Available\RawDefinition;
+use Habemus\Definition\Definition;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\TestCase;
+use Psr\Container\ContainerInterface;
 
 class AutoDetectionTest extends TestCase
 {
     public function providerDefinitions()
     {
-        return [
+        $valuesToDetect =  [
             'raw_definition'=> [
                 RawDefinition::class,
                 new RawDefinition(1)
+            ],
+            'pure_definition'=> [
+                Definition::class,
+                new class implements Definition {
+                    public function getConcrete(ContainerInterface $container)
+                    {
+                        return 1;
+                    }
+                }
             ],
             'number_int'=> [
                 RawDefinition::class,
@@ -42,7 +53,7 @@ class AutoDetectionTest extends TestCase
                 RawDefinition::class,
                 new \stdClass()
             ],
-            'objects_2'=> [
+            'objects_ClassA'=> [
                 RawDefinition::class,
                 new ClassA()
             ],
@@ -51,7 +62,7 @@ class AutoDetectionTest extends TestCase
                 function () {
                 }
             ],
-            'raw_closure_object'=> [
+            'object_closure'=> [
                 RawDefinition::class,
                 new class {
                     public function __invoke()
@@ -87,7 +98,30 @@ class AutoDetectionTest extends TestCase
                 RawDefinition::class,
                 false
             ],
+            'object_toString' => [
+                RawDefinition::class,
+                new class {
+                    public function __toString(): string
+                    {
+                        return "str";
+                    }
+                }
+            ]
         ];
+
+        if (PHP_VERSION_ID >= 800000) {
+            $valuesToDetect['implements_Stringable'] = [
+                RawDefinition::class,
+                new class implements \Stringable {
+                    public function __toString(): string
+                    {
+                        return "str";
+                    }
+                }
+            ];
+        }
+
+        return $valuesToDetect;
     }
 
     /**
