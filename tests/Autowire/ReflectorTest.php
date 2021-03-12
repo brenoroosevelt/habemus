@@ -15,28 +15,28 @@ use RuntimeException;
 
 class ReflectorTest extends TestCase
 {
-    public function testShouldReflectorThrowsErrorDetermineAttributesAvailable()
-    {
-        $reflector = new Reflector();
-        $this->assertEquals((PHP_VERSION_ID >= 800000), $reflector->attributesAvailable());
-    }
-
-    public function testShouldReflectorThrowsErrorIfAttributesNotAvailable()
-    {
-        $reflector =
-            $this->getMockBuilder(Reflector::class)
-                ->setMethods(['attributesAvailable'])
-                ->disableOriginalConstructor()
-                ->getMock();
-
-        $reflector
-            ->expects($this->any())
-            ->method('attributesAvailable')
-            ->will($this->returnValue(false));
-
-        $this->expectException(RuntimeException::class);
-        $reflector->assertAttributesAvailable();
-    }
+//    public function testShouldReflectorThrowsErrorDetermineAttributesAvailable()
+//    {
+//        $reflector = new Reflector();
+//        $this->assertEquals((PHP_VERSION_ID >= 800000), $reflector->attributesAvailable());
+//    }
+//
+//    public function testShouldReflectorThrowsErrorIfAttributesNotAvailable()
+//    {
+//        $reflector =
+//            $this->getMockBuilder(Reflector::class)
+//                ->setMethods(['attributesAvailable'])
+//                ->disableOriginalConstructor()
+//                ->getMock();
+//
+//        $reflector
+//            ->expects($this->any())
+//            ->method('attributesAvailable')
+//            ->will($this->returnValue(false));
+//
+//        $this->expectException(RuntimeException::class);
+//        $reflector->assertAttributesAvailable();
+//    }
 
     public function typeHintFromParameterProvider()
     {
