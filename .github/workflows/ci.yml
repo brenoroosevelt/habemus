@@ -60,7 +60,7 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Tests With Code Coverage
-        run: "vendor/bin/phpunit tests/ --coverage-filter=src/ --coverage-clover=coverage.xml"
+        run: "vendor/bin/phpunit tests/ --whitelist=src/ --coverage-clover=coverage.xml"
 
       - name: "Send code coverage report to Codecov.io"
         env:
