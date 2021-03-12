@@ -21,6 +21,8 @@ class KeyValuePriorityListTest extends TestCase
         $list = $this->newKeyValuePriorityList();
         $this->assertTrue($list->isEmpty());
         $this->assertEquals(0, $list->count());
+        $this->assertNull($list->getHighestPriority());
+        $this->assertNull($list->getLowestPriority());
     }
 
     public function testShouldKeyValuePriorityListAddGetElements()
