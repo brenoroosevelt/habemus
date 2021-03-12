@@ -25,7 +25,7 @@ class ReflectorTest extends TestCase
     {
         $reflector =
             $this->getMockBuilder(Reflector::class)
-                ->onlyMethods(['attributesAvailable'])
+                ->setMethods(['attributesAvailable'])
                 ->getMock();
 
         $reflector
