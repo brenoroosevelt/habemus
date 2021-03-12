@@ -18,7 +18,7 @@ class ReflectorTest extends TestCase
     public function testShouldReflectorThrowsErrorDetermineAttributesAvailable()
     {
         $reflector = new Reflector();
-        $this->assertEquals((PHP_VERSION_ID >= 800000), $reflector->attributesAvailable());
+        $this->assertEquals((PHP_VERSION_ID >= 80000), $reflector->attributesAvailable());
     }
 
     public function testShouldReflectorThrowsErrorIfAttributesNotAvailable()
