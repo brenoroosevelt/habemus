@@ -8,9 +8,7 @@ use Habemus\Autowire\Reflector;
 use Habemus\Test\Fixtures\AbstractClass;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\Fixtures\ClassB;
-use Habemus\Test\Fixtures\ClassTypedProperties;
 use Habemus\Test\Fixtures\GenericInterface;
-use Habemus\Test\Fixtures\SubClassTypedProperties;
 use Habemus\Test\TestCase;
 use ReflectionClass;
 use ReflectionException;
@@ -183,9 +181,13 @@ class ReflectorTest extends TestCase
         $this->assertEquals($expected, $typeHint);
     }
 
-    public function typeHintFromPropertiesProvider()
+    public function typeHintFromPropertiesProvider(): array
     {
-        $class = new ReflectionClass(ClassTypedProperties::class);
+        if (PHP_VERSION_ID < 70400) {
+            return [];
+        }
+
+        $class = new ReflectionClass(\Habemus\Test\Fixtures\ClassTypedProperties::class);
         $properties = $class->getProperties();
 
         return [
@@ -232,12 +234,12 @@ class ReflectorTest extends TestCase
             'self' => [
                 $properties[8],
                 true,
-                ClassTypedProperties::class
+                \Habemus\Test\Fixtures\ClassTypedProperties::class
             ],
             'self_nullable' => [
                 $properties[9],
                 true,
-                ClassTypedProperties::class
+                \Habemus\Test\Fixtures\ClassTypedProperties::class
             ],
 
         ];
@@ -270,13 +272,22 @@ class ReflectorTest extends TestCase
             $this->markTestSkipped('Typed properties are not available (PHP 7.4+)');
             return;
         }
-        
-        $class = new ReflectionClass(SubClassTypedProperties::class);
+
+        $class = new ReflectionClass(\Habemus\Test\Fixtures\SubClassTypedProperties::class);
         $properties = $class->getProperties();
 
         $reflector = new Reflector();
-        $this->assertEquals(SubClassTypedProperties::class, $reflector->getTypeHint($properties[0], true));
-        $this->assertEquals(ClassTypedProperties::class, $reflector->getTypeHint($properties[9], true));
-        $this->assertEquals(ClassTypedProperties::class, $reflector->getTypeHint($properties[10], true));
+        $this->assertEquals(
+            \Habemus\Test\Fixtures\SubClassTypedProperties::class,
+            $reflector->getTypeHint($properties[0], true)
+        );
+        $this->assertEquals(
+            \Habemus\Test\Fixtures\ClassTypedProperties::class,
+            $reflector->getTypeHint($properties[9], true)
+        );
+        $this->assertEquals(
+            \Habemus\Test\Fixtures\ClassTypedProperties::class,
+            $reflector->getTypeHint($properties[10], true)
+        );
     }
 }
