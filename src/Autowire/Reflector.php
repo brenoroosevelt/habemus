@@ -53,7 +53,7 @@ class Reflector
 
     public function assertAttributesAvailable(): void
     {
-        if (!self::attributesAvailable()) {
+        if (!$this->attributesAvailable()) {
             throw new RuntimeException(
                 "Attributes are not available. Use a PHP version >=8.0 to enable attribute injection support"
             );
