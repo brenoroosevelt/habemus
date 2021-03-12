@@ -270,6 +270,7 @@ class ReflectorTest extends TestCase
             $this->markTestSkipped('Typed properties are not available (PHP 7.4+)');
             return;
         }
+        
         $class = new ReflectionClass(SubClassTypedProperties::class);
         $properties = $class->getProperties();
 
