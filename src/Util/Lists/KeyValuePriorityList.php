@@ -18,11 +18,9 @@ trait KeyValuePriorityList
 
     /**
      * keeps array ordered by priority after insertion.
-     * Replace an existing id.
      */
     public function set($id, $value, int $priority = 0): void
     {
-        $this->delete($id);
         if (!array_key_exists($priority, $this->elements)) {
             $this->elements[$priority] = [];
         }
@@ -55,8 +53,8 @@ trait KeyValuePriorityList
 
     public function delete($id): void
     {
-        foreach ($this->elements as $priority) {
-            if (array_key_exists($id, $priority)) {
+        foreach ($this->elements as $priority => $items) {
+            if (array_key_exists($id, $items)) {
                 unset($this->elements[$priority][$id]);
                 break;
             }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Habemus\Util\Lists;
 
 use Countable;
-use Habemus\Util\Lists\KeyValuePriorityList;
 use IteratorAggregate;
 
 class ObjectPriorityList implements IteratorAggregate, Countable
@@ -18,6 +17,7 @@ class ObjectPriorityList implements IteratorAggregate, Countable
 
     public function add($object, int $priority): void
     {
+        $this->delete($object);
         $this->_set($this->objectID($object), $object, $priority);
     }
 
