@@ -12,7 +12,7 @@ class ContainerComposite implements ContainerInterface
     /**
      * @var int
      */
-    protected $highestKnownPriority = -1;
+    protected $lowestKnownPriority = -1;
 
     /**
      * @var ObjectPriorityList
@@ -34,13 +34,19 @@ class ContainerComposite implements ContainerInterface
         }
     }
 
+    /**
+     * If priority is empty, appends with the lowest priority
+     * @param ContainerInterface $container
+     * @param int|null $priority
+     * @return $this
+     */
     public function add(ContainerInterface $container, ?int $priority = null): self
     {
         if ($priority === null) {
-            $priority = ++$this->highestKnownPriority;
+            $priority = ++$this->lowestKnownPriority;
         } else {
-            $this->highestKnownPriority =
-                $priority > $this->highestKnownPriority ? $priority : $this->highestKnownPriority;
+            $this->lowestKnownPriority =
+                $priority > $this->lowestKnownPriority ? $priority : $this->lowestKnownPriority;
         }
 
         $this->containers->add($container, $priority);
