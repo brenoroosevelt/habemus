@@ -113,4 +113,20 @@ trait KeyValuePriorityList
     {
         return iterator_to_array($this->getIterator());
     }
+
+    public function getLowestPriority(): ?int
+    {
+        if (empty($this->elements)) {
+            return null;
+        }
+        return max(array_keys(array_filter($this->elements)));
+    }
+
+    public function getHighestPriority(): ?int
+    {
+        if (empty($this->elements)) {
+            return null;
+        }
+        return min(array_keys(array_filter($this->elements)));
+    }
 }

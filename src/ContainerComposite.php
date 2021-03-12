@@ -10,11 +10,6 @@ use Psr\Container\ContainerInterface;
 class ContainerComposite implements ContainerInterface
 {
     /**
-     * @var int
-     */
-    protected $lowestKnownPriority = -1;
-
-    /**
      * @var ObjectPriorityList
      */
     protected $containers;
@@ -43,10 +38,7 @@ class ContainerComposite implements ContainerInterface
     public function add(ContainerInterface $container, ?int $priority = null): self
     {
         if ($priority === null) {
-            $priority = ++$this->lowestKnownPriority;
-        } else {
-            $this->lowestKnownPriority =
-                $priority > $this->lowestKnownPriority ? $priority : $this->lowestKnownPriority;
+            $priority = ((int) $this->containers->getLowestPriority()) + 1;
         }
 
         $this->containers->add($container, $priority);
@@ -79,5 +71,15 @@ class ContainerComposite implements ContainerInterface
         }
 
         throw NotFound::noEntryWasFound($id);
+    }
+
+    public function getLowestPriority(): int
+    {
+        return (int) $this->containers->getLowestPriority();
+    }
+
+    public function getHighestPriority(): int
+    {
+        return (int) $this->containers->getHighestPriority();
     }
 }

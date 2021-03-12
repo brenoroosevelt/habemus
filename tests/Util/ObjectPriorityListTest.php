@@ -72,5 +72,7 @@ class ObjectPriorityListTest extends TestCase
         foreach ($list as $item) {
             $this->assertEquals($expected[$i++], $item);
         }
+        $this->assertEquals(3, $list->getLowestPriority());
+        $this->assertEquals(1, $list->getHighestPriority());
     }
 }

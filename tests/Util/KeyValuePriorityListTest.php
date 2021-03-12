@@ -35,6 +35,9 @@ class KeyValuePriorityListTest extends TestCase
         $this->assertEquals('B', $list->get(2));
         $this->assertEquals(2, $list->count());
         $this->assertFalse($list->isEmpty());
+
+        $this->assertEquals(3, $list->getLowestPriority());
+        $this->assertEquals(2, $list->getHighestPriority());
     }
 
     public function testShouldKeyValuePriorityGetErrorIfNotFound()

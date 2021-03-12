@@ -140,5 +140,7 @@ class ContainerCompositeTest extends TestCase
         $composite->add($container2, 1);
         $composite->add($container3);
         $this->assertEquals(2, $composite->get('a1'));
+        $this->assertEquals(1, $composite->getHighestPriority());
+        $this->assertEquals(4, $composite->getLowestPriority());
     }
 }
