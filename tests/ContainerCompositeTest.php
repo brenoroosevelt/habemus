@@ -20,7 +20,7 @@ class ContainerCompositeTest extends TestCase
                 $this->values = $values;
             }
 
-            public function get(string $id)
+            public function get($id)
             {
                 if (!array_key_exists($id, $this->values)) {
                     throw NotFound::noEntryWasFound($id);
@@ -28,7 +28,7 @@ class ContainerCompositeTest extends TestCase
                 return $this->values[$id];
             }
 
-            public function has(string $id): bool
+            public function has($id)
             {
                 return array_key_exists($id, $this->values);
             }
