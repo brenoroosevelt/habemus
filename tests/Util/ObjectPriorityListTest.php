@@ -26,11 +26,25 @@ class ObjectPriorityListTest extends TestCase
         $this->assertFalse($list->isEmpty());
     }
 
-    public function testShouldObjectPriorityAcceptOnlyObjects()
+    public function testShouldObjectPriorityAcceptOnlyObjectsWhenAdd()
     {
         $list = new ObjectPriorityList();
         $this->expectException(InvalidArgumentException::class);
         $list->add("string", 1);
+    }
+
+    public function testShouldObjectPriorityAcceptOnlyObjectsWhenDelete()
+    {
+        $list = new ObjectPriorityList();
+        $this->expectException(InvalidArgumentException::class);
+        $list->delete("string");
+    }
+
+    public function testShouldObjectPriorityAcceptOnlyObjectsWhenCheck()
+    {
+        $list = new ObjectPriorityList();
+        $this->expectException(InvalidArgumentException::class);
+        $list->has("string");
     }
 
     public function testShouldObjectPriorityListDeleteElement()
