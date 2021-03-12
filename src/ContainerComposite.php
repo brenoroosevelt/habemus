@@ -9,7 +9,10 @@ use Psr\Container\ContainerInterface;
 
 class ContainerComposite implements ContainerInterface
 {
-    const DEFAULT_PRIORITY = 999;
+    /**
+     * @var int
+     */
+    protected $highestKnownPriority = -1;
 
     /**
      * @var ObjectPriorityList
@@ -31,13 +34,17 @@ class ContainerComposite implements ContainerInterface
         }
     }
 
-    /**
-     * @param ContainerInterface $container
-     * @param int $priority
-     */
-    public function add(ContainerInterface $container, int $priority = self::DEFAULT_PRIORITY): void
+    public function add(ContainerInterface $container, ?int $priority = null): self
     {
+        if ($priority === null) {
+            $priority = ++$this->highestKnownPriority;
+        } else {
+            $this->highestKnownPriority =
+                $priority > $this->highestKnownPriority ? $priority : $this->highestKnownPriority;
+        }
+
         $this->containers->add($container, $priority);
+        return $this;
     }
 
     /**

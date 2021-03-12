@@ -120,4 +120,25 @@ class ContainerCompositeTest extends TestCase
         $this->expectException(NotFoundExceptionInterface::class);
         $composite->get('a1');
     }
+
+    public function testShouldAddInDefaultPriorityOrder()
+    {
+        $container1 = $this->newContainerPsr11([
+            'a1' => 1,
+        ]);
+
+        $container2 = $this->newContainerPsr11([
+            'a1' => 2,
+        ]);
+
+        $container3 = $this->newContainerPsr11([
+            'a1' => 3,
+        ]);
+
+        $composite = new ContainerComposite();
+        $composite->add($container1, 3);
+        $composite->add($container2, 1);
+        $composite->add($container3);
+        $this->assertEquals(2, $composite->get('a1'));
+    }
 }
