@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Util\Lists;
 
 use Countable;
+use InvalidArgumentException;
 use IteratorAggregate;
 
 class ObjectPriorityList implements IteratorAggregate, Countable
@@ -17,6 +18,11 @@ class ObjectPriorityList implements IteratorAggregate, Countable
 
     public function add($object, int $priority): void
     {
+        if (!is_object($object)) {
+            throw new InvalidArgumentException(
+                sprintf("Expected object. Got: %s", gettype($object))
+            );
+        }
         $this->_set($this->objectID($object), $object, $priority);
     }
 

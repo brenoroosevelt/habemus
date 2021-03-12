@@ -23,12 +23,14 @@ class KeyValuePriorityListTest extends TestCase
         $this->assertEquals(0, $list->count());
     }
 
-    public function testShouldKeyValuePriorityListAddElements()
+    public function testShouldKeyValuePriorityListAddGetElements()
     {
         $list = $this->newKeyValuePriorityList();
         $list->set(1, 'A', 2);
         $list->set(2, 'B', 3);
 
+        $this->assertTrue($list->has(1));
+        $this->assertTrue($list->has(2));
         $this->assertEquals('A', $list->get(1));
         $this->assertEquals('B', $list->get(2));
         $this->assertEquals(2, $list->count());
