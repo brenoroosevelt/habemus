@@ -107,7 +107,7 @@ class DefinitionResolverTest extends TestCase
     public function testShouldResolveAndInjectProperties()
     {
         if (PHP_VERSION_ID < 80000) {
-            $this->markTestSkipped('Attributes available in PHP version >= 8.0');
+            $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
             return;
         }
 
@@ -130,7 +130,7 @@ class DefinitionResolverTest extends TestCase
     public function testShouldResolveNotInjectPropertiesRawDefinition()
     {
         if (PHP_VERSION_ID < 80000) {
-            $this->markTestSkipped('Attributes available in PHP version >= 8.0');
+            $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
             return;
         }
 

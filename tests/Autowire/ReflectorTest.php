@@ -7,10 +7,15 @@ use Closure;
 use Habemus\Autowire\Reflector;
 use Habemus\Test\Fixtures\AbstractClass;
 use Habemus\Test\Fixtures\ClassA;
+use Habemus\Test\Fixtures\ClassB;
+use Habemus\Test\Fixtures\ClassTypedProperties;
 use Habemus\Test\Fixtures\GenericInterface;
+use Habemus\Test\Fixtures\SubClassTypedProperties;
 use Habemus\Test\TestCase;
+use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
+use ReflectionProperty;
 use RuntimeException;
 
 class ReflectorTest extends TestCase
@@ -176,5 +181,101 @@ class ReflectorTest extends TestCase
         $parameter = (new ReflectionFunction($fn))->getParameters()[0];
         $typeHint = $reflector->getTypeHint($parameter, $primitive);
         $this->assertEquals($expected, $typeHint);
+    }
+
+    public function typeHintFromPropertiesProvider()
+    {
+        $class = new ReflectionClass(ClassTypedProperties::class);
+        $properties = $class->getProperties();
+
+        return [
+            'undefined' => [
+                $properties[0],
+                true,
+                null
+            ],
+            'int' => [
+                $properties[1],
+                true,
+                'int'
+            ],
+            'float' => [
+                $properties[2],
+                true,
+                'float'
+            ],
+            'ClassA' => [
+                $properties[3],
+                true,
+                ClassA::class
+            ],
+            'array' => [
+                $properties[4],
+                true,
+                'array'
+            ],
+            'ClassB' => [
+                $properties[5],
+                true,
+                ClassB::class
+            ],
+            'GenericInterface' => [
+                $properties[6],
+                true,
+                GenericInterface::class
+            ],
+            'AbstractClass' => [
+                $properties[7],
+                true,
+                AbstractClass::class
+            ],
+            'self' => [
+                $properties[8],
+                true,
+                ClassTypedProperties::class
+            ],
+            'self_nullable' => [
+                $properties[9],
+                true,
+                ClassTypedProperties::class
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider typeHintFromPropertiesProvider
+     * @param ReflectionProperty $property
+     * @param bool $primitive
+     * @param $expected
+     */
+    public function testShouldReflectorDetermineTypeHintFromProperties(
+        ReflectionProperty $property,
+        bool $primitive,
+        $expected
+    ) {
+        if (PHP_VERSION_ID < 70400) {
+            $this->markTestSkipped('Typed properties are not available (PHP 7.4+)');
+            return;
+        }
+
+        $reflector = new Reflector();
+        $typeHint = $reflector->getTypeHint($property, $primitive);
+        $this->assertEquals($expected, $typeHint);
+    }
+
+    public function testShouldReflectorDetermineTypeHintFromPropertiesSubClass()
+    {
+        if (PHP_VERSION_ID < 70400) {
+            $this->markTestSkipped('Typed properties are not available (PHP 7.4+)');
+            return;
+        }
+        $class = new ReflectionClass(SubClassTypedProperties::class);
+        $properties = $class->getProperties();
+
+        $reflector = new Reflector();
+        $this->assertEquals(SubClassTypedProperties::class, $reflector->getTypeHint($properties[0], true));
+        $this->assertEquals(ClassTypedProperties::class, $reflector->getTypeHint($properties[9], true));
+        $this->assertEquals(ClassTypedProperties::class, $reflector->getTypeHint($properties[10], true));
     }
 }
