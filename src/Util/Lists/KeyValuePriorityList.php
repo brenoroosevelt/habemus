@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Util\Lists;
 
 use Generator;
+use LogicException;
 
 /*
  * The order of elements with identical priority is undefined
@@ -21,6 +22,40 @@ trait KeyValuePriorityList
      */
     public function set($id, $value, int $priority = 0): void
     {
+        $this->setId($id, $value, $priority);
+    }
+
+    public function get($id)
+    {
+        return $this->getId($id);
+    }
+
+    public function has($id): bool
+    {
+        return $this->hasId($id);
+    }
+
+    public function delete($id): void
+    {
+        $this->deleteId($id);
+    }
+
+    private function getId($id)
+    {
+        foreach ($this->elements as $priority) {
+            if (array_key_exists($id, $priority)) {
+                return $priority[$id];
+            }
+        }
+
+        throw new LogicException(
+            sprintf("Element (%s) not found in list (%s).", $id, get_class($this))
+        );
+    }
+
+    private function setId($id, $value, int $priority = 0): void
+    {
+        $this->deleteId($id);
         if (!array_key_exists($priority, $this->elements)) {
             $this->elements[$priority] = [];
         }
@@ -29,18 +64,7 @@ trait KeyValuePriorityList
         ksort($this->elements);
     }
 
-    public function get($id)
-    {
-        foreach ($this->elements as $priority) {
-            if (array_key_exists($id, $priority)) {
-                return $priority[$id];
-            }
-        }
-
-        throw new \LogicException("Element (%s) not found in list (%).", $id, get_class($this));
-    }
-
-    public function has($id)
+    private function hasId($id)
     {
         foreach ($this->elements as $priority) {
             if (array_key_exists($id, $priority)) {
@@ -51,7 +75,7 @@ trait KeyValuePriorityList
         return false;
     }
 
-    public function delete($id): void
+    private function deleteId($id): void
     {
         foreach ($this->elements as $priority => $items) {
             if (array_key_exists($id, $items)) {
@@ -83,5 +107,10 @@ trait KeyValuePriorityList
     public function isEmpty(): bool
     {
         return $this->count() == 0;
+    }
+
+    public function toArray(): array
+    {
+        return iterator_to_array($this->getIterator());
     }
 }

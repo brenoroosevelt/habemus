@@ -17,9 +17,6 @@ class ObjectPriorityList implements IteratorAggregate, Countable
 
     public function add($object, int $priority): void
     {
-        if ($this->has($object)) {
-            $this->delete($object);
-        }
         $this->_set($this->objectID($object), $object, $priority);
     }
 

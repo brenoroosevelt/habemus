@@ -3,37 +3,34 @@ declare(strict_types=1);
 
 namespace Habemus\Test;
 
-use Habemus\Container;
 use Habemus\ContainerComposite;
-use Habemus\Exception\NotFound;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use stdClass;
 
 class ContainerCompositeTest extends TestCase
 {
-    protected function newContainerPsr11(array $values)
+    public function testShouldCreateEmptyContainerComposite()
     {
-        return new class($values) implements ContainerInterface {
-            protected $values = [];
+        $composite = new ContainerComposite();
+        $this->assertInstanceOf(ContainerInterface::class, $composite);
+    }
 
-            public function __construct(array $values)
-            {
-                $this->values = $values;
-            }
+    public function testShouldCreateContainerCompositeAddingContainers()
+    {
+        $container1 = $this->newContainerPsr11([
+            'a1' => 'value a1',
+            'a2' => 'value a2',
+        ]);
 
-            public function get($id)
-            {
-                if (!array_key_exists($id, $this->values)) {
-                    throw NotFound::noEntryWasFound($id);
-                }
-                return $this->values[$id];
-            }
+        $container2 = $this->newContainerPsr11([
+            'b1' => 'value b1',
+        ]);
 
-            public function has($id)
-            {
-                return array_key_exists($id, $this->values);
-            }
-        };
+        $composite = new ContainerComposite([$container1, $container2]);
+        $this->assertTrue($composite->has('a1'));
+        $this->assertTrue($composite->has('a2'));
+        $this->assertTrue($composite->has('b1'));
     }
 
     public function testShouldAddContainersToTheComposition()
@@ -52,6 +49,35 @@ class ContainerCompositeTest extends TestCase
         $composite->add($container2);
         $this->assertTrue($composite->has('a1'));
         $this->assertTrue($composite->has('a2'));
+        $this->assertTrue($composite->has('b1'));
+    }
+
+    public function testShouldCreateWithConstructorAndReturnPrioritizedValue()
+    {
+        $container1 = $this->newContainerPsr11([
+            'a1' => 1,
+        ]);
+
+        $container2 = $this->newContainerPsr11([
+            'a1' => 2,
+        ]);
+
+        $composite = new ContainerComposite([$container2, $container1]); // Priority: $container2
+        $this->assertEquals(2, $composite->get('a1'));
+    }
+
+    public function testShouldCreateWithConstructorSkippingNonPsr11()
+    {
+        $container1 = $this->newContainerPsr11([
+            'a1' => 1,
+        ]);
+
+        $container2 = $this->newContainerPsr11([
+            'b1' => 2,
+        ]);
+
+        $composite = new ContainerComposite([$container2, $container1, new stdClass(), 123]); // Priority: $container2
+        $this->assertTrue($composite->has('a1'));
         $this->assertTrue($composite->has('b1'));
     }
 
@@ -91,7 +117,7 @@ class ContainerCompositeTest extends TestCase
     public function testShouldGetPsrExceptionIfNotFoundInContainerComposite()
     {
         $composite = new ContainerComposite();
-        $this->expectException(ContainerExceptionInterface::class);
+        $this->expectException(NotFoundExceptionInterface::class);
         $composite->get('a1');
     }
 }
