@@ -6,6 +6,7 @@ namespace Habemus\Test;
 use Habemus\Container;
 use Habemus\ContainerComposite;
 use Habemus\Exception\NotFound;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
 class ContainerCompositeTest extends TestCase
@@ -85,5 +86,12 @@ class ContainerCompositeTest extends TestCase
         $composite->add($container2, 2);
         $composite->add($container1, 3);
         $this->assertEquals(2, $composite->get('a1'));
+    }
+
+    public function testShouldGetPsrExceptionIfNotFoundInContainerComposite()
+    {
+        $composite = new ContainerComposite();
+        $this->expectException(ContainerExceptionInterface::class);
+        $composite->get('a1');
     }
 }
