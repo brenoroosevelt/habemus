@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Habemus\Test;
 
 use Exception;
+use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -47,5 +49,10 @@ class TestCase extends PHPUnitTestCase
         $method = $reflection->getMethod($methodName);
         $method->setAccessible(true);
         return $method->invokeArgs($object, $parameters);
+    }
+
+    // always returns value
+    protected function getMockForMethod($className, $method, $value): MockObject
+    {
     }
 }

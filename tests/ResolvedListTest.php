@@ -21,7 +21,7 @@ class ResolvedListTest extends TestCase
         $resolvedList->share('id1', $item);
 
         $this->assertEquals(1, $resolvedList->count());
-        $this->assertEquals($item, $resolvedList->get('id1'));
+        $this->assertSame($item, $resolvedList->get('id1'));
     }
 
     public function testShouldCheckForElementsOnTheResolvedList()

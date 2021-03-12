@@ -6,15 +6,16 @@ namespace Habemus\Autowire;
 use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionProperty;
+use RuntimeException;
 
-final class Reflector
+class Reflector
 {
     /**
      * @param ReflectionParameter|ReflectionProperty $subject
      * @param bool $primitives
      * @return string|null
      */
-    public static function getTypeHint($subject, bool $primitives = true): ?string
+    public function getTypeHint($subject, bool $primitives = true): ?string
     {
         $type = $subject->getType();
         if (! $type instanceof ReflectionNamedType) {
@@ -38,22 +39,22 @@ final class Reflector
      * @param string $attribute
      * @return null
      */
-    public static function getFirstAttribute($subject, string $attribute)
+    public function getFirstAttribute($subject, string $attribute)
     {
-        self::assertAttributesAvailable();
+        $this->assertAttributesAvailable();
         $attribute = $subject->getAttributes($attribute)[0] ?? null;
         return $attribute !== null ? $attribute->newInstance() : null;
     }
 
-    public static function attributesAvailable(): bool
+    public function attributesAvailable(): bool
     {
         return PHP_VERSION_ID >= 80000;
     }
 
-    public static function assertAttributesAvailable(): void
+    public function assertAttributesAvailable(): void
     {
         if (!self::attributesAvailable()) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 "Attributes are not available. Use a PHP version >=8.0 to enable attribute injection support"
             );
         }

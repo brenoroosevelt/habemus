@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Habemus\Autowire;
 
-use Habemus\Autowire\ClassResolver;
-use Habemus\Autowire\Reflector;
 use Habemus\Autowire\Attributes\AttributesInjection;
 use Habemus\Container;
 use Habemus\Exception\NotFound;
@@ -21,9 +19,15 @@ class ReflectionClassResolver implements ClassResolver
      */
     protected $container;
 
-    public function __construct(Container $container)
+    /**
+     * @var Reflector
+     */
+    protected $reflector;
+
+    public function __construct(Container $container, Reflector $reflector = null)
     {
         $this->container = $container;
+        $this->reflector = $reflector !== null ? $reflector : new Reflector();
     }
 
     /**
@@ -100,7 +104,7 @@ class ReflectionClassResolver implements ClassResolver
             }
 
             // fn(User $user)
-            $typeHint = Reflector::getTypeHint($parameter, false);
+            $typeHint = $this->reflector->getTypeHint($parameter, false);
             if ($typeHint && $this->container->has($typeHint)) {
                 $result[] = $this->container->get($typeHint);
                 continue;

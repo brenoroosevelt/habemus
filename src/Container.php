@@ -84,7 +84,7 @@ class Container implements ContainerInterface, ArrayAccess
     {
         $this->useAutowire = true;
         $this->defaultShared = true;
-        $this->useAttributes = Reflector::attributesAvailable();
+        $this->useAttributes = (new Reflector)->attributesAvailable();
 
         $this->circularDependencyDetection = new CircularDependencyDetection();
         $this->definitions = new DefinitionList();
@@ -211,7 +211,7 @@ class Container implements ContainerInterface, ArrayAccess
     public function useAttributes(bool $useAttributes): self
     {
         if ($useAttributes == true) {
-            Reflector::assertAttributesAvailable();
+            (new Reflector)->assertAttributesAvailable();
         }
 
         $this->useAttributes = $useAttributes;

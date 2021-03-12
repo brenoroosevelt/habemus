@@ -16,9 +16,15 @@ class AttributesInjection
      */
     protected $container;
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * @var Reflector
+     */
+    protected $reflector;
+
+    public function __construct(ContainerInterface $container, Reflector $reflector = null)
     {
-        Reflector::assertAttributesAvailable();
+        $this->reflector = $reflector !== null ? $reflector : new Reflector();
+        $this->reflector->assertAttributesAvailable();
         $this->container = $container;
     }
 
@@ -52,7 +58,7 @@ class AttributesInjection
      */
     public function getInjection($subject): ?string
     {
-        $inject = Reflector::getFirstAttribute($subject, Inject::class);
+        $inject = $this->reflector->getFirstAttribute($subject, Inject::class);
         if ($inject === null) {
             return null;
         }
@@ -61,6 +67,6 @@ class AttributesInjection
             return $inject->id;
         }
 
-        return Reflector::getTypeHint($subject, false);
+        return $this->reflector->getTypeHint($subject, false);
     }
 }

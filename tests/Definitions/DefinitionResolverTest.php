@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Habemus\Test\Definitions;
 
-use Habemus\Autowire\Reflector;
 use Habemus\Container;
 use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\FnDefinition;
@@ -107,7 +106,7 @@ class DefinitionResolverTest extends TestCase
 
     public function testShouldResolveAndInjectProperties()
     {
-        if (!Reflector::attributesAvailable()) {
+        if (PHP_VERSION_ID < 800000) {
             $this->markTestSkipped('Attributes available in PHP version >= 8.0');
             return;
         }
@@ -130,7 +129,7 @@ class DefinitionResolverTest extends TestCase
 
     public function testShouldResolveNotInjectPropertiesRawDefinition()
     {
-        if (!Reflector::attributesAvailable()) {
+        if (PHP_VERSION_ID < 800000) {
             $this->markTestSkipped('Attributes available in PHP version >= 8.0');
             return;
         }

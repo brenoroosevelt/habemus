@@ -76,7 +76,7 @@ class ContainerCompositeTest extends TestCase
             'b1' => 2,
         ]);
 
-        $composite = new ContainerComposite([$container2, $container1, new stdClass(), 123]); // Priority: $container2
+        $composite = new ContainerComposite([$container2, $container1, new stdClass(), 123]);
         $this->assertTrue($composite->has('a1'));
         $this->assertTrue($composite->has('b1'));
     }
