@@ -33,11 +33,8 @@ class ReflectorTest extends TestCase
             ->method('attributesAvailable')
             ->willReturn(false);
 
-        try {
-            $reflector->assertAttributesAvailable();
-        } catch (\Exception $exception) {
-            $this->assertInstanceOf(RuntimeException::class, $exception);
-        }
+        $this->expectException(RuntimeException::class);
+        $reflector->assertAttributesAvailable();
     }
 
     public function typeHintFromParameterProvider()
