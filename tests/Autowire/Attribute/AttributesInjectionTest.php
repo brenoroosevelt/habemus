@@ -11,6 +11,7 @@ use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\Fixtures\ClassWithAttributes;
 use Habemus\Test\TestCase;
 use Habemus\Util\PHPVersion;
+use LogicException;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionParameter;
@@ -196,5 +197,11 @@ class AttributesInjectionTest extends TestCase
         // action
         $this->expectException(NotFoundExceptionInterface::class);
         $this->attributesInjection->injectProperties($object); // 'id1' does not exists
+    }
+
+    public function testShouldGetErrorIfTryingInjectNonObject()
+    {
+        $this->expectException(LogicException::class);
+        $this->attributesInjection->injectProperties(123);
     }
 }

@@ -29,13 +29,13 @@ class AttributesInjection
 
     public function injectProperties($object)
     {
-        $this->reflector->assertAttributesAvailable();
         if (!is_object($object)) {
             throw new \LogicException(
                 sprintf("Cannot inject dependencies. Expected object. Got: %s", gettype($object))
             );
         }
 
+        $this->reflector->assertAttributesAvailable();
         $reflectionClass = new ReflectionClass($object);
         foreach ($reflectionClass->getProperties() as $property) {
             if (! $injection = $this->getInjection($property)) {
