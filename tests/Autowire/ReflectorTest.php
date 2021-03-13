@@ -374,7 +374,7 @@ class ReflectorTest extends TestCase
             ],
             'param_3' => [
                 $parametes[2],
-                new Inject('id1'),
+                new Inject(),
             ]
         ];
     }

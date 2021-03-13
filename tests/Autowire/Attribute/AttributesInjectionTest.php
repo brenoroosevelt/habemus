@@ -129,11 +129,11 @@ class AttributesInjectionTest extends TestCase
             ],
             'param_2' => [
                 $parametes[1],
-                null,
+                ClassA::class,
             ],
             'param_3' => [
                 $parametes[2],
-                'id1',
+                null,
             ]
         ];
     }
