@@ -11,6 +11,7 @@ use Habemus\Definition\DefinitionResolver;
 use Habemus\ResolvedList;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\TestCase;
+use Habemus\Util\PHPVersion;
 use stdClass;
 
 class DefinitionResolverTest extends TestCase
@@ -106,7 +107,7 @@ class DefinitionResolverTest extends TestCase
 
     public function testShouldResolveAndInjectProperties()
     {
-        if (PHP_VERSION_ID < 80000) {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
             $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
             return;
         }
@@ -129,7 +130,7 @@ class DefinitionResolverTest extends TestCase
 
     public function testShouldResolveNotInjectPropertiesRawDefinition()
     {
-        if (PHP_VERSION_ID < 80000) {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
             $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
             return;
         }

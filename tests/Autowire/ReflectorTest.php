@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace Habemus\Test\Autowire;
 
 use Closure;
+use Habemus\Autowire\Attributes\Inject;
 use Habemus\Autowire\Reflector;
 use Habemus\Test\Fixtures\AbstractClass;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\Fixtures\ClassB;
 use Habemus\Test\Fixtures\GenericInterface;
 use Habemus\Test\TestCase;
+use Habemus\Util\PHPVersion;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
@@ -21,7 +23,7 @@ class ReflectorTest extends TestCase
     public function testShouldReflectorThrowsErrorDetermineAttributesAvailable()
     {
         $reflector = new Reflector();
-        $this->assertEquals((PHP_VERSION_ID >= 80000), $reflector->attributesAvailable());
+        $this->assertEquals((PHPVersion::current() >= PHPVersion::V8_0), $reflector->attributesAvailable());
     }
 
     public function testShouldReflectorThrowsErrorIfAttributesNotAvailable()
@@ -183,7 +185,7 @@ class ReflectorTest extends TestCase
 
     public function typeHintFromPropertiesProvider(): array
     {
-        if (PHP_VERSION_ID < 70400) {
+        if (PHPVersion::current() < PHPVersion::V7_4) {
             return [];
         }
 
@@ -256,7 +258,7 @@ class ReflectorTest extends TestCase
         bool $primitive,
         $expected
     ) {
-        if (PHP_VERSION_ID < 70400) {
+        if (PHPVersion::current() < PHPVersion::V7_4) {
             $this->markTestSkipped('Typed properties are not available (PHP 7.4+)');
             return;
         }
@@ -268,7 +270,7 @@ class ReflectorTest extends TestCase
 
     public function testShouldReflectorDetermineTypeHintFromPropertiesSubClass()
     {
-        if (PHP_VERSION_ID < 70400) {
+        if (PHPVersion::current() < PHPVersion::V7_4) {
             $this->markTestSkipped('Typed properties are not available (PHP 7.4+)');
             return;
         }
@@ -289,5 +291,63 @@ class ReflectorTest extends TestCase
             \Habemus\Test\Fixtures\ClassTypedProperties::class,
             $reflector->getTypeHint($properties[10], true)
         );
+    }
+
+    public function getAttributesFromPropertiesProvider(): array
+    {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            return [];
+        }
+
+        $class = new ReflectionClass(\Habemus\Test\Fixtures\ClassWithAttributes::class);
+        $properties = $class->getProperties();
+
+        return [
+            'undefined' => [
+                $properties[0],
+                new Inject('id1'),
+            ],
+            'int' => [
+                $properties[1],
+                new Inject('id1'),
+            ],
+            'float' => [
+                $properties[2],
+                new Inject('id1'),
+            ],
+            'ClassA' => [
+                $properties[3],
+                new Inject(),
+            ],
+            'array' => [
+                $properties[4],
+                new Inject(),
+            ],
+            'ClassB' => [
+                $properties[5],
+                new Inject(),
+            ],
+            'GenericInterface' => [
+                $properties[6],
+                new Inject(ClassA::class),
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getAttributesFromPropertiesProvider
+     * @param $property
+     * @param $expected
+     */
+    public function testShouldReflectorGetInjectAttributeFromProperties($property, $expected)
+    {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
+            return;
+        }
+
+        $reflector = new Reflector();
+        $attribute = $reflector->getFirstAttribute($property, Inject::class);
+        $this->assertEquals($expected, $attribute);
     }
 }

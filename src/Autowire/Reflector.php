@@ -3,6 +3,7 @@
 
 namespace Habemus\Autowire;
 
+use Habemus\Util\PHPVersion;
 use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionProperty;
@@ -48,7 +49,7 @@ class Reflector
 
     public function attributesAvailable(): bool
     {
-        return PHP_VERSION_ID >= 80000;
+        return PHPVersion::current() >= PHPVersion::V8_0;
     }
 
     public function assertAttributesAvailable(): void

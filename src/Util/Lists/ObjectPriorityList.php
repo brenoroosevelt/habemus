@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Util\Lists;
 
 use Countable;
+use Habemus\Util\PHPVersion;
 use InvalidArgumentException;
 use IteratorAggregate;
 
@@ -36,7 +37,7 @@ class ObjectPriorityList implements IteratorAggregate, Countable
 
     private function objectID($object)
     {
-        return PHP_VERSION_ID >= 702000 ? spl_object_id($object) : spl_object_hash($object);
+        return PHPVersion::current() >= PHPVersion::V7_2 ? spl_object_id($object) : spl_object_hash($object);
     }
 
     private function assertObject($object): void

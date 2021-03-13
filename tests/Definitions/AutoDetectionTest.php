@@ -13,6 +13,7 @@ use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\Definition;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\TestCase;
+use Habemus\Util\PHPVersion;
 use Psr\Container\ContainerInterface;
 
 class AutoDetectionTest extends TestCase
@@ -109,7 +110,7 @@ class AutoDetectionTest extends TestCase
             ]
         ];
 
-        if (PHP_VERSION_ID >= 800000) {
+        if (PHPVersion::current() >= PHPVersion::V8_0) {
             $valuesToDetect['implements_Stringable'] = [
                 RawDefinition::class,
                 new class implements \Stringable {
