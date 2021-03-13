@@ -39,7 +39,6 @@ class AttributesInjection
             if (! $injection = $this->getInjection($property)) {
                 continue;
             }
-
             if (!$this->container->has($injection)) {
                 continue; // ... or throw error !?
             }

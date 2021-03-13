@@ -154,7 +154,7 @@ class AttributesInjectionTest extends TestCase
         $this->assertEquals($expected, $inject);
     }
 
-    public function testShouldInjectObjectProperties()
+    public function testInjecAll()
     {
         if (PHPVersion::current() < PHPVersion::V8_0) {
             $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
@@ -164,7 +164,7 @@ class AttributesInjectionTest extends TestCase
         // arrange
         $classA = new ClassA();
         $object = new ClassWithAttributes(1, new ClassA(), 'str');
-        $this->container->add('a1', 'value1');
+        $this->container->add('id1', 'value1');
         $this->container->add(ClassA::class, $classA);
 
         // action

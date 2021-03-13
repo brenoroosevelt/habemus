@@ -68,17 +68,17 @@ class ClassWithAttributes
         return $this->f;
     }
 
-    public function g(): ClassA
+    public function g()
     {
         return $this->g;
     }
 
-    public function h(): ClassB
+    public function h()
     {
         return $this->h;
     }
 
-    public function i(): ClassA
+    public function i()
     {
         return $this->i;
     }
