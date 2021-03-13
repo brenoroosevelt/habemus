@@ -9,7 +9,10 @@ use Habemus\Autowire\Reflector;
 use Habemus\Test\Fixtures\AbstractClass;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\Fixtures\ClassB;
+use Habemus\Test\Fixtures\ClassTypedProperties;
+use Habemus\Test\Fixtures\ClassWithAttributes;
 use Habemus\Test\Fixtures\GenericInterface;
+use Habemus\Test\Fixtures\SubClassTypedProperties;
 use Habemus\Test\TestCase;
 use Habemus\Util\PHPVersion;
 use ReflectionClass;
@@ -189,7 +192,7 @@ class ReflectorTest extends TestCase
             return [];
         }
 
-        $class = new ReflectionClass(\Habemus\Test\Fixtures\ClassTypedProperties::class);
+        $class = new ReflectionClass(ClassTypedProperties::class);
         $properties = $class->getProperties();
 
         return [
@@ -236,12 +239,12 @@ class ReflectorTest extends TestCase
             'self' => [
                 $properties[8],
                 true,
-                \Habemus\Test\Fixtures\ClassTypedProperties::class
+                ClassTypedProperties::class
             ],
             'self_nullable' => [
                 $properties[9],
                 true,
-                \Habemus\Test\Fixtures\ClassTypedProperties::class
+                ClassTypedProperties::class
             ],
 
         ];
@@ -275,20 +278,20 @@ class ReflectorTest extends TestCase
             return;
         }
 
-        $class = new ReflectionClass(\Habemus\Test\Fixtures\SubClassTypedProperties::class);
+        $class = new ReflectionClass(SubClassTypedProperties::class);
         $properties = $class->getProperties();
 
         $reflector = new Reflector();
         $this->assertEquals(
-            \Habemus\Test\Fixtures\SubClassTypedProperties::class,
+            SubClassTypedProperties::class,
             $reflector->getTypeHint($properties[0], true)
         );
         $this->assertEquals(
-            \Habemus\Test\Fixtures\ClassTypedProperties::class,
+            ClassTypedProperties::class,
             $reflector->getTypeHint($properties[9], true)
         );
         $this->assertEquals(
-            \Habemus\Test\Fixtures\ClassTypedProperties::class,
+            ClassTypedProperties::class,
             $reflector->getTypeHint($properties[10], true)
         );
     }
@@ -299,7 +302,7 @@ class ReflectorTest extends TestCase
             return [];
         }
 
-        $class = new ReflectionClass(\Habemus\Test\Fixtures\ClassWithAttributes::class);
+        $class = new ReflectionClass(ClassWithAttributes::class);
         $properties = $class->getProperties();
 
         return [
@@ -357,7 +360,7 @@ class ReflectorTest extends TestCase
             return [];
         }
 
-        $class = new ReflectionClass(\Habemus\Test\Fixtures\ClassWithAttributes::class);
+        $class = new ReflectionClass(ClassWithAttributes::class);
         $parametes = $class->getConstructor()->getParameters();
 
         return [

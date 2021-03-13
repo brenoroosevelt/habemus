@@ -12,6 +12,8 @@ use Habemus\Test\Fixtures\ClassWithAttributes;
 use Habemus\Test\TestCase;
 use Habemus\Util\PHPVersion;
 use ReflectionClass;
+use ReflectionParameter;
+use ReflectionProperty;
 
 class AttributesInjectionTest extends TestCase
 {
@@ -97,10 +99,10 @@ class AttributesInjectionTest extends TestCase
 
     /**
      * @dataProvider getAttributesFromPropertiesProvider
-     * @param $property
+     * @param ReflectionProperty $property
      * @param $expected
      */
-    public function testShouldGetInjectionFromAttributesOrTypeHint($property, $expected)
+    public function testShouldGetInjectionFromPropertiesAttributes(ReflectionProperty $property, $expected)
     {
         if (PHPVersion::current() < PHPVersion::V8_0) {
             $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
@@ -108,6 +110,47 @@ class AttributesInjectionTest extends TestCase
         }
 
         $inject = $this->attributesInjection->getInjection($property);
+        $this->assertEquals($expected, $inject);
+    }
+
+    public function getAttributesFromConstructorProvider(): array
+    {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            return [];
+        }
+
+        $class = new ReflectionClass(ClassWithAttributes::class);
+        $parametes = $class->getConstructor()->getParameters();
+
+        return [
+            'param_1' => [
+                $parametes[0],
+                'id1',
+            ],
+            'param_2' => [
+                $parametes[1],
+                null,
+            ],
+            'param_3' => [
+                $parametes[2],
+                'id1',
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getAttributesFromConstructorProvider
+     * @param ReflectionParameter $parameter
+     * @param $expected
+     */
+    public function testShouldGetInjectionFromConstructorParameters(ReflectionParameter $parameter, $expected)
+    {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
+            return;
+        }
+
+        $inject = $this->attributesInjection->getInjection($parameter);
         $this->assertEquals($expected, $inject);
     }
 }
