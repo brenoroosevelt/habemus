@@ -6,7 +6,7 @@ namespace Habemus\Test\Autowire\Attribute;
 use Habemus\Autowire\Attributes\Inject;
 use Habemus\Test\TestCase;
 
-class AttributeTest extends TestCase
+class InjectTest extends TestCase
 {
     public function testShouldCreateEmptyInjectAttribute()
     {
