@@ -153,4 +153,32 @@ class AttributesInjectionTest extends TestCase
         $inject = $this->attributesInjection->getInjection($parameter);
         $this->assertEquals($expected, $inject);
     }
+
+    public function testShouldInjectObjectProperties()
+    {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
+            return;
+        }
+
+        // arrange
+        $classA = new ClassA();
+        $object = new ClassWithAttributes(1, new ClassA(), 'str');
+        $this->container->add('a1', 'value1');
+        $this->container->add(ClassA::class, $classA);
+
+        // action
+        $this->attributesInjection->injectProperties($object);
+
+        // assert
+        $this->assertEquals('value1', $object->a());
+        $this->assertEquals('value1', $object->b());
+        $this->assertEquals('value1', $object->c());
+        $this->assertNull($object->d());
+        $this->assertNull($object->e());
+        $this->assertNull($object->f());
+        $this->assertSame($classA, $object->g());
+        $this->assertSame($classA, $object->h());
+        $this->assertSame($classA, $object->i());
+    }
 }
