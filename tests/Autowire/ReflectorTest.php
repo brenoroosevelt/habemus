@@ -303,31 +303,31 @@ class ReflectorTest extends TestCase
         $properties = $class->getProperties();
 
         return [
-            'undefined' => [
+            'injection_a' => [
                 $properties[0],
                 new Inject('id1'),
             ],
-            'int' => [
+            'injection_b' => [
                 $properties[1],
                 new Inject('id1'),
             ],
-            'float' => [
+            'injection_c' => [
                 $properties[2],
                 new Inject('id1'),
             ],
-            'ClassA' => [
+            'injection_d' => [
                 $properties[3],
                 new Inject(),
             ],
-            'array' => [
+            'injection_e' => [
                 $properties[4],
                 new Inject(),
             ],
-            'ClassB' => [
+            'injection_f' => [
                 $properties[5],
                 new Inject(),
             ],
-            'GenericInterface' => [
+            'injection_g' => [
                 $properties[6],
                 new Inject(ClassA::class),
             ],
@@ -348,6 +348,48 @@ class ReflectorTest extends TestCase
 
         $reflector = new Reflector();
         $attribute = $reflector->getFirstAttribute($property, Inject::class);
+        $this->assertEquals($expected, $attribute);
+    }
+
+    public function getAttributesFromConstructorProvider(): array
+    {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            return [];
+        }
+
+        $class = new ReflectionClass(\Habemus\Test\Fixtures\ClassWithAttributes::class);
+        $parametes = $class->getConstructor()->getParameters();
+
+        return [
+            'param_1' => [
+                $parametes[0],
+                new Inject('id1'),
+            ],
+            'param_2' => [
+                $parametes[1],
+                new Inject(),
+            ],
+            'param_3' => [
+                $parametes[2],
+                new Inject('id1'),
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getAttributesFromConstructorProvider
+     * @param $parameter
+     * @param $expected
+     */
+    public function testShouldReflectorGetInjectAttributeFromConstructor($parameter, $expected)
+    {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
+            return;
+        }
+
+        $reflector = new Reflector();
+        $attribute = $reflector->getFirstAttribute($parameter, Inject::class);
         $this->assertEquals($expected, $attribute);
     }
 }
