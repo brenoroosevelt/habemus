@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace Habemus\Definition;
 
-use Habemus\Definition\DefinitionResolverInterface;
 use Habemus\Autowire\Attributes\AttributesInjection;
 use Habemus\Container;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\ResolvedList;
-use Habemus\Definition\Definition;
 use Habemus\Definition\MethodCall\CallableMethod;
 use Habemus\Definition\Sharing\Shareable;
 
@@ -24,10 +22,16 @@ class DefinitionResolver implements DefinitionResolverInterface
      */
     protected $resolved;
 
-    public function __construct(Container $container, ResolvedList $resolved)
+    /**
+     * @var AttributesInjection
+     */
+    protected $attributesInjection;
+
+    public function __construct(Container $container, ResolvedList $resolved, AttributesInjection $attributesInjection)
     {
         $this->container = $container;
         $this->resolved = $resolved;
+        $this->attributesInjection = $attributesInjection;
     }
 
     /**
@@ -46,7 +50,7 @@ class DefinitionResolver implements DefinitionResolverInterface
         }
 
         if ($this->shouldInjectPropertyDependencies($instance, $definition)) {
-            (new AttributesInjection($this->container))->injectProperties($instance);
+            $this->attributesInjection->injectProperties($instance);
         }
 
         return $instance;

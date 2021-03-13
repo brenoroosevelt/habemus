@@ -21,15 +21,15 @@ class AttributesInjection
      */
     protected $reflector;
 
-    public function __construct(ContainerInterface $container, Reflector $reflector = null)
+    public function __construct(ContainerInterface $container, Reflector $reflector)
     {
-        $this->reflector = $reflector !== null ? $reflector : new Reflector();
-        $this->reflector->assertAttributesAvailable();
+        $this->reflector = $reflector;
         $this->container = $container;
     }
 
     public function injectProperties($object)
     {
+        $this->reflector->assertAttributesAvailable();
         if (!is_object($object)) {
             return;
         }
@@ -58,13 +58,15 @@ class AttributesInjection
      */
     public function getInjection($subject): ?string
     {
+        $this->reflector->assertAttributesAvailable();
+        /** @var Inject|null $inject */
         $inject = $this->reflector->getFirstAttribute($subject, Inject::class);
         if ($inject === null) {
             return null;
         }
 
-        if ($inject->id !== null) {
-            return $inject->id;
+        if ($inject->getId() !== null) {
+            return $inject->getId();
         }
 
         return $this->reflector->getTypeHint($subject, false);

@@ -28,7 +28,7 @@ class ClassWithAttributes
     #[Inject(ClassA::class)]
     private ClassA $g;
 
-    public function __construct(#[Inject('id1')] $a, #[Inject] ClassA $classA, #[Inject('id')] string ...$str)
+    public function __construct(#[Inject('id1')] $a, #[Inject] ClassA $classA, #[Inject('id1')] string ...$str)
     {
     }
 }

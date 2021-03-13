@@ -24,10 +24,16 @@ class ReflectionClassResolver implements ClassResolver
      */
     protected $reflector;
 
-    public function __construct(Container $container, Reflector $reflector = null)
+    /**
+     * @var AttributesInjection
+     */
+    protected $injection;
+
+    public function __construct(Container $container, AttributesInjection $injection, Reflector $reflector)
     {
         $this->container = $container;
-        $this->reflector = $reflector !== null ? $reflector : new Reflector();
+        $this->injection = $injection;
+        $this->reflector = $reflector;
     }
 
     /**
@@ -79,7 +85,7 @@ class ReflectionClassResolver implements ClassResolver
 
             // #[Inject(...)]
             if ($this->container->attributesEnabled()) {
-                $inject = (new AttributesInjection($this->container))->getInjection($parameter);
+                $inject = $this->injection->getInjection($parameter);
                 if ($inject && $this->container->has($inject)) {
                     $result[] = $this->container->get($inject);
                     continue;

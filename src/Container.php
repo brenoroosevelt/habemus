@@ -9,6 +9,7 @@ use Habemus\Autowire\ClassResolver;
 use Habemus\Autowire\ReflectionClassResolver;
 use Habemus\Autowire\Reflector;
 use Habemus\Definition\AutoDetection;
+use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\DefinitionDetection;
 use Habemus\Definition\DefinitionFactory;
@@ -56,6 +57,16 @@ class Container implements ContainerInterface, ArrayAccess
     protected $classResolver;
 
     /**
+     * @var Reflector
+     */
+    protected $reflector;
+
+    /**
+     * @var AttributesInjection
+     */
+    protected $attributesInjection;
+
+    /**
      * @var ServiceProviderManager
      */
     protected $providers;
@@ -82,9 +93,10 @@ class Container implements ContainerInterface, ArrayAccess
 
     public function __construct()
     {
+        $this->reflector = new Reflector();
         $this->useAutowire = true;
         $this->defaultShared = true;
-        $this->useAttributes = (new Reflector)->attributesAvailable();
+        $this->useAttributes = $this->reflector->attributesAvailable();
 
         $this->circularDependencyDetection = new CircularDependencyDetection();
         $this->definitions = new DefinitionList();
@@ -92,8 +104,9 @@ class Container implements ContainerInterface, ArrayAccess
         $this->delegates = new ContainerComposite();
         $this->detection = new AutoDetection($this);
         $this->providers = new ServiceProviderManager($this);
-        $this->classResolver = new ReflectionClassResolver($this);
-        $this->definitionResolver = new DefinitionResolver($this, $this->resolved);
+        $this->attributesInjection = new AttributesInjection($this, $this->reflector);
+        $this->classResolver = new ReflectionClassResolver($this, $this->attributesInjection, $this->reflector);
+        $this->definitionResolver = new DefinitionResolver($this, $this->resolved, $this->attributesInjection);
 
         $this->add(ContainerInterface::class, new RawDefinition($this));
         $this->add(self::class, new RawDefinition($this));
@@ -166,9 +179,14 @@ class Container implements ContainerInterface, ArrayAccess
         throw NotFound::noEntryWasFound($id);
     }
 
+    public function getClassResolver(): ClassResolver
+    {
+        return $this->classResolver;
+    }
+
     public function injectDependency($object)
     {
-        (new AttributesInjection($this))->injectProperties($object);
+        $this->attributesInjection->injectProperties($object);
     }
 
     public function addProvider(ServiceProvider ...$providers)
@@ -211,7 +229,7 @@ class Container implements ContainerInterface, ArrayAccess
     public function useAttributes(bool $useAttributes): self
     {
         if ($useAttributes == true) {
-            (new Reflector)->assertAttributesAvailable();
+            $this->reflector->assertAttributesAvailable();
         }
 
         $this->useAttributes = $useAttributes;
