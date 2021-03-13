@@ -81,6 +81,7 @@ class DefinitionResolverTest extends TestCase
             'id3' => new ClassDefinition(ClassA::class)
         ];
 
+        $this->container->add('property_id', "property injection");
         $resolved = $this->definitionResolver->resolveMany($definitions);
         $this->assertCount(3, $resolved);
         $this->assertEquals(1, $resolved[0]);
@@ -97,6 +98,7 @@ class DefinitionResolverTest extends TestCase
             }))->setShared(true),
             'id3' => (new ClassDefinition(ClassA::class))->setShared(true)
         ];
+        $this->container->add('property_id', "property injection");
 
         $this->definitionResolver->resolveMany($definitions);
         $this->assertTrue($this->resolvedList->has('id1'));

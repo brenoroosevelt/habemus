@@ -11,6 +11,7 @@ use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\Fixtures\ClassWithAttributes;
 use Habemus\Test\TestCase;
 use Habemus\Util\PHPVersion;
+use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionParameter;
 use ReflectionProperty;
@@ -154,7 +155,7 @@ class AttributesInjectionTest extends TestCase
         $this->assertEquals($expected, $inject);
     }
 
-    public function testInjecAll()
+    public function testShouldInjectDependenciesOnObjectProperties()
     {
         if (PHPVersion::current() < PHPVersion::V8_0) {
             $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
@@ -180,5 +181,20 @@ class AttributesInjectionTest extends TestCase
         $this->assertSame($classA, $object->g());
         $this->assertSame($classA, $object->h());
         $this->assertSame($classA, $object->i());
+    }
+
+    public function testShouldGetErrorIfDependencyDoesNotExistWhenInjectingProperty()
+    {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
+            return;
+        }
+
+        // arrange
+        $object = new ClassWithAttributes(1, new ClassA(), 'str');
+
+        // action
+        $this->expectException(NotFoundExceptionInterface::class);
+        $this->attributesInjection->injectProperties($object); // 'id1' does not exists
     }
 }

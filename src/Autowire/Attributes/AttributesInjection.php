@@ -31,16 +31,15 @@ class AttributesInjection
     {
         $this->reflector->assertAttributesAvailable();
         if (!is_object($object)) {
-            return;
+            throw new \LogicException(
+                sprintf("Cannot inject dependencies. Expected object. Got: %s", gettype($object))
+            );
         }
 
         $reflectionClass = new ReflectionClass($object);
         foreach ($reflectionClass->getProperties() as $property) {
             if (! $injection = $this->getInjection($property)) {
                 continue;
-            }
-            if (!$this->container->has($injection)) {
-                continue; // ... or throw error !?
             }
 
             if (!$property->isPublic()) {
