@@ -43,7 +43,7 @@ class TestCase extends PHPUnitTestCase
         };
     }
 
-    protected static function invokeMethod(&$object, $methodName, array $parameters = [])
+    protected static function invokeMethod($object, $methodName, array $parameters = [])
     {
         $reflection = new ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);
@@ -51,8 +51,10 @@ class TestCase extends PHPUnitTestCase
         return $method->invokeArgs($object, $parameters);
     }
 
-    // always returns value
-    protected function getMockForMethod($className, $method, $value): MockObject
+    protected function getPropertyValue($object, $name)
     {
+        $property = (new ReflectionClass($object))->getProperty($name);
+        $property->setAccessible(true);
+        return $property->getValue($object);
     }
 }
