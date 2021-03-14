@@ -8,7 +8,9 @@ use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Exception\NotFound;
 use Habemus\Exception\UnresolvableParameter;
 use Habemus\Test\Fixtures\ClassB;
+use Habemus\Test\Fixtures\ClassC;
 use Habemus\Test\TestCase;
+use RuntimeException;
 
 class ClassDefinitionTest extends TestCase
 {
@@ -59,5 +61,12 @@ class ClassDefinitionTest extends TestCase
         $definition = new ClassDefinition('UnknownClass');
         $this->expectException(NotFound::class);
         $definition->getConcrete($container);
+    }
+
+    public function testShouldNotClassDefinitionResolveWithAnotherContainer()
+    {
+        $definition = new ClassDefinition(ClassC::class);
+        $this->expectException(RuntimeException::class);
+        $definition->getConcrete($this->newContainerPsr11());
     }
 }
