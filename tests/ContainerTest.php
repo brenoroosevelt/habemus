@@ -6,6 +6,8 @@ namespace Habemus\Test;
 use Habemus\Container;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Exception\NotFound;
+use Habemus\ServiceProvider\LazyServiceProvider;
+use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Util\PHPVersion;
 use Psr\Container\ContainerInterface;
@@ -81,5 +83,48 @@ class ContainerTest extends TestCase
         $container->add('id1', new RawDefinition('value1'));
         $resolvedList = $this->getPropertyValue($container, 'resolved');
         $this->assertTrue($resolvedList->has('id1'));
+    }
+
+    public function testShouldContainerAddServiceProvider()
+    {
+        $provider = new class implements ServiceProvider {
+            public function register(Container $container): void
+            {
+                $container->add('id1', 'value1');
+            }
+
+        };
+        $container = new Container();
+        $container->addProvider($provider);
+        $this->assertTrue($container->has('id1'));
+        $this->assertEquals('value1', $container->get('id1'));
+    }
+
+    public function testShouldContainerAddLazyServiceProvider()
+    {
+        $provider = new class implements LazyServiceProvider {
+            public function register(Container $container): void
+            {
+                $container->add('id1', 'value1');
+            }
+
+            public function provides(string $id): bool
+            {
+                return $id === 'id1';
+            }
+        };
+        $container = new Container();
+        $container->addProvider($provider);
+        $this->assertTrue($container->has('id1'));
+        $this->assertEquals('value1', $container->get('id1'));
+    }
+
+    public function testShouldContainerAddDelegateContainer()
+    {
+        $delegate = $this->newContainerPsr11(['id1' => 'value1']);
+        $container = new Container();
+        $container->addDelegate($delegate);
+        $this->assertTrue($container->has('id1'));
+        $this->assertEquals('value1', $container->get('id1'));
     }
 }
