@@ -9,6 +9,7 @@ use Habemus\Autowire\ClassResolver;
 use Habemus\Autowire\ReflectionClassResolver;
 use Habemus\Autowire\Reflector;
 use Habemus\Definition\AutoDetection;
+use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\DefinitionDetection;
 use Habemus\Definition\DefinitionFactory;
@@ -163,12 +164,8 @@ class Container implements ContainerInterface, ArrayAccess
         }
 
         if ($this->shouldAutowireResolve($id)) {
-            $resolved = $this->classResolver->resolveClass($id);
-            if ($this->defaultShared) {
-                $this->resolved->share($id, $resolved);
-            }
-
-            return $resolved;
+            $definition = (new ClassDefinition($id))->setShared($this->defaultShared);
+            return $this->definitionResolver->resolve($id, $definition);
         }
 
         if ($this->delegates->has($id)) {

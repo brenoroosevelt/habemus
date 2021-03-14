@@ -46,7 +46,7 @@ class DefinitionResolver implements DefinitionResolverInterface
         }
 
         if ($this->shouldShare($definition)) {
-            $this->resolved->share($id, $definition);
+            $this->resolved->share($id, $instance);
         }
 
         if ($this->shouldInjectPropertyDependencies($instance, $definition)) {

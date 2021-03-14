@@ -15,6 +15,7 @@ use Habemus\Exception\NotInstantiable;
 use Habemus\Exception\UnresolvableParameter;
 use Habemus\Test\Fixtures\AbstractClass;
 use Habemus\Test\Fixtures\ClassA;
+use Habemus\Test\Fixtures\ClassC;
 use Habemus\Test\Fixtures\ClassWithoutConstructor;
 use Habemus\Test\Fixtures\GenericInterface;
 use Habemus\Test\Fixtures\PrivateConstructor;
@@ -189,10 +190,10 @@ class ReflectionClassResolverTest extends TestCase
                 ["strings"]
             ],
             'container_resolve_type' => [
-                function (ClassA $a) {
+                function (ClassC $a) {
                 },
                 [],
-                [new ClassA()]
+                [new ClassC()]
             ],
             'container_does_not_resolve_optional' => [
                 function (ClassA $a = null) {
@@ -250,24 +251,24 @@ class ReflectionClassResolverTest extends TestCase
             'attributes_injection_by_type_hint' => [
                 function (
                     #[Inject]
-                    ClassA $a
+                    ClassC $a
                 ) {
                 },
                 [],
-                [new ClassA()]
+                [new ClassC()]
             ],
             'attributes_injection_by_id' => [
                 function (
-                    #[Inject(ClassA::class)]
+                    #[Inject(ClassC::class)]
                     $a
                 ) {
                 },
                 [],
-                [new ClassA()]
+                [new ClassC()]
             ],
             'use_arguments_insted_of_injection' => [
                 function (
-                    #[Inject(ClassA::class)]
+                    #[Inject(ClassC::class)]
                     $a
                 ) {
                 },

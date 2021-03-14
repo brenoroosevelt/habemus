@@ -8,11 +8,11 @@ use Habemus\Autowire\Attributes\Inject;
 trait TraitA
 {
     // @codingStandardsIgnoreStart
-    #[Inject(ClassA::class)]
+    #[Inject(ClassC::class)]
     protected $a;
 
     #[Inject()]
-    protected ClassA $b;
+    protected ClassC $b;
 
     public function a()
     {

@@ -108,9 +108,12 @@ class DefinitionResolverTest extends TestCase
 
     public function testShouldResolveAndShareDefinition()
     {
-        $definition = (new RawDefinition("value"))->setShared(true);
-        $this->definitionResolver->resolve('id1', $definition);
+        $value = new stdClass();
+        $definition = (new RawDefinition($value))->setShared(true);
+        $instance = $this->definitionResolver->resolve('id1', $definition);
         $this->assertTrue($this->resolvedList->has('id1'));
+        $this->assertSame($value, $this->resolvedList->get('id1'));
+        $this->assertSame($value, $instance);
     }
 
     public function testShouldResolveAndAlwaysShareRawDefinition()

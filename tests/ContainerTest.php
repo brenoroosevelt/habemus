@@ -9,7 +9,14 @@ use Habemus\Exception\NotFound;
 use Habemus\ServiceProvider\LazyServiceProvider;
 use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\Test\Fixtures\ClassA;
+use Habemus\Test\Fixtures\ClassC;
+use Habemus\Test\Fixtures\ClassWithAttributes;
+use Habemus\Test\Fixtures\ConstructorSelfDependency;
+use Habemus\Test\Fixtures\DependencyClassA;
+use Habemus\Test\Fixtures\PropertySelfCircularDependency;
+use Habemus\Util\PHPVersion;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
 
 class ContainerTest extends TestCase
 {
@@ -24,10 +31,11 @@ class ContainerTest extends TestCase
         $container = new Container();
         $container->useDefaultShared(true);
         $container->useAutowire(true);
-        $instance = $container->get(ClassA::class);
+        $instance = $container->get(ClassC::class);
         $resolvedList = $this->getPropertyValue($container, 'resolved');
         $this->assertTrue($container->defaultShared());
-        $this->assertSame($resolvedList->get(ClassA::class), $instance);
+        $this->assertTrue($resolvedList->has(ClassC::class));
+        $this->assertSame($resolvedList->get(ClassC::class), $instance);
     }
 
     public function testShouldContainerDisableDefaultShare()
@@ -35,10 +43,10 @@ class ContainerTest extends TestCase
         $container = new Container();
         $container->useDefaultShared(false);
         $container->useAutowire(true);
-        $container->get(ClassA::class);
+        $container->get(ClassC::class);
         $resolvedList = $this->getPropertyValue($container, 'resolved');
         $this->assertFalse($container->defaultShared());
-        $this->assertFalse($resolvedList->has(ClassA::class));
+        $this->assertFalse($resolvedList->has(ClassC::class));
     }
 
     public function testShouldContainerDisableAutowire()
@@ -47,16 +55,16 @@ class ContainerTest extends TestCase
         $container->useAutowire(false);
         $this->assertFalse($container->autowireEnabled());
         $this->expectException(NotFound::class);
-        $container->get(ClassA::class);
+        $container->get(ClassC::class);
     }
 
     public function testShouldContainerEnableAutowire()
     {
         $container = new Container();
         $container->useAutowire(true);
-        $instance = $container->get(ClassA::class);
+        $instance = $container->get(ClassC::class);
         $this->assertTrue($container->autowireEnabled());
-        $this->assertInstanceOf(ClassA::class, $instance);
+        $this->assertInstanceOf(ClassC::class, $instance);
     }
 
     public function testShouldContainerAddDefinitionValue()
@@ -198,5 +206,62 @@ class ContainerTest extends TestCase
         unset($container['id1']);
         $this->assertFalse(isset($container['id1']));
         $this->assertFalse($container->has('id1'));
+    }
+
+    public function testShouldContainerDetectConstructorSelfCircularDependency()
+    {
+        $container = new Container();
+        $this->expectException(RuntimeException::class);
+        $container->get(ConstructorSelfDependency::class);
+    }
+
+    public function testShouldContainerDetectPropertySelfCircularDependency()
+    {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
+            return;
+        }
+
+        $container = new Container();
+        $container->useAttributes(true);
+        $container->useDefaultShared(false); // important! shared instance can avoid circular dependency
+        $this->expectException(RuntimeException::class);
+        var_dump($container->get(PropertySelfCircularDependency::class));
+    }
+
+    public function testShouldContainerDetectCircularDependency()
+    {
+        $container = new Container();
+        $this->expectException(RuntimeException::class);
+        $container->get(DependencyClassA::class);
+    }
+
+    public function testShouldInjectDependenciesOnObjectProperties()
+    {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
+            return;
+        }
+
+        // arrange
+        $container = new Container();
+        $classA = new ClassA();
+        $object = new ClassWithAttributes(1, new ClassA(), 'str');
+        $container->add('id1', 'value1');
+        $container->add(ClassA::class, $classA);
+
+        // action
+        $container->injectDependency($object);
+
+        // assert
+        $this->assertEquals('value1', $object->a());
+        $this->assertEquals('value1', $object->b());
+        $this->assertEquals('value1', $object->c());
+        $this->assertNull($object->d());
+        $this->assertNull($object->e());
+        $this->assertNull($object->f());
+        $this->assertSame($classA, $object->g());
+        $this->assertSame($classA, $object->h());
+        $this->assertSame($classA, $object->i());
     }
 }

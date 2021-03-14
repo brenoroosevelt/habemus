@@ -45,6 +45,7 @@ class AttributesInjection
             if (!$property->isPublic()) {
                 $property->setAccessible(true);
             }
+
             $instance = $this->container->get($injection);
             $property->setValue($object, $instance);
         }
