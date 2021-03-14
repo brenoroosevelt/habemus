@@ -7,6 +7,7 @@ use Habemus\Autowire\Attributes\Inject;
 
 trait TraitA
 {
+    // @codingStandardsIgnoreStart
     #[Inject(ClassA::class)]
     protected $a;
 
@@ -22,4 +23,5 @@ trait TraitA
     {
         return $this->b;
     }
+    // @codingStandardsIgnoreEnd
 }
