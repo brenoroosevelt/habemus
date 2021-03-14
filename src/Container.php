@@ -150,10 +150,6 @@ class Container implements ContainerInterface, ArrayAccess
 
     protected function resolve(string $id)
     {
-        if ($this->delegates->has($id)) {
-            return $this->delegates->get($id);
-        }
-
         $this->providers->registerLazyProviderFor($id);
 
         if ($this->definitions->has($id)) {
@@ -175,6 +171,10 @@ class Container implements ContainerInterface, ArrayAccess
             return $resolved;
         }
 
+        if ($this->delegates->has($id)) {
+            return $this->delegates->get($id);
+        }
+
         throw NotFound::noEntryWasFound($id);
     }
 
@@ -188,14 +188,16 @@ class Container implements ContainerInterface, ArrayAccess
         $this->attributesInjection->injectProperties($object);
     }
 
-    public function addProvider(ServiceProvider ...$providers)
+    public function addProvider(ServiceProvider ...$providers): self
     {
         $this->providers->add(...$providers);
+        return $this;
     }
 
-    public function addDelegate(ContainerInterface ...$container)
+    public function addDelegate(ContainerInterface $container, ?int $priority = null): self
     {
-        $this->delegates->add(...$container);
+        $this->delegates->add($container, $priority);
+        return $this;
     }
 
     public function useDefaultShared(bool $share): self

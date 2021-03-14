@@ -127,4 +127,53 @@ class ContainerTest extends TestCase
         $this->assertTrue($container->has('id1'));
         $this->assertEquals('value1', $container->get('id1'));
     }
+
+    public function testShouldContainerAddDelegateContainerWithPriority()
+    {
+        $delegate1 = $this->newContainerPsr11(['id1' => 'value1']);
+        $delegate2 = $this->newContainerPsr11(['id1' => 'value2']);
+        $delegate3 = $this->newContainerPsr11(['id1' => 'value3']);
+        $container = new Container();
+        $container->addDelegate($delegate1, 2);
+        $container->addDelegate($delegate2, 1);
+        $container->addDelegate($delegate3, 3);
+        $this->assertTrue($container->has('id1'));
+        $this->assertEquals('value2', $container->get('id1'));
+    }
+
+    public function testShouldContainerTakePriorityOverDelegates()
+    {
+        $delegate1 = $this->newContainerPsr11(['id1' => 'value1']);
+        $delegate2 = $this->newContainerPsr11(['id1' => 'value2']);
+        $delegate3 = $this->newContainerPsr11(['id1' => 'value3']);
+        $container = new Container();
+        $container->addDelegate($delegate1, 2);
+        $container->addDelegate($delegate2, 1);
+        $container->addDelegate($delegate3, 3);
+        $container->add('id1', function () {
+            return 'value4';
+        });
+        $this->assertTrue($container->has('id1'));
+        $this->assertEquals('value4', $container->get('id1'));
+    }
+
+    public function testShouldContainerResolveTaggedDefinitions()
+    {
+        $container = new Container();
+        $container->add('id1', 1)->addTag('tag1', 'tag2');
+        $container->add('id2', 2)->addTag('tag2');
+        $container->add('id3', 3)->addTag('tag1', 'tag3');
+
+        $this->assertTrue($container->has('id1'));
+        $this->assertTrue($container->has('id2'));
+        $this->assertTrue($container->has('id3'));
+
+        $this->assertTrue($container->has('tag1'));
+        $this->assertTrue($container->has('tag2'));
+        $this->assertTrue($container->has('tag3'));
+
+        $this->assertEquals([1, 3], $container->get('tag1'));
+        $this->assertEquals([1, 2], $container->get('tag2'));
+        $this->assertEquals([3], $container->get('tag3'));
+    }
 }
