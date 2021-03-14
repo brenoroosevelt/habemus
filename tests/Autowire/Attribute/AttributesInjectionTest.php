@@ -8,6 +8,7 @@ use Habemus\Autowire\Attributes\Inject;
 use Habemus\Autowire\Reflector;
 use Habemus\Container;
 use Habemus\Test\Fixtures\ClassA;
+use Habemus\Test\Fixtures\ClassUseTrait;
 use Habemus\Test\Fixtures\ClassWithAttributes;
 use Habemus\Test\TestCase;
 use Habemus\Util\PHPVersion;
@@ -207,7 +208,14 @@ class AttributesInjectionTest extends TestCase
 
     public function testShouldInjectOnTraitProperties()
     {
-        //TODO
-        $this->markTestIncomplete('TODO');
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
+            return;
+        }
+
+        $object = new ClassUseTrait();
+        $this->attributesInjection->injectProperties($object);
+        $this->assertInstanceOf(ClassA::class, $object->a());
+        $this->assertInstanceOf(ClassA::class, $object->b());
     }
 }

@@ -76,7 +76,8 @@ class ReflectionClassResolver implements ClassResolver
             // pre-defined arguments
             if (array_key_exists($name, $arguments)) {
                 if ($parameter->isVariadic()) {
-                    $result = array_merge($result, $arguments[$name]);
+                    $_argument = !is_array($arguments[$name]) ? [$arguments[$name]] : $arguments[$name];
+                    $result = array_merge($result, $_argument);
                 } else {
                     $result[] = $arguments[$name];
                 }
@@ -86,7 +87,10 @@ class ReflectionClassResolver implements ClassResolver
             // #[Inject(...)]
             if ($this->container->attributesEnabled()) {
                 $inject = $this->injection->getInjection($parameter);
-                if ($inject && $this->container->has($inject)) {
+                if ($inject !== null) {
+                    if (!$this->container->has($inject)) {
+                        throw UnresolvableParameter::createForFunction($function, $name);
+                    }
                     $result[] = $this->container->get($inject);
                     continue;
                 }
