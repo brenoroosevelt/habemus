@@ -11,7 +11,7 @@ use Habemus\Autowire\ReflectionClassResolver;
 use Habemus\Autowire\Reflector;
 use Habemus\Container;
 use Habemus\Exception\NotFound;
-use Habemus\Exception\NotInstatiable;
+use Habemus\Exception\NotInstantiable;
 use Habemus\Exception\UnresolvableParameter;
 use Habemus\Test\Fixtures\AbstractClass;
 use Habemus\Test\Fixtures\ClassA;
@@ -79,13 +79,13 @@ class ReflectionClassResolverTest extends TestCase
 
     public function testShouldGetErrorIfTryInstantiateAbstractClass()
     {
-        $this->expectException(NotInstatiable::class);
+        $this->expectException(NotInstantiable::class);
         $this->classResolver->resolveClass(AbstractClass::class);
     }
 
     public function testShouldGetErrorIfTryInstantiatePrivateConstructor()
     {
-        $this->expectException(NotInstatiable::class);
+        $this->expectException(NotInstantiable::class);
         $this->classResolver->resolveClass(PrivateConstructor::class);
     }
 

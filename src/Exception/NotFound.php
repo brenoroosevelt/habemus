@@ -8,23 +8,15 @@ use Throwable;
 
 class NotFound extends \RuntimeException implements NotFoundExceptionInterface
 {
-    /**
-     * @var string
-     */
-    protected $id;
-
     public function __construct(string $id, $message = "", $code = 0, Throwable $previous = null)
     {
-        $this->id =$id;
+        $message = $message ? $message : sprintf("No entry was found in the container for id (%s)", $id);
         parent::__construct($message, $code, $previous);
     }
 
     public static function noEntryWasFound(string $id): self
     {
-        return new static(
-            $id,
-            sprintf("No entry was found in the container for id (%s)", $id)
-        );
+        return new static($id);
     }
 
     public static function classNotFound(string $class): self
@@ -33,10 +25,5 @@ class NotFound extends \RuntimeException implements NotFoundExceptionInterface
             $class,
             sprintf("Class not found (%s)", $class)
         );
-    }
-
-    public function id(): string
-    {
-        return $this->id;
     }
 }

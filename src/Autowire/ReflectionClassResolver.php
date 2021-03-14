@@ -6,7 +6,7 @@ namespace Habemus\Autowire;
 use Habemus\Autowire\Attributes\AttributesInjection;
 use Habemus\Container;
 use Habemus\Exception\NotFound;
-use Habemus\Exception\NotInstatiable;
+use Habemus\Exception\NotInstantiable;
 use Habemus\Exception\UnresolvableParameter;
 use ReflectionClass;
 use ReflectionException;
@@ -47,7 +47,7 @@ class ReflectionClassResolver implements ClassResolver
 
         $class = new ReflectionClass($className);
         if (!$class->isInstantiable()) {
-            throw NotInstatiable::classCannotBeInstantiated($className);
+            throw new NotInstantiable($className);
         }
 
         $constructor = $class->getConstructor();
@@ -73,7 +73,6 @@ class ReflectionClassResolver implements ClassResolver
         foreach ($function->getParameters() as $parameter) {
             $name = $parameter->getName();
 
-            // pre-defined arguments
             if (array_key_exists($name, $arguments)) {
                 if ($parameter->isVariadic()) {
                     $_argument = !is_array($arguments[$name]) ? [$arguments[$name]] : $arguments[$name];
@@ -84,7 +83,6 @@ class ReflectionClassResolver implements ClassResolver
                 continue;
             }
 
-            // #[Inject(...)]
             if ($this->container->attributesEnabled()) {
                 $inject = $this->injection->getInjection($parameter);
                 if ($inject !== null) {
@@ -96,24 +94,20 @@ class ReflectionClassResolver implements ClassResolver
                 }
             }
 
-            // fn($x=1), fn($x=null), fn(?int $x = 1), fn(?int $x = null)
             if ($parameter->isDefaultValueAvailable()) {
-                    $result[] = $parameter->getDefaultValue();
-                    continue;
+                $result[] = $parameter->getDefaultValue();
+                continue;
             }
 
-            // fn($x, $y),fn(?int $x)
             if ($parameter->allowsNull() && !$parameter->isOptional()) {
                 $result[] = null;
                 continue;
             }
 
-            // fn($x = null, string ...$y), fn(?int ...$y)
             if ($parameter->isOptional()) {
                 continue;
             }
 
-            // fn(User $user)
             $typeHint = $this->reflector->getTypeHint($parameter, false);
             if ($typeHint && $this->container->has($typeHint)) {
                 $result[] = $this->container->get($typeHint);
