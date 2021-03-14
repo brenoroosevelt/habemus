@@ -13,17 +13,17 @@ class Reflector
 {
     /**
      * @param ReflectionParameter|ReflectionProperty $subject
-     * @param bool $primitives
+     * @param bool $detectPrimitiveTypes
      * @return string|null
      */
-    public function getTypeHint($subject, bool $primitives = true): ?string
+    public function getTypeHint($subject, bool $detectPrimitiveTypes = true): ?string
     {
         $type = $subject->getType();
         if (! $type instanceof ReflectionNamedType) {
             return null;
         }
 
-        if ($type->isBuiltin() && !$primitives) {
+        if ($type->isBuiltin() && !$detectPrimitiveTypes) {
             return null;
         }
 
@@ -38,7 +38,7 @@ class Reflector
     /**
      * @param ReflectionParameter|ReflectionProperty $subject
      * @param string $attribute
-     * @return null
+     * @return mixed
      */
     public function getFirstAttribute($subject, string $attribute)
     {

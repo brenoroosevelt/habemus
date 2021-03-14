@@ -199,9 +199,15 @@ class AttributesInjectionTest extends TestCase
         $this->attributesInjection->injectProperties($object); // 'id1' does not exists
     }
 
-    public function testShouldGetErrorIfTryingInjectNonObject()
+    public function testShouldGetErrorIfTryInjectOnNonObject()
     {
         $this->expectException(LogicException::class);
         $this->attributesInjection->injectProperties(123);
+    }
+
+    public function testShouldInjectOnTraitProperties()
+    {
+        //TODO
+        $this->markTestIncomplete('TODO');
     }
 }

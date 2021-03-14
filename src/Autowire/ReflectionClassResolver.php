@@ -67,7 +67,7 @@ class ReflectionClassResolver implements ClassResolver
      * @return array
      * @throws ReflectionException
      */
-    protected function resolveParameters(ReflectionFunctionAbstract $function, $arguments = []): array
+    public function resolveParameters(ReflectionFunctionAbstract $function, $arguments = []): array
     {
         $result = [];
         foreach ($function->getParameters() as $parameter) {
