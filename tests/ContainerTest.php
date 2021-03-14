@@ -9,9 +9,7 @@ use Habemus\Exception\NotFound;
 use Habemus\ServiceProvider\LazyServiceProvider;
 use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\Test\Fixtures\ClassA;
-use Habemus\Util\PHPVersion;
 use Psr\Container\ContainerInterface;
-use ReflectionClass;
 
 class ContainerTest extends TestCase
 {
@@ -69,7 +67,7 @@ class ContainerTest extends TestCase
         $this->assertEquals('value1', $container->get('id1'));
     }
 
-    public function testShouldContainerAddDefinition()
+    public function testShouldContainerAddGetDefinition()
     {
         $container = new Container();
         $container->add('id1', new RawDefinition('value1'));
@@ -175,5 +173,30 @@ class ContainerTest extends TestCase
         $this->assertEquals([1, 3], $container->get('tag1'));
         $this->assertEquals([1, 2], $container->get('tag2'));
         $this->assertEquals([3], $container->get('tag3'));
+    }
+
+    public function testShouldContainerAddGetArrayAccess()
+    {
+        $container = new Container();
+        $container['id1'] = 'value1';
+        $this->assertEquals('value1', $container['id1']);
+        $this->assertEquals('value1', $container->get('id1'));
+    }
+
+    public function testShouldContainerCheckArrayAccess()
+    {
+        $container = new Container();
+        $container['id1'] = 'value1';
+        $this->assertTrue(isset($container['id1']));
+        $this->assertTrue($container->has('id1'));
+    }
+
+    public function testShouldContainerDeleteArrayAccess()
+    {
+        $container = new Container();
+        $container['id1'] = 'value1';
+        unset($container['id1']);
+        $this->assertFalse(isset($container['id1']));
+        $this->assertFalse($container->has('id1'));
     }
 }
