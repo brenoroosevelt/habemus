@@ -83,6 +83,14 @@ class ContainerTest extends TestCase
         $this->assertEquals('value1', $container->get('id1'));
     }
 
+    public function testShouldContainerAddGetClassDefinition()
+    {
+        $container = new Container();
+        $container->add('id1', ClassC::class);
+        $this->assertTrue($container->has('id1'));
+        $this->assertInstanceOf(ClassC::class, $container->get('id1'));
+    }
+
     public function testShouldContainerAddRawDefinitionAsResolved()
     {
         $container = new Container();
