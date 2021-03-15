@@ -9,7 +9,8 @@ interface ClassResolver
      * Try to get an instance of a given class
      * @param string $className Qualified class name
      * @param array $constructorArguments Pre-defined constructor arguments
-     * @return mixed An instace
+     * @return mixed An instance
      */
     public function resolveClass(string $className, array $constructorArguments = []);
+    public function canResolve(string $clasName): bool;
 }

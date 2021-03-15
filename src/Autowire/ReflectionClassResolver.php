@@ -119,4 +119,9 @@ class ReflectionClassResolver implements ClassResolver
 
         return $result;
     }
+
+    public function canResolve(string $clasName): bool
+    {
+        return class_exists($clasName);
+    }
 }

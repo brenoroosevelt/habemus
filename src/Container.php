@@ -238,7 +238,7 @@ class Container implements ContainerInterface, ArrayAccess
 
     protected function shouldAutowireResolve($id): bool
     {
-        return $this->useAutowire && class_exists($id);
+        return $this->useAutowire && $this->classResolver->canResolve($id);
     }
 
     public function offsetExists($offset): bool
