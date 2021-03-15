@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Definition\Available;
 
+use Habemus\Autowire\ClassResolver;
 use Habemus\Container;
 use Habemus\Definition\Definition;
 use Habemus\Definition\MethodCall\CallableMethod;
@@ -30,10 +31,21 @@ class ClassDefinition implements Definition, Shareable, CallableMethod, Taggable
      */
     protected $constructorParameters;
 
+    /**
+     * @var ClassResolver|null
+     */
+    protected $classResolver;
+
     public function __construct(string $class, array $constructor = [])
     {
         $this->class = $class;
         $this->constructorParameters = $constructor;
+    }
+
+    public function setClassResolver(ClassResolver $classResolver): self
+    {
+        $this->classResolver = $classResolver;
+        return $this;
     }
 
     public function constructor(string $param, $value): self
@@ -54,11 +66,11 @@ class ClassDefinition implements Definition, Shareable, CallableMethod, Taggable
 
     public function getConcrete(ContainerInterface $container)
     {
-        if (! $container instanceof Container) {
-            throw new RuntimeException('Invalid container.');
+        if ($this->classResolver === null) {
+            throw new RuntimeException('Invalid class resolver.');
         }
 
         $arguments = (new ArrayDefinition($this->constructorParameters))->getConcrete($container);
-        return $container->getClassResolver()->resolveClass($this->class, $arguments);
+        return $this->classResolver->resolveClass($this->class, $arguments);
     }
 }

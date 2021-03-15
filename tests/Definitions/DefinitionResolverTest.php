@@ -77,16 +77,14 @@ class DefinitionResolverTest extends TestCase
             'id1' => new RawDefinition(1),
             'id2' => new FnDefinition(function () {
                 return new stdClass();
-            }),
-            'id3' => new ClassDefinition(ClassA::class)
+            })
         ];
 
         $this->container->useAttributes(false);
         $resolved = $this->definitionResolver->resolveMany($definitions);
-        $this->assertCount(3, $resolved);
+        $this->assertCount(2, $resolved);
         $this->assertEquals(1, $resolved[0]);
         $this->assertInstanceOf(stdClass::class, $resolved[1]);
-        $this->assertInstanceOf(ClassA::class, $resolved[2]);
     }
 
     public function testShouldResolveManyDefinitionsSharing()
@@ -95,15 +93,13 @@ class DefinitionResolverTest extends TestCase
             'id1' => (new RawDefinition(1))->setShared(true),
             'id2' => (new FnDefinition(function () {
                 return new stdClass();
-            }))->setShared(true),
-            'id3' => (new ClassDefinition(ClassA::class))->setShared(true)
+            }))->setShared(true)
         ];
 
         $this->container->useAttributes(false);
         $this->definitionResolver->resolveMany($definitions);
         $this->assertTrue($this->resolvedList->has('id1'));
         $this->assertTrue($this->resolvedList->has('id2'));
-        $this->assertTrue($this->resolvedList->has('id3'));
     }
 
     public function testShouldResolveAndShareDefinition()

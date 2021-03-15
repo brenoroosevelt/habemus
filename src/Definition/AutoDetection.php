@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Definition;
 
 use Closure;
+use Habemus\Autowire\ClassResolver;
 use Habemus\Container;
 use Habemus\Definition\Available\ArrayDefinition;
 use Habemus\Definition\Available\IdDefinition;
@@ -44,13 +45,13 @@ class AutoDetection implements DefinitionDetection
         }
 
         if (is_array($value)) {
-            $hasDefinition = false;
-            array_walk_recursive($value, function ($item) use (&$hasDefinition) {
+            $hasDefinitionInside = false;
+            array_walk_recursive($value, function ($item) use (&$hasDefinitionInside) {
                 if ($item instanceof IdDefinition) {
-                    $hasDefinition = true;
+                    $hasDefinitionInside = true;
                 }
             });
-            if ($hasDefinition) {
+            if ($hasDefinitionInside) {
                 return new ArrayDefinition($value, true);
             }
         }

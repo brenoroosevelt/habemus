@@ -122,6 +122,10 @@ class Container implements ContainerInterface, ArrayAccess
             $this->resolved->share($id, $definition->getValue());
         }
 
+        if ($definition instanceof ClassDefinition) {
+            $definition->setClassResolver($this->classResolver);
+        }
+
         return new DefinitionWrapper($definition);
     }
 
@@ -164,7 +168,10 @@ class Container implements ContainerInterface, ArrayAccess
         }
 
         if ($this->shouldAutowireResolve($id)) {
-            $definition = (new ClassDefinition($id))->setShared($this->defaultShared);
+            $definition =
+                (new ClassDefinition($id))
+                    ->setShared($this->defaultShared)
+                    ->setClassResolver($this->classResolver);
             return $this->definitionResolver->resolve($id, $definition);
         }
 
@@ -173,11 +180,6 @@ class Container implements ContainerInterface, ArrayAccess
         }
 
         throw NotFound::noEntryWasFound($id);
-    }
-
-    public function getClassResolver(): ClassResolver
-    {
-        return $this->classResolver;
     }
 
     public function injectDependency($object)
