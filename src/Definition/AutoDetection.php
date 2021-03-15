@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace Habemus\Definition;
 
 use Closure;
-use Habemus\Autowire\ClassResolver;
 use Habemus\Container;
 use Habemus\Definition\Available\ArrayDefinition;
 use Habemus\Definition\Available\IdDefinition;
-use Habemus\Definition\Definition;
-use Habemus\Definition\DefinitionDetection;
 use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\FnDefinition;
 use Habemus\Definition\Available\RawDefinition;
