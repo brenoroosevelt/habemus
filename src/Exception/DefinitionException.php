@@ -74,7 +74,7 @@ class DefinitionException extends Exception implements ContainerExceptionInterfa
     protected static function format(Definition $definition): string
     {
         $type = get_class($definition);
-        $id = $definition instanceof Identifiable && $definition->getIdentity();
+        $id = $definition instanceof Identifiable ? $definition->getIdentity() : null;
         $format = "definition of " . ($id !== null ? "id" : "type") . "(%s).";
         return sprintf($format, ($id !== null ? $id : $type));
     }

@@ -61,7 +61,7 @@ class DefinitionResolver implements DefinitionResolverInterface
      */
     public function resolveMany(array $definitions = []): array
     {
-        $filteredDefnitions
+        $filteredDefinitions
             = array_filter(
                 $definitions,
                 function ($definition) {
@@ -73,8 +73,8 @@ class DefinitionResolver implements DefinitionResolverInterface
             function (Definition $definition, $id) {
                 return $this->resolve($id, $definition);
             },
-            $filteredDefnitions,
-            array_keys($filteredDefnitions)
+            $filteredDefinitions,
+            array_keys($filteredDefinitions)
         );
     }
 
