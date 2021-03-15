@@ -10,5 +10,9 @@ interface Identifiable
      * @return self
      */
     public function setIdentity(string $id);
+
+    /**
+     * @return string|null
+     */
     public function getIdentity(): ?string;
 }
