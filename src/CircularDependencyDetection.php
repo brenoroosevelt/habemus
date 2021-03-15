@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus;
 
 use Closure;
+use Habemus\Exception\CircularDependencyException;
 use RuntimeException;
 
 class CircularDependencyDetection
@@ -16,7 +17,7 @@ class CircularDependencyDetection
     public function execute($id, Closure $process)
     {
         if ($this->isExecuting($id)) {
-            throw new RuntimeException(sprintf("Circular dependency detected for id (%s).", $id));
+            throw CircularDependencyException::forId($id, array_keys($this->executing));
         }
 
         $this->acquire($id);

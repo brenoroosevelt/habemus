@@ -50,7 +50,7 @@ class DefinitionResolver implements DefinitionResolverInterface
         }
 
         if ($this->shouldInjectPropertyDependencies($instance, $definition)) {
-            $this->attributesInjection->injectProperties($instance);
+            $this->attributesInjection->inject($instance);
         }
 
         return $instance;

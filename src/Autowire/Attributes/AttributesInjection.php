@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Habemus\Autowire\Attributes;
 
+use Exception;
 use Habemus\Autowire\Reflector;
+use Habemus\Exception\InjectionException;
+use LogicException;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionParameter;
@@ -27,12 +30,10 @@ class AttributesInjection
         $this->container = $container;
     }
 
-    public function injectProperties($object)
+    public function inject($object)
     {
         if (!is_object($object)) {
-            throw new \LogicException(
-                sprintf("Cannot inject dependencies. Expected object. Got: %s", gettype($object))
-            );
+            throw InjectionException::notAnObject($object);
         }
 
         $this->reflector->assertAttributesAvailable();
@@ -44,6 +45,10 @@ class AttributesInjection
 
             if (!$property->isPublic()) {
                 $property->setAccessible(true);
+            }
+
+            if (!$this->container->has($injection)) {
+                throw InjectionException::unresolvablePropertyInjection($property, $object);
             }
 
             $instance = $this->container->get($injection);
@@ -68,6 +73,11 @@ class AttributesInjection
             return $inject->getId();
         }
 
-        return $this->reflector->getTypeHint($subject, false);
+        $typeHint = $this->reflector->getTypeHint($subject, false);
+        if ($typeHint === null) {
+            throw InjectionException::indeterminateInjection($subject);
+        }
+
+        return $typeHint;
     }
 }

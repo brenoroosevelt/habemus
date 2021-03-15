@@ -5,7 +5,8 @@ namespace Habemus\Test;
 
 use Habemus\Container;
 use Habemus\Definition\Available\RawDefinition;
-use Habemus\Exception\NotFound;
+use Habemus\Exception\CircularDependencyException;
+use Habemus\Exception\NotFoundException;
 use Habemus\ServiceProvider\LazyServiceProvider;
 use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\Test\Fixtures\ClassA;
@@ -54,7 +55,7 @@ class ContainerTest extends TestCase
         $container = new Container();
         $container->useAutowire(false);
         $this->assertFalse($container->autowireEnabled());
-        $this->expectException(NotFound::class);
+        $this->expectException(NotFoundException::class);
         $container->get(ClassC::class);
     }
 
@@ -219,7 +220,7 @@ class ContainerTest extends TestCase
     public function testShouldContainerDetectConstructorSelfCircularDependency()
     {
         $container = new Container();
-        $this->expectException(RuntimeException::class);
+        $this->expectException(CircularDependencyException::class);
         $container->get(ConstructorSelfDependency::class);
     }
 
@@ -233,14 +234,14 @@ class ContainerTest extends TestCase
         $container = new Container();
         $container->useAttributes(true);
         $container->useDefaultShared(false); // important! shared instance can avoid circular dependency
-        $this->expectException(RuntimeException::class);
+        $this->expectException(CircularDependencyException::class);
         var_dump($container->get(PropertySelfCircularDependency::class));
     }
 
     public function testShouldContainerDetectCircularDependency()
     {
         $container = new Container();
-        $this->expectException(RuntimeException::class);
+        $this->expectException(CircularDependencyException::class);
         $container->get(DependencyClassA::class);
     }
 
@@ -256,6 +257,7 @@ class ContainerTest extends TestCase
         $classA = new ClassA();
         $object = new ClassWithAttributes(1, new ClassA(), 'str');
         $container->add('id1', 'value1');
+        $container->add('id2', 'value2');
         $container->add(ClassA::class, $classA);
 
         // action
@@ -265,9 +267,9 @@ class ContainerTest extends TestCase
         $this->assertEquals('value1', $object->a());
         $this->assertEquals('value1', $object->b());
         $this->assertEquals('value1', $object->c());
-        $this->assertNull($object->d());
-        $this->assertNull($object->e());
-        $this->assertNull($object->f());
+        $this->assertEquals('value2', $object->d());
+        $this->assertEquals('value2', $object->e());
+        $this->assertEquals('value2', $object->f());
         $this->assertSame($classA, $object->g());
         $this->assertSame($classA, $object->h());
         $this->assertSame($classA, $object->i());

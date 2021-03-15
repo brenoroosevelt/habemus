@@ -320,15 +320,15 @@ class ReflectorTest extends TestCase
             ],
             'injection_d' => [
                 $properties[3],
-                new Inject(),
+                new Inject('id2'),
             ],
             'injection_e' => [
                 $properties[4],
-                new Inject(),
+                new Inject('id2'),
             ],
             'injection_f' => [
                 $properties[5],
-                new Inject(),
+                new Inject('id2'),
             ],
             'injection_g' => [
                 $properties[6],
@@ -374,7 +374,7 @@ class ReflectorTest extends TestCase
             ],
             'param_3' => [
                 $parametes[2],
-                new Inject(),
+                new Inject('id2'),
             ]
         ];
     }

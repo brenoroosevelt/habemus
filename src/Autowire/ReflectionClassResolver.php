@@ -5,8 +5,8 @@ namespace Habemus\Autowire;
 
 use Habemus\Autowire\Attributes\AttributesInjection;
 use Habemus\Container;
-use Habemus\Exception\NotFound;
-use Habemus\Exception\NotInstantiable;
+use Habemus\Exception\NotFoundException;
+use Habemus\Exception\NotInstantiableException;
 use Habemus\Exception\UnresolvableParameter;
 use ReflectionClass;
 use ReflectionException;
@@ -42,12 +42,12 @@ class ReflectionClassResolver implements ClassResolver
     public function resolveClass(string $className, array $constructorArguments = [])
     {
         if (!class_exists($className)) {
-            throw NotFound::classNotFound($className);
+            throw NotFoundException::classNotFound($className);
         }
 
         $class = new ReflectionClass($className);
         if (!$class->isInstantiable()) {
-            throw new NotInstantiable($className);
+            throw new NotInstantiableException($className);
         }
 
         $constructor = $class->getConstructor();
@@ -120,8 +120,8 @@ class ReflectionClassResolver implements ClassResolver
         return $result;
     }
 
-    public function canResolve(string $clasName): bool
+    public function canResolve(string $className): bool
     {
-        return class_exists($clasName);
+        return class_exists($className);
     }
 }

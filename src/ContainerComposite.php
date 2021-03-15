@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus;
 
-use Habemus\Exception\NotFound;
+use Habemus\Exception\NotFoundException;
 use Habemus\Util\Lists\ObjectPriorityList;
 use Psr\Container\ContainerInterface;
 
@@ -70,7 +70,7 @@ class ContainerComposite implements ContainerInterface
             }
         }
 
-        throw NotFound::noEntryWasFound($id);
+        throw NotFoundException::noEntryWasFound($id);
     }
 
     public function getLowestPriority(): int

@@ -16,13 +16,13 @@ class ClassWithAttributes
     #[Inject('id1')]
     private $c;
 
-    #[Inject]
+    #[Inject('id2')]
     public $d;
 
-    #[Inject]
+    #[Inject('id2')]
     protected $e;
 
-    #[Inject]
+    #[Inject('id2')]
     private $f;
 
     #[Inject(ClassA::class)]
@@ -34,7 +34,7 @@ class ClassWithAttributes
     #[Inject]
     private ClassA $i;
 
-    public function __construct(#[Inject('id1')] $a, #[Inject] ClassA $classA, #[Inject] string $str)
+    public function __construct(#[Inject('id1')] $a, #[Inject] ClassA $classA, #[Inject('id2')] string $str)
     {
     }
 

@@ -5,7 +5,7 @@ namespace Habemus\Test\Definitions\Available;
 
 use Habemus\Container;
 use Habemus\Definition\Available\IterateDefinition;
-use Habemus\Exception\NotFound;
+use Habemus\Exception\NotFoundException;
 use Habemus\Test\TestCase;
 
 class IterateDefinitionTest extends TestCase
@@ -35,7 +35,7 @@ class IterateDefinitionTest extends TestCase
         $container->add('id1', 10);
         $container->add('id2', 20);
         $definition = new IterateDefinition('id1', 'id2', 'id3');
-        $this->expectException(NotFound::class);
+        $this->expectException(NotFoundException::class);
         foreach ($definition->getConcrete($container) as $item) {
         }
     }

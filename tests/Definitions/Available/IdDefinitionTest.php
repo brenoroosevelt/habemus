@@ -5,7 +5,7 @@ namespace Habemus\Test\Definitions\Available;
 
 use Habemus\Container;
 use Habemus\Definition\Available\IdDefinition;
-use Habemus\Exception\NotFound;
+use Habemus\Exception\NotFoundException;
 use Habemus\Test\TestCase;
 
 class IdDefinitionTest extends TestCase
@@ -33,7 +33,7 @@ class IdDefinitionTest extends TestCase
     public function testShouldGetErrorIfIdDefinitionNotExists()
     {
         $definition = new IdDefinition('id1');
-        $this->expectException(NotFound::class);
+        $this->expectException(NotFoundException::class);
         $definition->getConcrete(new Container());
     }
 }

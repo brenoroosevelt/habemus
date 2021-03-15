@@ -12,6 +12,7 @@ use Habemus\Definition\Available\IdDefinition;
 use Habemus\Definition\Available\IdsDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\Available\IterateDefinition;
+use Habemus\Exception\InvalidDefinitionException;
 
 /**
  * @method static IdDefinition id(string $id)
@@ -31,7 +32,7 @@ trait DefinitionFactory
         $namespace = __NAMESPACE__ . "\\Available";
         $class = sprintf("%s\%sDefinition", $namespace, ucfirst($name));
         if (!class_exists($class)) {
-            throw new \RuntimeException(sprintf("Definition type (%s) not found.", $name));
+            throw InvalidDefinitionException::unavailable($name);
         }
 
         return new $class(...$arguments);

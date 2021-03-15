@@ -10,8 +10,8 @@ use Habemus\Autowire\Attributes\Inject;
 use Habemus\Autowire\ReflectionClassResolver;
 use Habemus\Autowire\Reflector;
 use Habemus\Container;
-use Habemus\Exception\NotFound;
-use Habemus\Exception\NotInstantiable;
+use Habemus\Exception\NotFoundException;
+use Habemus\Exception\NotInstantiableException;
 use Habemus\Exception\UnresolvableParameter;
 use Habemus\Test\Fixtures\AbstractClass;
 use Habemus\Test\Fixtures\ClassA;
@@ -68,25 +68,25 @@ class ReflectionClassResolverTest extends TestCase
 
     public function testShouldGetErrorIfTryInstantiateUnknownClass()
     {
-        $this->expectException(NotFound::class);
+        $this->expectException(NotFoundException::class);
         $this->classResolver->resolveClass('UnknownClass');
     }
 
     public function testShouldGetErrorIfTryInstantiateInterface()
     {
-        $this->expectException(NotFound::class);
+        $this->expectException(NotFoundException::class);
         $this->classResolver->resolveClass(GenericInterface::class);
     }
 
     public function testShouldGetErrorIfTryInstantiateAbstractClass()
     {
-        $this->expectException(NotInstantiable::class);
+        $this->expectException(NotInstantiableException::class);
         $this->classResolver->resolveClass(AbstractClass::class);
     }
 
     public function testShouldGetErrorIfTryInstantiatePrivateConstructor()
     {
-        $this->expectException(NotInstantiable::class);
+        $this->expectException(NotInstantiableException::class);
         $this->classResolver->resolveClass(PrivateConstructor::class);
     }
 

@@ -12,6 +12,7 @@ use Habemus\Definition\Available\IdsDefinition;
 use Habemus\Definition\Available\IterateDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\DefinitionFactory;
+use Habemus\Exception\InvalidDefinitionException;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\Fixtures\FactoryClass;
 use Habemus\Test\TestCase;
@@ -71,7 +72,7 @@ class DefinitionFactoryTest extends TestCase
 
     public function testShouldGetErrorUndefinedDefinition()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidDefinitionException::class);
         DefinitionFactory::undefined('id1', 'id2');
     }
 }

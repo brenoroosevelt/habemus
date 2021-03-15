@@ -10,7 +10,7 @@ use Habemus\Autowire\Reflector;
 use Habemus\Container;
 use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\DefinitionResolver;
-use Habemus\Exception\NotFound;
+use Habemus\Exception\NotFoundException;
 use Habemus\Exception\UnresolvableParameter;
 use Habemus\ResolvedList;
 use Habemus\Test\Fixtures\ClassB;
@@ -108,7 +108,7 @@ class ClassDefinitionTest extends TestCase
         $definition =
             (new ClassDefinition('UnknownClass'))
                 ->setClassResolver($this->classResolver);
-        $this->expectException(NotFound::class);
+        $this->expectException(NotFoundException::class);
         $definition->getConcrete($this->container);
     }
 

@@ -17,7 +17,8 @@ use Habemus\Definition\DefinitionList;
 use Habemus\Definition\DefinitionResolver;
 use Habemus\Definition\DefinitionResolverInterface;
 use Habemus\Definition\DefinitionWrapper;
-use Habemus\Exception\NotFound;
+use Habemus\Definition\Identifiable\Identifiable;
+use Habemus\Exception\NotFoundException;
 use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\ServiceProvider\ServiceProviderManager;
 use Psr\Container\ContainerInterface;
@@ -118,6 +119,10 @@ class Container implements ContainerInterface, ArrayAccess
         $this->resolved->delete($id);
         $this->definitions->add($id, $definition);
 
+        if ($definition instanceof Identifiable) {
+            $definition->setIdentity($id);
+        }
+
         if ($definition instanceof RawDefinition) {
             $this->resolved->share($id, $definition->getValue());
         }
@@ -170,6 +175,7 @@ class Container implements ContainerInterface, ArrayAccess
         if ($this->shouldAutowireResolve($id)) {
             $definition =
                 (new ClassDefinition($id))
+                    ->setIdentity($id)
                     ->setShared($this->defaultShared)
                     ->setClassResolver($this->classResolver);
             return $this->definitionResolver->resolve($id, $definition);
@@ -179,12 +185,12 @@ class Container implements ContainerInterface, ArrayAccess
             return $this->delegates->get($id);
         }
 
-        throw NotFound::noEntryWasFound($id);
+        throw NotFoundException::noEntryWasFound($id);
     }
 
     public function injectDependency($object)
     {
-        $this->attributesInjection->injectProperties($object);
+        $this->attributesInjection->inject($object);
     }
 
     public function addProvider(ServiceProvider ...$providers): self

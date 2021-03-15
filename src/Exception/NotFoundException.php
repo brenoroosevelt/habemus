@@ -6,7 +6,7 @@ namespace Habemus\Exception;
 use Psr\Container\NotFoundExceptionInterface;
 use Throwable;
 
-class NotFound extends \RuntimeException implements NotFoundExceptionInterface
+class NotFoundException extends \RuntimeException implements NotFoundExceptionInterface
 {
     public function __construct(string $id, $message = "", $code = 0, Throwable $previous = null)
     {

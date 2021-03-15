@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Habemus\Test;
 
+use Exception;
 use Habemus\CircularDependencyDetection;
+use Habemus\Exception\CircularDependencyException;
 use LogicException;
 use RuntimeException;
 
@@ -13,7 +15,7 @@ class CircularDependencyDetectionTest extends TestCase
     {
         $cdd = new CircularDependencyDetection();
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(CircularDependencyException::class);
         $cdd->execute(1, function () use ($cdd) {
              $cdd->execute(1, function () {
              });
@@ -23,7 +25,7 @@ class CircularDependencyDetectionTest extends TestCase
     public function testShouldDetectNestedCircularDependency()
     {
         $cdd = new CircularDependencyDetection();
-        $this->expectException(RuntimeException::class);
+        $this->expectException(CircularDependencyException::class);
         $cdd->execute(1, function () use ($cdd) {
             $cdd->execute(2, function () use ($cdd) {
                 $cdd->execute(1, function () {
@@ -71,7 +73,7 @@ class CircularDependencyDetectionTest extends TestCase
             $cdd->execute(1, function () use ($cdd) {
                 throw new LogicException("exception");
             });
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->assertFalse($cdd->isExecuting(1));
         }
     }
@@ -87,10 +89,27 @@ class CircularDependencyDetectionTest extends TestCase
                     });
                 });
             });
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->assertFalse($cdd->isExecuting(1));
             $this->assertFalse($cdd->isExecuting(2));
             $this->assertFalse($cdd->isExecuting(3));
+        }
+    }
+
+    public function testShouldCircularDependencyExceptionGetExecutionStack()
+    {
+        $cdd = new CircularDependencyDetection();
+        try {
+            $cdd->execute(1, function () use ($cdd) {
+                $cdd->execute(2, function () use ($cdd) {
+                    $cdd->execute(4, function () use ($cdd) {
+                        $cdd->execute(1, function () use ($cdd) {
+                        });
+                    });
+                });
+            });
+        } catch (CircularDependencyException $circularDependencyException) {
+            $this->assertEquals([1, 2, 4], $circularDependencyException->getExecutionStack());
         }
     }
 }

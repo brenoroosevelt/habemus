@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Habemus\Test\Autowire\Attribute;
 
 use Habemus\Autowire\Attributes\AttributesInjection;
-use Habemus\Autowire\Attributes\Inject;
 use Habemus\Autowire\Reflector;
 use Habemus\Container;
+use Habemus\Exception\InjectionException;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\Fixtures\ClassC;
 use Habemus\Test\Fixtures\ClassUseTrait;
@@ -76,15 +76,15 @@ class AttributesInjectionTest extends TestCase
             ],
             'injection_d' => [
                 $properties[3],
-                null,
+                'id2',
             ],
             'injection_e' => [
                 $properties[4],
-                null,
+                'id2',
             ],
             'injection_f' => [
                 $properties[5],
-                null,
+                'id2',
             ],
             'injection_g' => [
                 $properties[6],
@@ -137,7 +137,7 @@ class AttributesInjectionTest extends TestCase
             ],
             'param_3' => [
                 $parametes[2],
-                null,
+                'id2',
             ]
         ];
     }
@@ -169,18 +169,19 @@ class AttributesInjectionTest extends TestCase
         $classA = new ClassA();
         $object = new ClassWithAttributes(1, new ClassA(), 'str');
         $this->container->add('id1', 'value1');
+        $this->container->add('id2', 'value2');
         $this->container->add(ClassA::class, $classA);
 
         // action
-        $this->attributesInjection->injectProperties($object);
+        $this->attributesInjection->inject($object);
 
         // assert
         $this->assertEquals('value1', $object->a());
         $this->assertEquals('value1', $object->b());
         $this->assertEquals('value1', $object->c());
-        $this->assertNull($object->d());
-        $this->assertNull($object->e());
-        $this->assertNull($object->f());
+        $this->assertEquals('value2', $object->d());
+        $this->assertEquals('value2', $object->e());
+        $this->assertEquals('value2', $object->f());
         $this->assertSame($classA, $object->g());
         $this->assertSame($classA, $object->h());
         $this->assertSame($classA, $object->i());
@@ -197,14 +198,14 @@ class AttributesInjectionTest extends TestCase
         $object = new ClassWithAttributes(1, new ClassA(), 'str');
 
         // action
-        $this->expectException(NotFoundExceptionInterface::class);
-        $this->attributesInjection->injectProperties($object); // 'id1' does not exists
+        $this->expectException(InjectionException::class);
+        $this->attributesInjection->inject($object); // 'id1' does not exists
     }
 
     public function testShouldGetErrorIfTryInjectOnNonObject()
     {
-        $this->expectException(LogicException::class);
-        $this->attributesInjection->injectProperties(123);
+        $this->expectException(InjectionException::class);
+        $this->attributesInjection->inject(123);
     }
 
     public function testShouldInjectOnTraitProperties()
@@ -215,7 +216,7 @@ class AttributesInjectionTest extends TestCase
         }
 
         $object = new ClassUseTrait();
-        $this->attributesInjection->injectProperties($object);
+        $this->attributesInjection->inject($object);
         $this->assertInstanceOf(ClassC::class, $object->a());
         $this->assertInstanceOf(ClassC::class, $object->b());
     }
