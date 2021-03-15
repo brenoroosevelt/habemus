@@ -5,6 +5,7 @@ namespace Habemus\Definition\MethodCall;
 
 use Closure;
 use Habemus\Definition\Available\ArrayDefinition;
+use Habemus\Exception\DefinitionException;
 use Psr\Container\ContainerInterface;
 
 trait CallableMethodTrait
@@ -21,6 +22,9 @@ trait CallableMethodTrait
             function ($instance, ContainerInterface $container) use ($current, $method, $parameters) {
                 $_parameters = (new ArrayDefinition($parameters))->getConcrete($container);
                 $current($instance, $container);
+                if (!is_object($instance) || !method_exists($instance, $method)) {
+                    throw DefinitionException::invalidMethodCall($this, $instance, $method);
+                }
                 call_user_func_array([$instance, $method], $_parameters);
             };
         $this->methodsCallback = $newCallback;
