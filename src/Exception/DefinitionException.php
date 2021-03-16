@@ -5,7 +5,6 @@ namespace Habemus\Exception;
 
 use Exception;
 use Habemus\Definition\Definition;
-use Habemus\Definition\Identifiable\Identifiable;
 use Psr\Container\ContainerExceptionInterface;
 
 class DefinitionException extends Exception implements ContainerExceptionInterface
@@ -31,9 +30,9 @@ class DefinitionException extends Exception implements ContainerExceptionInterfa
         return new static(
             $definition,
             sprintf(
-                "The (%s) cannot to call the method (%s::%s).",
-                self::format($definition),
-                gettype($instance),
+                "The definition of id (%s) cannot to call the method (%s::%s).",
+                $definition->getIdentity(),
+                is_object($instance) ? get_class($instance) : gettype($instance),
                 $method
             )
         );
@@ -44,8 +43,8 @@ class DefinitionException extends Exception implements ContainerExceptionInterfa
         return new static(
             $definition,
             sprintf(
-                "The (%s) does not accept constructor parameters.",
-                self::format($definition)
+                "The definition of id (%s) does not accept constructor parameters.",
+                $definition->getIdentity()
             )
         );
     }
@@ -55,27 +54,25 @@ class DefinitionException extends Exception implements ContainerExceptionInterfa
         return new static(
             $definition,
             sprintf(
-                "The %s does not accept method calls.",
-                self::format($definition)
+                "The definition of id (%s) does not accept method calls.",
+                $definition->getIdentity()
             )
         );
     }
 
     public static function unshareable(Definition $definition): self
     {
-        return new static($definition, sprintf("The %s is not shareable.", self::format($definition)));
+        return new static(
+            $definition,
+            sprintf("The definition of id (%s) is not shareable.", $definition->getIdentity())
+        );
     }
 
     public static function untaggable(Definition $definition): self
     {
-        return new static($definition, sprintf("The %s is not taggable.", self::format($definition)));
-    }
-
-    protected static function format(Definition $definition): string
-    {
-        $type = get_class($definition);
-        $id = $definition instanceof Identifiable ? $definition->getIdentity() : null;
-        $format = "definition of " . ($id !== null ? "id" : "type") . " (%s)";
-        return sprintf($format, ($id !== null ? $id : $type));
+        return new static(
+            $definition,
+            sprintf("The definition of id (%s) is not taggable.", $definition->getIdentity())
+        );
     }
 }

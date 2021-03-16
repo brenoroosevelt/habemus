@@ -17,7 +17,6 @@ use Habemus\Test\Fixtures\DependencyClassA;
 use Habemus\Test\Fixtures\PropertySelfCircularDependency;
 use Habemus\Util\PHPVersion;
 use Psr\Container\ContainerInterface;
-use RuntimeException;
 
 class ContainerTest extends TestCase
 {

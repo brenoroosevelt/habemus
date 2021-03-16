@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 namespace Habemus\Definition;
 
-use Psr\Container\ContainerInterface;
+use Habemus\Definition\Identifiable\Identifiable;
 
-interface Definition
+interface Definition extends Identifiable, Resolvable
 {
-    public function getConcrete(ContainerInterface $container);
 }

@@ -11,6 +11,7 @@ use Habemus\Definition\Available\FnDefinition;
 use Habemus\Definition\Available\IdDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\Definition;
+use Habemus\Definition\Identifiable\IdentifiableTrait;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\TestCase;
 use Habemus\Util\PHPVersion;
@@ -28,6 +29,7 @@ class AutoDetectionTest extends TestCase
             'pure_definition'=> [
                 Definition::class,
                 new class implements Definition {
+                    use IdentifiableTrait;
                     public function getConcrete(ContainerInterface $container)
                     {
                         return 1;

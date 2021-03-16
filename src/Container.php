@@ -116,12 +116,10 @@ class Container implements ContainerInterface, ArrayAccess
     public function add(string $id, $value): DefinitionWrapper
     {
         $definition = $this->detection->detect($value);
-        $this->resolved->delete($id);
-        $this->definitions->add($id, $definition);
+        $definition->setIdentity($id);
 
-        if ($definition instanceof Identifiable) {
-            $definition->setIdentity($id);
-        }
+        $this->resolved->delete($id);
+        $this->definitions->add($definition);
 
         if ($definition instanceof RawDefinition) {
             $this->resolved->share($id, $definition->getValue());
@@ -164,12 +162,12 @@ class Container implements ContainerInterface, ArrayAccess
 
         if ($this->definitions->has($id)) {
             $definition = $this->definitions->get($id);
-            return $this->definitionResolver->resolve($id, $definition);
+            return $this->definitionResolver->resolve($definition);
         }
 
         if ($this->definitions->hasTag($id)) {
             $tagged = $this->definitions->getTagged($id);
-            return $this->definitionResolver->resolveMany($tagged);
+            return $this->definitionResolver->resolveMany(...$tagged);
         }
 
         if ($this->shouldAutowireResolve($id)) {
@@ -178,7 +176,7 @@ class Container implements ContainerInterface, ArrayAccess
                     ->setIdentity($id)
                     ->setShared($this->defaultShared)
                     ->setClassResolver($this->classResolver);
-            return $this->definitionResolver->resolve($id, $definition);
+            return $this->definitionResolver->resolve($definition);
         }
 
         if ($this->delegates->has($id)) {

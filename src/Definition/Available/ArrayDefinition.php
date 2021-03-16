@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Definition\Available;
 
 use Habemus\Definition\Definition;
+use Habemus\Definition\Identifiable\IdentifiableTrait;
 use Habemus\Definition\Sharing\Shareable;
 use Habemus\Definition\Sharing\ShareableTrait;
 use Habemus\Definition\Tag\Taggable;
@@ -12,6 +13,7 @@ use Psr\Container\ContainerInterface;
 
 class ArrayDefinition implements Definition, Shareable, Taggable
 {
+    use IdentifiableTrait;
     use ShareableTrait;
     use TaggableTrait;
 

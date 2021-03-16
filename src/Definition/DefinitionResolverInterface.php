@@ -8,15 +8,14 @@ use Habemus\Definition\Definition;
 interface DefinitionResolverInterface
 {
     /**
-     * @param string $id
      * @param Definition $definition
      * @return mixed
      */
-    public function resolve(string $id, Definition $definition);
+    public function resolve(Definition $definition);
 
     /**
-     * @param Definition[] $definitions Indexed by definition ID
+     * @param Definition ...$definitions
      * @return array
      */
-    public function resolveMany(array $definitions = []): array;
+    public function resolveMany(Definition ...$definitions): array;
 }

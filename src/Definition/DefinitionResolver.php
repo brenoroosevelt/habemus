@@ -37,7 +37,7 @@ class DefinitionResolver implements DefinitionResolverInterface
     /**
      * @inheritDoc
      */
-    public function resolve(string $id, Definition $definition)
+    public function resolve(Definition $definition)
     {
         $instance = $definition->getConcrete($this->container);
 
@@ -46,7 +46,7 @@ class DefinitionResolver implements DefinitionResolverInterface
         }
 
         if ($this->shouldShare($definition)) {
-            $this->resolved->share($id, $instance);
+            $this->resolved->share($definition->getIdentity(), $instance);
         }
 
         if ($this->shouldInjectPropertyDependencies($instance, $definition)) {
@@ -59,22 +59,13 @@ class DefinitionResolver implements DefinitionResolverInterface
     /**
      * @inheritDoc
      */
-    public function resolveMany(array $definitions = []): array
+    public function resolveMany(Definition ...$definitions): array
     {
-        $filteredDefinitions
-            = array_filter(
-                $definitions,
-                function ($definition) {
-                    return $definition instanceof Definition;
-                }
-            );
-
         return array_map(
-            function (Definition $definition, $id) {
-                return $this->resolve($id, $definition);
+            function (Definition $definition) {
+                return $this->resolve($definition);
             },
-            $filteredDefinitions,
-            array_keys($filteredDefinitions)
+            $definitions
         );
     }
 
@@ -86,7 +77,7 @@ class DefinitionResolver implements DefinitionResolverInterface
     {
         return
             $definition instanceof RawDefinition ||
-            ($definition instanceof Shareable && $definition->isShared());
+            ($definition instanceof Shareable && $definition->isShared() && $definition->getIdentity() !== null);
     }
 
     /**

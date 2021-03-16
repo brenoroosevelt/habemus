@@ -7,6 +7,7 @@ use Closure;
 use Habemus\Container;
 use Habemus\Definition\Available\IdDefinition;
 use Habemus\Definition\Definition;
+use Habemus\Definition\Identifiable\IdentifiableTrait;
 use Habemus\Definition\MethodCall\CallableMethod;
 use Habemus\Definition\MethodCall\CallableMethodTrait;
 use Habemus\Exception\DefinitionException;
@@ -146,6 +147,7 @@ class CallableMethodTraitTest extends TestCase
     public function testShouldCallMethodThrowErrorIfMethodDoesNotExists()
     {
         $trait = new class implements Definition, CallableMethod{
+            use IdentifiableTrait;
             use CallableMethodTrait;
 
             public function getConcrete(ContainerInterface $container)

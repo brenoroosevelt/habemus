@@ -4,9 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Definition\Available;
 
 use Habemus\Autowire\ClassResolver;
-use Habemus\Container;
 use Habemus\Definition\Definition;
-use Habemus\Definition\Identifiable\Identifiable;
 use Habemus\Definition\Identifiable\IdentifiableTrait;
 use Habemus\Definition\MethodCall\CallableMethod;
 use Habemus\Definition\MethodCall\CallableMethodTrait;
@@ -17,7 +15,7 @@ use Habemus\Definition\Tag\TaggableTrait;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 
-class ClassDefinition implements Definition, Identifiable, Shareable, CallableMethod, Taggable
+class ClassDefinition implements Definition, Shareable, CallableMethod, Taggable
 {
     use IdentifiableTrait;
     use ShareableTrait;

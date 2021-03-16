@@ -16,9 +16,9 @@ class DefinitionList implements IteratorAggregate
         set as private;
     }
 
-    public function add(string $id, Definition $definition)
+    public function add(Definition $definition)
     {
-        $this->set($id, $definition);
+        $this->set($definition->getIdentity(), $definition);
     }
 
     public function hasTag(string $tag): bool
@@ -32,13 +32,19 @@ class DefinitionList implements IteratorAggregate
         return false;
     }
 
+    /**
+     * @param string $tag
+     * @return Definition[]
+     */
     public function getTagged(string $tag): array
     {
-        return array_filter(
-            $this->elements,
-            function (Definition $definition) use ($tag) {
-                return $definition instanceof Taggable && $definition->hasTag($tag);
+        $tagged = [];
+        foreach ($this->elements as $definition) {
+            if ($definition instanceof Taggable && $definition->hasTag($tag)) {
+                $tagged[] = $definition;
             }
-        );
+        }
+
+        return $tagged;
     }
 }

@@ -9,6 +9,7 @@ use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\Definition;
 use Habemus\Definition\DefinitionWrapper;
+use Habemus\Definition\Identifiable\IdentifiableTrait;
 use Habemus\Exception\DefinitionException;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\TestCase;
@@ -77,6 +78,7 @@ class DefinitionWrapperTest extends TestCase
     public function testShouldDefinitionWrapperThrowExceptionWhenUnsharable()
     {
         $definition = new class implements Definition {
+            use IdentifiableTrait;
             public function getConcrete(ContainerInterface $container)
             {
                 return 1;
@@ -91,6 +93,7 @@ class DefinitionWrapperTest extends TestCase
     public function testShouldDefinitionWrapperThrowExceptionWhenConstructorParametersIsNotAvailable()
     {
         $definition = new class implements Definition {
+            use IdentifiableTrait;
             public function getConcrete(ContainerInterface $container)
             {
                 return 1;
@@ -105,6 +108,7 @@ class DefinitionWrapperTest extends TestCase
     public function testShouldDefinitionWrapperThrowExceptionWhenUntaggable()
     {
         $definition = new class implements Definition {
+            use IdentifiableTrait;
             public function getConcrete(ContainerInterface $container)
             {
                 return 1;

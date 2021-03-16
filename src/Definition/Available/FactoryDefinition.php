@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Habemus\Definition\Available;
 
 use Habemus\Definition\Definition;
-use Habemus\Definition\Identifiable\Identifiable;
 use Habemus\Definition\Identifiable\IdentifiableTrait;
 use Habemus\Definition\MethodCall\CallableMethod;
 use Habemus\Definition\MethodCall\CallableMethodTrait;
@@ -14,7 +13,7 @@ use Habemus\Definition\Tag\Taggable;
 use Habemus\Definition\Tag\TaggableTrait;
 use Psr\Container\ContainerInterface;
 
-class FactoryDefinition implements Definition, Identifiable, Shareable, CallableMethod, Taggable
+class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggable
 {
     use IdentifiableTrait;
     use ShareableTrait;
@@ -93,6 +92,7 @@ class FactoryDefinition implements Definition, Identifiable, Shareable, Callable
         $this->factory = $this->factoryInstance($container);
 
         if (!method_exists($this->factory, $this->methodName)) {
+            // TODO:
             throw new \InvalidArgumentException("invalid");
         }
 

@@ -6,7 +6,6 @@ namespace Habemus\Test\Definitions;
 use Habemus\Autowire\Attributes\AttributesInjection;
 use Habemus\Autowire\Reflector;
 use Habemus\Container;
-use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\FnDefinition;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\Definition\DefinitionResolver;
@@ -67,21 +66,21 @@ class DefinitionResolverTest extends TestCase
 
     public function testShouldResolveADefinition()
     {
-        $value = $this->definitionResolver->resolve('id1', new RawDefinition("value"));
+        $value = $this->definitionResolver->resolve((new RawDefinition("value"))->setIdentity('id1'));
         $this->assertSame("value", $value);
     }
 
     public function testShouldResolveManyDefinitions()
     {
         $definitions = [
-            'id1' => new RawDefinition(1),
-            'id2' => new FnDefinition(function () {
+            (new RawDefinition(1))->setIdentity('id1'),
+            (new FnDefinition(function () {
                 return new stdClass();
-            })
+            }))->setIdentity('id2')
         ];
 
         $this->container->useAttributes(false);
-        $resolved = $this->definitionResolver->resolveMany($definitions);
+        $resolved = $this->definitionResolver->resolveMany(...$definitions);
         $this->assertCount(2, $resolved);
         $this->assertEquals(1, $resolved[0]);
         $this->assertInstanceOf(stdClass::class, $resolved[1]);
@@ -90,14 +89,14 @@ class DefinitionResolverTest extends TestCase
     public function testShouldResolveManyDefinitionsSharing()
     {
         $definitions = [
-            'id1' => (new RawDefinition(1))->setShared(true),
-            'id2' => (new FnDefinition(function () {
+            (new RawDefinition(1))->setShared(true)->setIdentity('id1'),
+            (new FnDefinition(function () {
                 return new stdClass();
-            }))->setShared(true)
+            }))->setShared(true)->setIdentity('id2')
         ];
 
         $this->container->useAttributes(false);
-        $this->definitionResolver->resolveMany($definitions);
+        $this->definitionResolver->resolveMany(...$definitions);
         $this->assertTrue($this->resolvedList->has('id1'));
         $this->assertTrue($this->resolvedList->has('id2'));
     }
@@ -105,8 +104,8 @@ class DefinitionResolverTest extends TestCase
     public function testShouldResolveAndShareDefinition()
     {
         $value = new stdClass();
-        $definition = (new RawDefinition($value))->setShared(true);
-        $instance = $this->definitionResolver->resolve('id1', $definition);
+        $definition = (new RawDefinition($value))->setShared(true)->setIdentity('id1');
+        $instance = $this->definitionResolver->resolve($definition);
         $this->assertTrue($this->resolvedList->has('id1'));
         $this->assertSame($value, $this->resolvedList->get('id1'));
         $this->assertSame($value, $instance);
@@ -114,8 +113,8 @@ class DefinitionResolverTest extends TestCase
 
     public function testShouldResolveAndAlwaysShareRawDefinition()
     {
-        $definition = (new RawDefinition("value"))->setShared(false);
-        $this->definitionResolver->resolve('id1', $definition);
+        $definition = (new RawDefinition("value"))->setShared(false)->setIdentity('id1');
+        $this->definitionResolver->resolve($definition);
         $this->assertTrue($this->resolvedList->has('id1'));
     }
 
@@ -123,17 +122,17 @@ class DefinitionResolverTest extends TestCase
     {
         $definition = (new FnDefinition(function () {
             return "value";
-        }))->setShared(false);
-        $this->definitionResolver->resolve('id1', $definition);
+        }))->setShared(false)->setIdentity('id1');
+        $this->definitionResolver->resolve($definition);
         $this->assertFalse($this->resolvedList->has('id1'));
     }
 
     public function testShouldResolveAndCallMethod()
     {
         $object = new ClassA();
-        $definition = new RawDefinition($object);
+        $definition = (new RawDefinition($object))->setIdentity('id1');
         $definition->addMethodCall('method'); //should call $object::method()
-        $this->definitionResolver->resolve('id1', $definition);
+        $this->definitionResolver->resolve($definition);
         $this->assertEquals(1, $object->value);
     }
 
@@ -151,8 +150,9 @@ class DefinitionResolverTest extends TestCase
         $definition = new FnDefinition(function () use ($object) {
             return $object;
         });
+        $definition->setIdentity('id1');
         // act
-        $this->definitionResolver->resolve('id1', $definition);
+        $this->definitionResolver->resolve($definition);
         // assert
         $this->assertEquals("property injection", $object->property());
     }
@@ -168,9 +168,9 @@ class DefinitionResolverTest extends TestCase
         $this->container->useAttributes(true);
         $this->container->add('property_id', "property injection");
         $object = new ClassA();
-        $definition = new RawDefinition($object);
+        $definition = (new RawDefinition($object))->setIdentity('id1');
         // act
-        $this->definitionResolver->resolve('id1', $definition);
+        $this->definitionResolver->resolve($definition);
         // assert
         $this->assertNull($object->property());
     }
