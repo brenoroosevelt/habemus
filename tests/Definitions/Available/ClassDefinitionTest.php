@@ -11,7 +11,7 @@ use Habemus\Container;
 use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Exception\ContainerException;
 use Habemus\Exception\NotFoundException;
-use Habemus\Exception\UnresolvableParameter;
+use Habemus\Exception\UnresolvableParameterException;
 use Habemus\Test\Fixtures\ClassB;
 use Habemus\Test\Fixtures\ClassC;
 use Habemus\Test\TestCase;
@@ -97,7 +97,7 @@ class ClassDefinitionTest extends TestCase
         $definition =
             (new ClassDefinition(ClassB::class))
                 ->setClassResolver($this->classResolver);
-        $this->expectException(UnresolvableParameter::class);
+        $this->expectException(UnresolvableParameterException::class);
         $definition->getConcrete($this->container);
     }
 

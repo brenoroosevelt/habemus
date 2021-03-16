@@ -12,7 +12,7 @@ use Habemus\Autowire\Reflector;
 use Habemus\Container;
 use Habemus\Exception\NotFoundException;
 use Habemus\Exception\NotInstantiableException;
-use Habemus\Exception\UnresolvableParameter;
+use Habemus\Exception\UnresolvableParameterException;
 use Habemus\Test\Fixtures\AbstractClass;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\Fixtures\ClassC;
@@ -121,7 +121,7 @@ class ReflectionClassResolverTest extends TestCase
                 function (int $a) {
                 },
                 [],
-                UnresolvableParameter::class
+                UnresolvableParameterException::class
             ],
             'resolvable_primitive_with_arguments' => [
                 function (int $a) {
@@ -217,7 +217,7 @@ class ReflectionClassResolverTest extends TestCase
                 function (GenericInterface $a) {
                 },
                 [],
-                UnresolvableParameter::class
+                UnresolvableParameterException::class
             ],
         ];
     }
@@ -282,7 +282,7 @@ class ReflectionClassResolverTest extends TestCase
                 ) {
                 },
                 [],
-                UnresolvableParameter::class
+                UnresolvableParameterException::class
             ],
             'not_instantiable_parameter_injection' => [
                 function (

@@ -6,7 +6,7 @@ namespace Habemus\Exception;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
 
-class UnresolvableParameter extends ContainerException
+class UnresolvableParameterException extends ContainerException
 {
     public static function createForFunction(ReflectionFunctionAbstract $function, string $parameter) : self
     {

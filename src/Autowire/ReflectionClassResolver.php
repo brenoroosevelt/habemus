@@ -7,7 +7,7 @@ use Habemus\Autowire\Attributes\AttributesInjection;
 use Habemus\Container;
 use Habemus\Exception\NotFoundException;
 use Habemus\Exception\NotInstantiableException;
-use Habemus\Exception\UnresolvableParameter;
+use Habemus\Exception\UnresolvableParameterException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunctionAbstract;
@@ -87,7 +87,7 @@ class ReflectionClassResolver implements ClassResolver
                 $inject = $this->injection->getInjection($parameter);
                 if ($inject !== null) {
                     if (!$this->container->has($inject)) {
-                        throw UnresolvableParameter::createForFunction($function, $name);
+                        throw UnresolvableParameterException::createForFunction($function, $name);
                     }
                     $result[] = $this->container->get($inject);
                     continue;
@@ -114,7 +114,7 @@ class ReflectionClassResolver implements ClassResolver
                 continue;
             }
 
-            throw UnresolvableParameter::createForFunction($function, $name);
+            throw UnresolvableParameterException::createForFunction($function, $name);
         }
 
         return $result;
