@@ -75,7 +75,7 @@ class AttributesInjection
 
         $typeHint = $this->reflector->getTypeHint($subject, false);
         if ($typeHint === null) {
-            throw InjectionException::indeterminateInjection($subject);
+            throw InjectionException::invalidInjection($subject);
         }
 
         return $typeHint;

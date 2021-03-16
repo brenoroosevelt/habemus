@@ -24,7 +24,7 @@ class InjectionException extends \Exception implements ContainerExceptionInterfa
     {
         return new static(
             sprintf(
-                "Cannot resolve the property (%s) injection in (%s)",
+                "Cannot resolve the injection for property (%s) in (%s)",
                 $property->getName(),
                 get_class($object)
             )
@@ -35,12 +35,12 @@ class InjectionException extends \Exception implements ContainerExceptionInterfa
      * @param ReflectionProperty|ReflectionParameter $propertyOrParameter
      * @return self
      */
-    public static function indeterminateInjection($propertyOrParameter): self
+    public static function invalidInjection($propertyOrParameter): self
     {
-        $type = $propertyOrParameter instanceof ReflectionProperty ? "property" : "parameter";
+        $type = $propertyOrParameter instanceof ReflectionProperty ? "property" : "constructor parameter";
         return new static(
             sprintf(
-                "Cannot determine the %s injection for (%s) in (%s).",
+                "Impossible to determine the injection for %s ($%s) in (%s).",
                 $type,
                 $propertyOrParameter->getName(),
                 $propertyOrParameter->getDeclaringClass()->getName()

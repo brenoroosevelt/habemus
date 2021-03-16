@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Test\Autowire\Attribute;
 
 use Habemus\Autowire\Attributes\AttributesInjection;
+use Habemus\Autowire\Attributes\Inject;
 use Habemus\Autowire\Reflector;
 use Habemus\Container;
 use Habemus\Exception\InjectionException;
@@ -13,8 +14,6 @@ use Habemus\Test\Fixtures\ClassUseTrait;
 use Habemus\Test\Fixtures\ClassWithAttributes;
 use Habemus\Test\TestCase;
 use Habemus\Util\PHPVersion;
-use LogicException;
-use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionParameter;
 use ReflectionProperty;
@@ -199,12 +198,13 @@ class AttributesInjectionTest extends TestCase
 
         // action
         $this->expectException(InjectionException::class);
-        $this->attributesInjection->inject($object); // 'id1' does not exists
+        $this->attributesInjection->inject($object); // 'id1', 'id2' does not exists
     }
 
     public function testShouldGetErrorIfTryInjectOnNonObject()
     {
         $this->expectException(InjectionException::class);
+        $this->expectExceptionMessage("Expected object to inject property dependencies. Got (integer).");
         $this->attributesInjection->inject(123);
     }
 
@@ -219,5 +219,21 @@ class AttributesInjectionTest extends TestCase
         $this->attributesInjection->inject($object);
         $this->assertInstanceOf(ClassC::class, $object->a());
         $this->assertInstanceOf(ClassC::class, $object->b());
+    }
+
+    public function testShouldGetErrorWhenInjectionAttributeIsUndetermined()
+    {
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
+            return;
+        }
+
+        $object = new class {
+            #[Inject]
+            protected $a;
+        };
+
+        $this->expectException(InjectionException::class);
+        $this->attributesInjection->inject($object);
     }
 }

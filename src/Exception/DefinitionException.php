@@ -55,7 +55,7 @@ class DefinitionException extends Exception implements ContainerExceptionInterfa
         return new static(
             $definition,
             sprintf(
-                "The (%s) does not accept method calls.",
+                "The %s does not accept method calls.",
                 self::format($definition)
             )
         );
@@ -63,19 +63,19 @@ class DefinitionException extends Exception implements ContainerExceptionInterfa
 
     public static function unshareable(Definition $definition): self
     {
-        return new static($definition, sprintf("The (%s) is not shareable.", self::format($definition)));
+        return new static($definition, sprintf("The %s is not shareable.", self::format($definition)));
     }
 
     public static function untaggable(Definition $definition): self
     {
-        return new static($definition, sprintf("The (%s) is not taggable.", self::format($definition)));
+        return new static($definition, sprintf("The %s is not taggable.", self::format($definition)));
     }
 
     protected static function format(Definition $definition): string
     {
         $type = get_class($definition);
         $id = $definition instanceof Identifiable ? $definition->getIdentity() : null;
-        $format = "definition of " . ($id !== null ? "id" : "type") . "(%s).";
+        $format = "definition of " . ($id !== null ? "id" : "type") . " (%s)";
         return sprintf($format, ($id !== null ? $id : $type));
     }
 }

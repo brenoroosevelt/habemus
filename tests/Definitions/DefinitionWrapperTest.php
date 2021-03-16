@@ -4,15 +4,19 @@ declare(strict_types=1);
 namespace Habemus\Test\Definitions;
 
 use Habemus\Container;
+use Habemus\Definition\Available\ArrayDefinition;
 use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Definition\Available\RawDefinition;
+use Habemus\Definition\Definition;
 use Habemus\Definition\DefinitionWrapper;
+use Habemus\Exception\DefinitionException;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\TestCase;
+use Psr\Container\ContainerInterface;
 
 class DefinitionWrapperTest extends TestCase
 {
-    public function testShouldDefinitionWrapperAddContructorParameters()
+    public function testShouldDefinitionWrapperAddConstructorParameters()
     {
         $definition = new ClassDefinition(ClassA::class);
         $wrapper = new DefinitionWrapper($definition);
@@ -60,5 +64,55 @@ class DefinitionWrapperTest extends TestCase
         $this->assertTrue($definition->hasTag('tag2'));
         $this->assertTrue($definition->hasTag('tag3'));
         $this->assertCount(3, $definition->getTags());
+    }
+
+    public function testShouldDefinitionWrapperThrowExceptionWhenMethodCallNotAvailable()
+    {
+        $definition = new ArrayDefinition(["value"]);
+        $wrapper = new DefinitionWrapper($definition);
+        $this->expectExceptionObject(DefinitionException::unavailableMethodCall($definition));
+        $wrapper->addMethodCall('method', ['param']);
+    }
+
+    public function testShouldDefinitionWrapperThrowExceptionWhenUnsharable()
+    {
+        $definition = new class implements Definition {
+            public function getConcrete(ContainerInterface $container)
+            {
+                return 1;
+            }
+        };
+
+        $wrapper = new DefinitionWrapper($definition);
+        $this->expectExceptionObject(DefinitionException::unshareable($definition));
+        $wrapper->shared(true);
+    }
+
+    public function testShouldDefinitionWrapperThrowExceptionWhenConstructorParametersIsNotAvailable()
+    {
+        $definition = new class implements Definition {
+            public function getConcrete(ContainerInterface $container)
+            {
+                return 1;
+            }
+        };
+
+        $wrapper = new DefinitionWrapper($definition);
+        $this->expectExceptionObject(DefinitionException::unavailableConstructorParameters($definition));
+        $wrapper->constructor('param1', 'value1');
+    }
+
+    public function testShouldDefinitionWrapperThrowExceptionWhenUntaggable()
+    {
+        $definition = new class implements Definition {
+            public function getConcrete(ContainerInterface $container)
+            {
+                return 1;
+            }
+        };
+
+        $wrapper = new DefinitionWrapper($definition);
+        $this->expectExceptionObject(DefinitionException::untaggable($definition));
+        $wrapper->addTag('tag1', 'tag2');
     }
 }
