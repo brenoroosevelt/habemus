@@ -18,6 +18,6 @@ trait IdentifiableTrait
 
     public function getIdentity(): ?string
     {
-        return $this->getIdentity();
+        return $this->identity;
     }
 }

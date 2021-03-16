@@ -6,9 +6,12 @@ namespace Habemus\Test\Definitions\MethodCall;
 use Closure;
 use Habemus\Container;
 use Habemus\Definition\Available\IdDefinition;
+use Habemus\Definition\Definition;
 use Habemus\Definition\MethodCall\CallableMethod;
 use Habemus\Definition\MethodCall\CallableMethodTrait;
+use Habemus\Exception\DefinitionException;
 use Habemus\Test\TestCase;
+use Psr\Container\ContainerInterface;
 use stdClass;
 
 class CallableMethodTraitTest extends TestCase
@@ -62,7 +65,7 @@ class CallableMethodTraitTest extends TestCase
         $this->assertInstanceOf(CallableMethod::class, $object);
     }
 
-    public function testShouldGetValidEmptyMethodCall()
+    public function testShouldGetAValidEmptyMethodCall()
     {
         $trait = $this->newTraitInstance();
         $object = $this->newObjectInstance();
@@ -138,5 +141,21 @@ class CallableMethodTraitTest extends TestCase
         $callback($object, $container);
         $this->assertEquals(100, $object->value1);
         $this->assertEquals(2, $object->value2);
+    }
+
+    public function testShouldCallMethodThrowErrorIfMethodDoesNotExists()
+    {
+        $trait = new class implements Definition, CallableMethod{
+            use CallableMethodTrait;
+
+            public function getConcrete(ContainerInterface $container)
+            {
+                return 1;
+            }
+        };
+        $object = $this->newObjectInstance();
+        $trait->addMethodCall('invalidMethod', [1]);
+        $this->expectException(DefinitionException::class);
+        ($trait->getMethodCall())($object, new Container());
     }
 }
