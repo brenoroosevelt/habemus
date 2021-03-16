@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Test\Fixtures;
 
-use Habemus\Autowire\Attributes\Inject;
+use Habemus\Autowiring\Attributes\Inject;
 
 trait TraitA
 {

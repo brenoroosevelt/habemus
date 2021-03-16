@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Autowire\Attributes;
+namespace Habemus\Autowiring\Attributes;
 
 use Exception;
-use Habemus\Autowire\Reflector;
+use Habemus\Autowiring\Reflector;
 use Habemus\Exception\InjectionException;
 use LogicException;
 use Psr\Container\ContainerInterface;

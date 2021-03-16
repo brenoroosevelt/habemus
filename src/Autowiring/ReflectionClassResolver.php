@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Autowire;
+namespace Habemus\Autowiring;
 
-use Habemus\Autowire\Attributes\AttributesInjection;
+use Habemus\Autowiring\Attributes\AttributesInjection;
 use Habemus\Container;
 use Habemus\Exception\NotFoundException;
 use Habemus\Exception\NotInstantiableException;

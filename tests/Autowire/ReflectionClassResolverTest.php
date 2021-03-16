@@ -5,10 +5,10 @@ namespace Habemus\Test\Autowire;
 
 use Closure;
 use Exception;
-use Habemus\Autowire\Attributes\AttributesInjection;
-use Habemus\Autowire\Attributes\Inject;
-use Habemus\Autowire\ReflectionClassResolver;
-use Habemus\Autowire\Reflector;
+use Habemus\Autowiring\Attributes\AttributesInjection;
+use Habemus\Autowiring\Attributes\Inject;
+use Habemus\Autowiring\ReflectionClassResolver;
+use Habemus\Autowiring\Reflector;
 use Habemus\Container;
 use Habemus\Exception\NotFoundException;
 use Habemus\Exception\NotInstantiableException;

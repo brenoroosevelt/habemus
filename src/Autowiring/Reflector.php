@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Habemus\Autowire;
+namespace Habemus\Autowiring;
 
 use Habemus\Exception\ContainerException;
 use Habemus\Utility\PHPVersion;

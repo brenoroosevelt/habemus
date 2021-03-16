@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Definition;
 
-use Habemus\Autowire\Attributes\AttributesInjection;
+use Habemus\Autowiring\Attributes\AttributesInjection;
 use Habemus\Container;
 use Habemus\Definition\Available\RawDefinition;
 use Habemus\ResolvedList;

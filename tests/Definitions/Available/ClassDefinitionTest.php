@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Habemus\Test\Definitions\Available;
 
-use Habemus\Autowire\Attributes\AttributesInjection;
-use Habemus\Autowire\ClassResolver;
-use Habemus\Autowire\ReflectionClassResolver;
-use Habemus\Autowire\Reflector;
+use Habemus\Autowiring\Attributes\AttributesInjection;
+use Habemus\Autowiring\ClassResolver;
+use Habemus\Autowiring\ReflectionClassResolver;
+use Habemus\Autowiring\Reflector;
 use Habemus\Container;
 use Habemus\Definition\Available\ClassDefinition;
 use Habemus\Exception\ContainerException;

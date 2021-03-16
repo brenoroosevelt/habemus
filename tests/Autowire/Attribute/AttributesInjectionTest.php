@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Habemus\Test\Autowire\Attribute;
 
-use Habemus\Autowire\Attributes\AttributesInjection;
-use Habemus\Autowire\Attributes\Inject;
-use Habemus\Autowire\Reflector;
+use Habemus\Autowiring\Attributes\AttributesInjection;
+use Habemus\Autowiring\Attributes\Inject;
+use Habemus\Autowiring\Reflector;
 use Habemus\Container;
 use Habemus\Exception\InjectionException;
 use Habemus\Test\Fixtures\ClassA;

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Definition\Available;
 
-use Habemus\Autowire\ClassResolver;
+use Habemus\Autowiring\ClassResolver;
 use Habemus\Definition\Definition;
 use Habemus\Definition\Identifiable\IdentifiableTrait;
 use Habemus\Definition\MethodCall\CallableMethod;

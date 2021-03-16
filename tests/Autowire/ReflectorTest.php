@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Habemus\Test\Autowire;
 
 use Closure;
-use Habemus\Autowire\Attributes\Inject;
-use Habemus\Autowire\Reflector;
+use Habemus\Autowiring\Attributes\Inject;
+use Habemus\Autowiring\Reflector;
 use Habemus\Exception\ContainerException;
 use Habemus\Test\Fixtures\AbstractClass;
 use Habemus\Test\Fixtures\ClassA;

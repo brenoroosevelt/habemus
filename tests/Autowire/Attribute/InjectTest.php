@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Test\Autowire\Attribute;
 
-use Habemus\Autowire\Attributes\Inject;
+use Habemus\Autowiring\Attributes\Inject;
 use Habemus\Test\TestCase;
 
 class InjectTest extends TestCase

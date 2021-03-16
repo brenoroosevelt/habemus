@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Autowire\Attributes;
+namespace Habemus\Autowiring\Attributes;
 
 #[\Attribute]
 class Inject

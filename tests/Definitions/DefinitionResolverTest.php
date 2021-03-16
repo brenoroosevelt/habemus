@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Habemus\Test\Definitions;
 
-use Habemus\Autowire\Attributes\AttributesInjection;
-use Habemus\Autowire\Reflector;
+use Habemus\Autowiring\Attributes\AttributesInjection;
+use Habemus\Autowiring\Reflector;
 use Habemus\Container;
 use Habemus\Definition\Available\FnDefinition;
 use Habemus\Definition\Available\RawDefinition;

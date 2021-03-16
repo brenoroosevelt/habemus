@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Autowire;
+namespace Habemus\Autowiring;
 
 interface ClassResolver
 {
