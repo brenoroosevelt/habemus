@@ -11,6 +11,8 @@ use Habemus\Definition\Sharing\Shareable;
 use Habemus\Definition\Sharing\ShareableTrait;
 use Habemus\Definition\Tag\Taggable;
 use Habemus\Definition\Tag\TaggableTrait;
+use Habemus\Exception\DefinitionException;
+use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 
 class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggable
@@ -92,8 +94,7 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
         $this->factory = $this->factoryInstance($container);
 
         if (!method_exists($this->factory, $this->methodName)) {
-            // TODO:
-            throw new \InvalidArgumentException("invalid");
+            throw DefinitionException::invalidMethodCall($this, $this->factory, $this->methodName);
         }
 
         return call_user_func_array([$this->factory, $this->methodName], $this->resolveParams($container));

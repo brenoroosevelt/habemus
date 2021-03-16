@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace Habemus\Exception;
 
-use Exception;
 use Habemus\Definition\Definition;
-use Psr\Container\ContainerExceptionInterface;
 
-class DefinitionException extends Exception implements ContainerExceptionInterface
+class DefinitionException extends ContainerException
 {
     /**
      * @var Definition
@@ -30,8 +28,9 @@ class DefinitionException extends Exception implements ContainerExceptionInterfa
         return new static(
             $definition,
             sprintf(
-                "The definition of id (%s) cannot to call the method (%s::%s).",
-                $definition->getIdentity(),
+                "The definition of %s (%s) cannot to call the method (%s::%s).",
+                $definition->getIdentity() ? "id" : "type",
+                $definition->getIdentity() ?? get_class($definition),
                 is_object($instance) ? get_class($instance) : gettype($instance),
                 $method
             )
@@ -43,8 +42,9 @@ class DefinitionException extends Exception implements ContainerExceptionInterfa
         return new static(
             $definition,
             sprintf(
-                "The definition of id (%s) does not accept constructor parameters.",
-                $definition->getIdentity()
+                "The definition of %s (%s) does not accept constructor parameters.",
+                $definition->getIdentity() ? "id" : "type",
+                $definition->getIdentity() ?? get_class($definition)
             )
         );
     }
@@ -54,8 +54,9 @@ class DefinitionException extends Exception implements ContainerExceptionInterfa
         return new static(
             $definition,
             sprintf(
-                "The definition of id (%s) does not accept method calls.",
-                $definition->getIdentity()
+                "The definition of %s (%s) does not accept method calls.",
+                $definition->getIdentity() ? "id" : "type",
+                $definition->getIdentity() ?? get_class($definition)
             )
         );
     }
@@ -64,7 +65,11 @@ class DefinitionException extends Exception implements ContainerExceptionInterfa
     {
         return new static(
             $definition,
-            sprintf("The definition of id (%s) is not shareable.", $definition->getIdentity())
+            sprintf(
+                "The definition of %s (%s) is not shareable.",
+                $definition->getIdentity() ? "id" : "type",
+                $definition->getIdentity() ?? get_class($definition)
+            )
         );
     }
 
@@ -72,7 +77,11 @@ class DefinitionException extends Exception implements ContainerExceptionInterfa
     {
         return new static(
             $definition,
-            sprintf("The definition of id (%s) is not taggable.", $definition->getIdentity())
+            sprintf(
+                "The definition of %s (%s) is not taggable.",
+                $definition->getIdentity() ? "id" : "type",
+                $definition->getIdentity() ?? get_class($definition)
+            )
         );
     }
 }

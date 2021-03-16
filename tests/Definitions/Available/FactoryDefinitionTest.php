@@ -6,6 +6,8 @@ namespace Habemus\Test\Definitions\Available;
 use Habemus\Container;
 use Habemus\Definition\Available\FactoryDefinition;
 use Habemus\Definition\Available\IdDefinition;
+use Habemus\Exception\ContainerException;
+use Habemus\Exception\DefinitionException;
 use Habemus\Exception\NotFoundException;
 use Habemus\Test\Fixtures\FactoryClass;
 use Habemus\Test\TestCase;
@@ -116,7 +118,10 @@ class FactoryDefinitionTest extends TestCase
     public function testShouldFactoryDefinitionGetErrorIfMethodNotExists()
     {
         $factory = new FactoryDefinition(FactoryClass::class, 'invalidMethod');
-        $this->expectException(InvalidArgumentException::class);
+//        $this->expectException(ContainerException::class);
+        $this->expectExceptionObject(
+            DefinitionException::invalidMethodCall($factory, new FactoryClass(), 'invalidMethod')
+        );
         $factory->getConcrete(new Container());
     }
 

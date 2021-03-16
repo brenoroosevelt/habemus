@@ -7,7 +7,7 @@ use Psr\Container\ContainerExceptionInterface;
 use RuntimeException;
 use Throwable;
 
-class NotInstantiableException extends RuntimeException implements ContainerExceptionInterface
+class NotInstantiableException extends ContainerException
 {
     public function __construct(string $className, $message = "", $code = 0, Throwable $previous = null)
     {

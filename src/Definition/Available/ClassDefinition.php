@@ -12,6 +12,7 @@ use Habemus\Definition\Sharing\Shareable;
 use Habemus\Definition\Sharing\ShareableTrait;
 use Habemus\Definition\Tag\Taggable;
 use Habemus\Definition\Tag\TaggableTrait;
+use Habemus\Exception\ContainerException;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 
@@ -68,7 +69,7 @@ class ClassDefinition implements Definition, Shareable, CallableMethod, Taggable
     public function getConcrete(ContainerInterface $container)
     {
         if ($this->classResolver === null) {
-            throw new RuntimeException('Invalid class resolver.');
+            throw new ContainerException('No ClassResolver implementation has been set.');
         }
 
         $arguments = (new ArrayDefinition($this->constructorParameters))->getConcrete($container);

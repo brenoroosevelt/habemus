@@ -3,10 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Exception;
 
-use Exception;
-use Psr\Container\ContainerExceptionInterface;
-
-class InvalidDefinitionException extends Exception implements ContainerExceptionInterface
+class InvalidDefinitionException extends ContainerException
 {
     public static function unavailable($name): self
     {

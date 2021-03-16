@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace Habemus\Exception;
 
-use Psr\Container\ContainerExceptionInterface;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
 
-class UnresolvableParameter extends \RuntimeException implements ContainerExceptionInterface
+class UnresolvableParameter extends ContainerException
 {
     public static function createForFunction(ReflectionFunctionAbstract $function, string $parameter) : self
     {

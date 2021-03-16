@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace Habemus\Exception;
 
-use Psr\Container\ContainerExceptionInterface;
 use ReflectionParameter;
 use ReflectionProperty;
 
-class InjectionException extends \Exception implements ContainerExceptionInterface
+class InjectionException extends ContainerException
 {
 
     public static function notAnObject($value)
@@ -24,7 +23,7 @@ class InjectionException extends \Exception implements ContainerExceptionInterfa
     {
         return new static(
             sprintf(
-                "Cannot resolve the injection for property (%s) in (%s)",
+                "Cannot resolve the injection for property ($%s) in (%s).",
                 $property->getName(),
                 get_class($object)
             )

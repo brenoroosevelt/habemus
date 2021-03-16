@@ -3,6 +3,7 @@
 
 namespace Habemus\Autowire;
 
+use Habemus\Exception\ContainerException;
 use Habemus\Util\PHPVersion;
 use ReflectionNamedType;
 use ReflectionParameter;
@@ -55,8 +56,8 @@ class Reflector
     public function assertAttributesAvailable(): void
     {
         if (!$this->attributesAvailable()) {
-            throw new RuntimeException(
-                "Attributes are not available. Use a PHP version >=8.0 to enable attribute injection support"
+            throw new ContainerException(
+                "Attributes injection are not available. Use a PHP version >=8.0."
             );
         }
     }

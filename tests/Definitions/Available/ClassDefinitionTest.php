@@ -9,10 +9,9 @@ use Habemus\Autowire\ReflectionClassResolver;
 use Habemus\Autowire\Reflector;
 use Habemus\Container;
 use Habemus\Definition\Available\ClassDefinition;
-use Habemus\Definition\DefinitionResolver;
+use Habemus\Exception\ContainerException;
 use Habemus\Exception\NotFoundException;
 use Habemus\Exception\UnresolvableParameter;
-use Habemus\ResolvedList;
 use Habemus\Test\Fixtures\ClassB;
 use Habemus\Test\Fixtures\ClassC;
 use Habemus\Test\TestCase;
@@ -115,7 +114,7 @@ class ClassDefinitionTest extends TestCase
     public function testShouldNotClassDefinitionResolveWithoutClassResolver()
     {
         $definition = new ClassDefinition(ClassC::class);
-        $this->expectException(RuntimeException::class);
+        $this->expectException(ContainerException::class);
         $definition->getConcrete($this->container);
     }
 }
