@@ -227,12 +227,12 @@ class AttributesInjectionTest extends TestCase
             $this->markTestSkipped('Attributes are not available (PHP 8.0+)');
             return;
         }
-
+        // @codingStandardsIgnoreStart
         $object = new class {
             #[Inject]
             protected $a;
         };
-
+        // @codingStandardsIgnoreEnd
         $this->expectException(InjectionException::class);
         $this->attributesInjection->inject($object);
     }
