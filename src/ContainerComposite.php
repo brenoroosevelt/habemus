@@ -21,11 +21,10 @@ class ContainerComposite implements ContainerInterface
     public function __construct(array $containers = [])
     {
         $this->containers = new ObjectPriorityList();
-        $filtered = array_filter($containers, function ($item) {
-            return $item instanceof ContainerInterface;
-        });
-        foreach ($filtered as $priority => $container) {
-            $this->add($container, (int) $priority);
+        foreach ($containers as $priority => $container) {
+            if ($container instanceof ContainerInterface) {
+                $this->add($container, (int) $priority);
+            }
         }
     }
 
