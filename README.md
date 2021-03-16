@@ -42,7 +42,6 @@ $ composer require brenoroosevelt/habemus
 use Habemus\Container;
 
 $container = new Container();
-
 $foo = $container->get(Foo::class);
 ```
 
