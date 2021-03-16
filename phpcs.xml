@@ -6,7 +6,7 @@
     <rule ref="PSR2"/>
 
     <!-- PHP8 Support: https://github.com/squizlabs/PHP_CodeSniffer/issues/3182 -->
-    <exclude-pattern>src/Autowire/Attributes/Inject.php</exclude-pattern>
+    <exclude-pattern>src/Autowiring/Attributes/Inject.php</exclude-pattern>
     <exclude-pattern>tests/Fixtures/ClassA.php</exclude-pattern>
     <exclude-pattern>tests/Fixtures/ClassWithAttributes.php</exclude-pattern>
 </ruleset>
