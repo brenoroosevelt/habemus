@@ -36,15 +36,6 @@ Via Composer
 $ composer require brenoroosevelt/habemus
 ```
 
-## Usage
-
-```php
-use Habemus\Container;
-
-$container = new Container();
-$foo = $container->get(Foo::class);
-```
-
 ## Documentation
 
 Read the [full documentation](http://brenoroosevelt.github.io/habemus).
