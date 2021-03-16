@@ -12,7 +12,7 @@ Habemus supports:
 - Auto wiring (recursively through all dependencies)
 - Constructor injection.
 - Setter injection.
-- Property injection using PHP 8.0 Attributes.
+- Property/constructor injection using PHP 8 Attributes.
 - Circular dependency detection.
 - Interfaces, Factories, Closures, Callbacks.
 - Delegated containers (container composite).
@@ -22,11 +22,9 @@ Habemus supports:
 - Variadic arguments in the constructor.
 - Aliasing.
 
-
 ## Requirements
 
 * PHP >=7.1
-
 
 ## Install
 
