@@ -6,11 +6,11 @@ namespace Habemus\Definition\Sharing;
 trait ShareableTrait
 {
     /**
-     * @var bool
+     * @var bool|null
      */
-    protected $shared = true;
+    protected $shared = null;
 
-    public function isShared(): bool
+    public function isShared(): ?bool
     {
         return $this->shared;
     }

@@ -24,10 +24,10 @@ class ShareableTraitTest extends TestCase
         $this->assertInstanceOf(Shareable::class, $trait);
     }
 
-    public function testShouldShareableTraitSharedByDefault()
+    public function testShouldShareableTraitNotSharedByDefault()
     {
         $trait = $this->newTraitInstance();
-        $this->assertTrue($trait->isShared());
+        $this->assertNull($trait->isShared());
     }
 
     public function testShouldShareableTraitSetShared()

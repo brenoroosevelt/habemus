@@ -18,6 +18,7 @@ use Habemus\Definition\DefinitionResolver;
 use Habemus\Definition\DefinitionResolverInterface;
 use Habemus\Definition\DefinitionWrapper;
 use Habemus\Definition\Identifiable\Identifiable;
+use Habemus\Definition\Sharing\Shareable;
 use Habemus\Exception\NotFoundException;
 use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\ServiceProvider\ServiceProviderManager;
@@ -120,6 +121,10 @@ class Container implements ContainerInterface, ArrayAccess
 
         $this->resolved->delete($id);
         $this->definitions->add($definition);
+
+        if ($definition instanceof Shareable && $definition->isShared() === null) {
+            $definition->setShared($this->defaultShared);
+        }
 
         if ($definition instanceof RawDefinition) {
             $this->resolved->share($id, $definition->getValue());

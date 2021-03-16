@@ -5,7 +5,7 @@ namespace Habemus\Definition\Sharing;
 
 interface Shareable
 {
-    public function isShared(): bool;
+    public function isShared(): ?bool;
 
     /**
      * @param bool $share
