@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Util\Lists;
+namespace Habemus\Utility\Lists;
 
 use Countable;
-use Habemus\Util\PHPVersion;
+use Habemus\Utility\PHPVersion;
 use InvalidArgumentException;
 use IteratorAggregate;
 

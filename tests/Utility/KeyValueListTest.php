@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Test\Util;
 
 use Habemus\Test\TestCase;
-use Habemus\Util\Lists\KeyValueList;
+use Habemus\Utility\Lists\KeyValueList;
 use IteratorAggregate;
 
 class KeyValueListTest extends TestCase

@@ -13,7 +13,7 @@ use Habemus\Test\Fixtures\ClassC;
 use Habemus\Test\Fixtures\ClassUseTrait;
 use Habemus\Test\Fixtures\ClassWithAttributes;
 use Habemus\Test\TestCase;
-use Habemus\Util\PHPVersion;
+use Habemus\Utility\PHPVersion;
 use ReflectionClass;
 use ReflectionParameter;
 use ReflectionProperty;

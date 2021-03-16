@@ -14,7 +14,7 @@ use Habemus\Definition\Definition;
 use Habemus\Definition\Identifiable\IdentifiableTrait;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\TestCase;
-use Habemus\Util\PHPVersion;
+use Habemus\Utility\PHPVersion;
 use Psr\Container\ContainerInterface;
 
 class AutoDetectionTest extends TestCase

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Definition;
 
 use Habemus\Definition\Tag\Taggable;
-use Habemus\Util\Lists\KeyValueList;
+use Habemus\Utility\Lists\KeyValueList;
 use IteratorAggregate;
 
 /**

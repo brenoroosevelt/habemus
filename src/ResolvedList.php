@@ -5,7 +5,7 @@ namespace Habemus;
 
 use Countable;
 use IteratorAggregate;
-use Habemus\Util\Lists\KeyValueList;
+use Habemus\Utility\Lists\KeyValueList;
 
 class ResolvedList implements IteratorAggregate, Countable
 {

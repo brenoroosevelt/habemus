@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Util;
+namespace Habemus\Utility;
 
 abstract class PHPVersion
 {

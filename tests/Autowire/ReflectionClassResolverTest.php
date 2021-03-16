@@ -20,7 +20,7 @@ use Habemus\Test\Fixtures\ClassWithoutConstructor;
 use Habemus\Test\Fixtures\GenericInterface;
 use Habemus\Test\Fixtures\PrivateConstructor;
 use Habemus\Test\TestCase;
-use Habemus\Util\PHPVersion;
+use Habemus\Utility\PHPVersion;
 use ReflectionException;
 use ReflectionFunction;
 use TypeError;

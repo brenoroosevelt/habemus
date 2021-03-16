@@ -15,7 +15,7 @@ use Habemus\Test\Fixtures\ClassWithAttributes;
 use Habemus\Test\Fixtures\ConstructorSelfDependency;
 use Habemus\Test\Fixtures\DependencyClassA;
 use Habemus\Test\Fixtures\PropertySelfCircularDependency;
-use Habemus\Util\PHPVersion;
+use Habemus\Utility\PHPVersion;
 use Psr\Container\ContainerInterface;
 
 class ContainerTest extends TestCase

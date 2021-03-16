@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Habemus;
 
 use Habemus\Exception\NotFoundException;
-use Habemus\Util\Lists\ObjectPriorityList;
+use Habemus\Utility\Lists\ObjectPriorityList;
 use Psr\Container\ContainerInterface;
 
 class ContainerComposite implements ContainerInterface

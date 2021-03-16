@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Util\Lists;
+namespace Habemus\Utility\Lists;
 
 use Generator;
 use LogicException;

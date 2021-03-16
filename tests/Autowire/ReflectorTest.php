@@ -15,7 +15,7 @@ use Habemus\Test\Fixtures\ClassWithAttributes;
 use Habemus\Test\Fixtures\GenericInterface;
 use Habemus\Test\Fixtures\SubClassTypedProperties;
 use Habemus\Test\TestCase;
-use Habemus\Util\PHPVersion;
+use Habemus\Utility\PHPVersion;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;

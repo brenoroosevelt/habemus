@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Test\Util;
 
 use Habemus\Test\TestCase;
-use Habemus\Util\Lists\KeyValuePriorityList;
+use Habemus\Utility\Lists\KeyValuePriorityList;
 use http\Exception;
 
 class KeyValuePriorityListTest extends TestCase

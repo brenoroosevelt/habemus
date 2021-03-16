@@ -12,7 +12,7 @@ use Habemus\Definition\DefinitionResolver;
 use Habemus\ResolvedList;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\TestCase;
-use Habemus\Util\PHPVersion;
+use Habemus\Utility\PHPVersion;
 use stdClass;
 
 class DefinitionResolverTest extends TestCase
