@@ -30,7 +30,12 @@
   top: 0;
         width:100%;
 }
-
+.topnav-inner {
+  max-width:64rem;
+  padding:0 6rem;
+  margin:0 auto;
+ }
+      
 .topnav a {
   float: left;
   display: block;
@@ -131,13 +136,14 @@
   </head>
   <body>
 <div class="topnav" id="myTopnav">
-  <div class="main-content">
+  <div class="topnav-inner">
   <a href="#home" class="active">Home</a>
   <a href="#news">News</a>
   <a href="#contact">Contact</a>
   <a href="#about">About</a>
+    <span>Teste</span>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-    <i class="fa fa-bars"></i>
+    <i class="fa fa-bars">&#9776; </i>
     
   </a>
   </div>
