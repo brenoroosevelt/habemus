@@ -30,6 +30,16 @@ use Habemus\Container;
 $container = new Container();
 ```
 
+## Registering services
+
+You can register your services by calling method `add(string $ id, $ service)`, like this:
+
+```php
+<?php
+$container->add('SomeService', new SomeService());
+```
+
+
 ## Container options
 
 * By setting `$container->useAutowire(true|false)`, 
