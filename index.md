@@ -107,7 +107,10 @@ class MyClass
 ```php
 <?php
 
-$container->get(FooInterface::class); // throws NotFoundException
+// Both will throw a NotFoundException
+// "No entry was found for (FooInterface)"
+$container->get(FooInterface::class);
+$container->get(MyClass::class); 
 ```
 
 ```php
