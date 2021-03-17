@@ -105,7 +105,7 @@ class MyClass
     }
 }
 ```
-When `Auto wiring` option is enabled, Habemus Container is able to resolve instances of objects and their dependencies by inspecting type hints in the constructors. However, when it comes to an interface, the container is unable to resolve the dependency. In the example below, the container does not know how to resolve an instance of FooInterface and will throw an exception.
+When `Auto wiring` is enabled, Habemus Container is able to resolve instances of objects and their dependencies by inspecting type hints in the constructors. However, when it comes to an interface, the container is unable to resolve the dependency. In the example below, the container does not know how to resolve an instance of FooInterface and will throw an exception.
 
 ```php
 <?php
@@ -140,6 +140,9 @@ $container->add(MyClass::class, MyClass::class)->constructor('foo', SpecialFoo::
 $myClass = $container->get(MyClass::class);
 var_dump($myClass->foo instanceof SimpleFoo); // false
 var_dump($myClass->foo instanceof SpecialFoo); // true
+
+$foo = $container->get(FooInterface::class);
+var_dump($foo instanceof SimpleFoo); // true
 ```
 
 ## Container options
