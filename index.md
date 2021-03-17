@@ -37,15 +37,34 @@ You can register anything into the container: services, references, arrays, sett
 ```php
 <?php
 
+// interface and its implementation (instances will be resolved by container)
 $container->add(UserRepositoryInterface::class, RedisUserRepository::class);
+
+// some (resolved) service 
 $container->add('SomeService', new SomeService());
+
+// numbers
 $container->add('my_secret_number', 123);
-$container->add('my_string', "Hi, I'm using Habemus Container');
+
+// strings
+$container->add('my_string', "Hi, I'm using Habemus Container");
+
+// array settings
 $container->add('settings', [
     'my_config' => 'value'
 ]);
 ```
 
+## Requesting services
+
+Habemus is a PSR-11 compliant implementation. Therefore, to request container services, we can use the methods `get (string $ id)` and `has (string $ id)`.
+
+```php
+<?php
+
+$repository = $container->get(UserRepositoryInterface::class);
+$settings = $container->get('settings');
+```
 
 ## Container options
 
