@@ -24,7 +24,14 @@ Habemus supports:
 
 ## Requirements
 
-* PHP >=7.1
+This package supports the following versions of PHP:
+
+* PHP 7.1
+* PHP 7.2
+* PHP 7.3
+* PHP 7.4
+* PHP 8.0
+
 
 ## Install
 
