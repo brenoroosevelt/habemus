@@ -32,11 +32,18 @@ $container = new Container();
 
 ## Registering services
 
-You can register your services by calling method `add(string $ id, $ service)`, like this:
+You can register anything into the container: services, references, arrays, settings, strings, numbers, etc. To register your services just call the method `add(string $id, $service)`, like this:
 
 ```php
 <?php
+
+$container->add(UserRepositoryInterface::class, RedisUserRepository::class);
 $container->add('SomeService', new SomeService());
+$container->add('my_secret_number', 123);
+$container->add('my_string', "Hi, I'm using Habemus Container');
+$container->add('settings', [
+    'my_config' => 'value'
+]);
 ```
 
 
