@@ -60,7 +60,7 @@ $container->add('stdCreator', fn() => new stdClass());
 
 ## Requesting services
 
-Habemus is a PSR-11 compliant implementation. Therefore, to request container services, simply use the `get(string $id): mixed` method. You can check services by calling the `has(string $id)` method to avoid a NotFoundException.
+Habemus is a PSR-11 compliant implementation. Therefore, to request container services, simply use the `get(string $id): mixed` method. You can check services by calling the `has(string $id): bool` method to avoid a NotFoundException.
 
 ```php
 <?php
@@ -76,6 +76,42 @@ if ($container->has('stdCreator')) {
 
 Ok, everything seems very simple so far... we only have three methods (`add` `has` `get`) and a standard behavior of Service Locator pattern.
 Habemus is more than this, and we can go further. So what if you need to decouple your class dependencies and inject them where they are needed? Don't worry, Habemus got you covered!
+
+
+## Interfaces and Abstract Classes
+
+```php
+<?php
+
+interface FooInterface {}
+
+class SimpleFoo implements FooInterface {}
+
+class SpecialFoo implements FooInterface {}
+
+class Bar {}
+
+class MyClass
+{
+    public $foo;
+    public function __construct(FooInterface $foo)
+    {
+        $this->foo = $foo;
+    }
+}
+
+$container->add(FooInterface::class, SimpleFoo::class);
+$container->add(MyClass::class, MyClass::class)->constructor('foo', SpecialFoo::class);
+
+$foo = $container->get(FooInterface::class);
+var_dump($foo instanceof FooInterface); // true
+var_dump($foo instanceof SimpleFoo); // true
+
+$myClass = $container->get(MyClass::class);
+var_dump($myClass->foo instanceof FooInterface); // true
+var_dump($myClass->foo instanceof SpecialFoo); // true
+```
+
 
 ## Container options
 
