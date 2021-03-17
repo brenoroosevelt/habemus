@@ -156,8 +156,8 @@ $myClass = $container->get(MyClass::class);
 var_dump($myClass->foo === $myFoo); // true
 
 $foo = $container->get(FooInterface::class);
-var_dump($foo instanceof $myFoo); // true
-``` 
+var_dump($foo === $myFoo); // true
+```
 
 ## Container options
 
