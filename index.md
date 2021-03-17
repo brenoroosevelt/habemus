@@ -74,8 +74,8 @@ if ($container->has('stdCreator')) {
 }
 ```
 
-Ok, everything seems very simple so far, we only have three methods (`add` `has` `get`), and a standard behavior of Service Locator pattern, but we can go further.
-Habemus is more than just an implementation of Service Locator pattern. So what if you need to decouple your class dependencies and inject them where they are needed? Don't worry, Habemus got you covered!
+Ok, everything seems very simple so far, we only have three methods (`add` `has` `get`), and a standard behavior of Service Locator pattern.
+Habemus is more than this, and we can go further. So what if you need to decouple your class dependencies and inject them where they are needed? Don't worry, Habemus got you covered!
 
 ## Container options
 
