@@ -145,6 +145,20 @@ $foo = $container->get(FooInterface::class);
 var_dump($foo instanceof SimpleFoo); // true
 ```
 
+You can also specify a single instance for all cases:
+
+```php
+<?php
+$myFoo = new SpecialFoo();
+$container->add(FooInterface::class, $myFoo);
+
+$myClass = $container->get(MyClass::class);
+var_dump($myClass->foo === $myFoo); // true
+
+$foo = $container->get(FooInterface::class);
+var_dump($foo instanceof $myFoo); // true
+``` 
+
 ## Container options
 
 * By setting `$container->useAutowire(true|false)`, 
