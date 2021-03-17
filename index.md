@@ -1,4 +1,4 @@
-#Installation
+# Installation
 
 ## Requirements
 
@@ -30,7 +30,11 @@ use Habemus\Container;
 $container = new Container();
 ```
 
-## 
+## Container options
+
+* By setting `$container->useAutowire(true|false)`, 
+* By setting `$container->useAttributes(true|false)`, ...
+* By setting `$container->useDefaultShared(true|false)`, ...
 
 ## Welcome to GitHub Pages
 
