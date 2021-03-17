@@ -94,24 +94,35 @@ class Bar {}
 class MyClass
 {
     public $foo;
-    public function __construct(FooInterface $foo)
+    public $bar;
+    
+    public function __construct(FooInterface $foo, Bar $bar)
     {
         $this->foo = $foo;
+        $this->bar = $bar;
     }
 }
 
 $container->add(FooInterface::class, SimpleFoo::class);
-$container->add(MyClass::class, MyClass::class)->constructor('foo', SpecialFoo::class);
 
 $foo = $container->get(FooInterface::class);
 var_dump($foo instanceof FooInterface); // true
 var_dump($foo instanceof SimpleFoo); // true
 
 $myClass = $container->get(MyClass::class);
-var_dump($myClass->foo instanceof FooInterface); // true
-var_dump($myClass->foo instanceof SpecialFoo); // true
+var_dump($myClass->foo instanceof SimpleFoo); // true
+var_dump($myClass->foo instanceof SpecialFoo); // false
 ```
 
+```php
+<?php
+
+$container->add(MyClass::class, MyClass::class)->constructor('foo', SpecialFoo::class);
+
+$myClass = $container->get(MyClass::class);
+var_dump($myClass->foo instanceof SimpleFoo); // false
+var_dump($myClass->foo instanceof SpecialFoo); // true
+```
 
 ## Container options
 
