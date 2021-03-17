@@ -104,15 +104,27 @@ class MyClass
 }
 
 $container->add(FooInterface::class, SimpleFoo::class);
+```
+
+
+```php
+<?php
+
+$container->add(FooInterface::class, SimpleFoo::class);
 
 $foo = $container->get(FooInterface::class);
 var_dump($foo instanceof FooInterface); // true
 var_dump($foo instanceof SimpleFoo); // true
+```
+
+```php
+<?php
 
 $myClass = $container->get(MyClass::class);
 var_dump($myClass->foo instanceof SimpleFoo); // true
 var_dump($myClass->foo instanceof SpecialFoo); // false
 ```
+
 
 ```php
 <?php
