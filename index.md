@@ -104,14 +104,17 @@ class MyClass
 }
 ```
 
+In the example below, the container does not know how to resolve an instance of FooInterface and will throw an exception.
+
 ```php
 <?php
 
 // Both will throw a NotFoundException
-// "No entry was found for (FooInterface)"
+// "No entry was found for id (FooInterface)"
 $container->get(FooInterface::class);
 $container->get(MyClass::class); 
 ```
+You need specify how container will resolve instances of FooInterface: 
 
 ```php
 <?php
@@ -126,7 +129,7 @@ $myClass = $container->get(MyClass::class);
 var_dump($myClass->foo instanceof SimpleFoo); // true
 var_dump($myClass->foo instanceof SpecialFoo); // false
 ```
-
+You can be more specific in certain cases:
 
 ```php
 <?php
