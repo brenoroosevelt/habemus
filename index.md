@@ -135,7 +135,7 @@ You can be more specific in certain cases:
 ```php
 <?php
 
-$container->add(MyClass::class, MyClass::class)->constructor('foo', SpecialFoo::class);
+$container->add(MyClass::class)->constructor('foo', SpecialFoo::class);
 
 $myClass = $container->get(MyClass::class);
 var_dump($myClass->foo instanceof SimpleFoo); // false
