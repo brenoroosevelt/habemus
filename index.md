@@ -19,7 +19,18 @@ Then, don't forget to import Composer autoloader into your application's bootstr
 require 'vendor/autoload.php';
 ```
 
+# Getting started
 
+After installation, you need an instance of Habemus Container. Usually a single container is used for the whole application. It is often configured in the application's bootstrap script.
+
+```php
+<?php
+use Habemus\Container;
+
+$container = new Container();
+```
+
+## 
 
 ## Welcome to GitHub Pages
 
