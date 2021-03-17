@@ -6,7 +6,7 @@ You need PHP >= 7.1 to use Habemus Container.
 
 ### Composer
 
-Composer is the recommended method of installing Habemus. Make sure you have the current version of Composer and import the Habemus package for your project.
+Composer is the recommended method of installing Habemus. Make sure you have the current version of Composer and then import the Habemus package for your project.
 
 ```shell
 composer require brenoroosevelt/habemus
