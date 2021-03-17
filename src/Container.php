@@ -17,13 +17,15 @@ use Habemus\Definition\DefinitionList;
 use Habemus\Definition\DefinitionResolver;
 use Habemus\Definition\DefinitionResolverInterface;
 use Habemus\Definition\DefinitionWrapper;
-use Habemus\Definition\Identifiable\Identifiable;
 use Habemus\Definition\Sharing\Shareable;
 use Habemus\Exception\NotFoundException;
 use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\ServiceProvider\ServiceProviderManager;
 use Psr\Container\ContainerInterface;
 
+/**
+ * @method DefinitionWrapper add(string $id, $value)
+ */
 class Container implements ContainerInterface, ArrayAccess
 {
     use DefinitionFactory;
@@ -114,8 +116,9 @@ class Container implements ContainerInterface, ArrayAccess
         $this->add(self::class, new RawDefinition($this));
     }
 
-    public function add(string $id, $value): DefinitionWrapper
+    public function add(string $id, $value = null): DefinitionWrapper
     {
+        $value = $value === null ? $id : $value;
         $definition = $this->detection->detect($value);
         $definition->setIdentity($id);
 
