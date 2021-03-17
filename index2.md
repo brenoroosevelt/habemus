@@ -1,26 +1,3 @@
-#Installation
-
-## Requirements
-
-You need PHP >= 7.1 to use Habemus Container.
-
-### Composer
-
-Composer is the recommended method of installing Habemus.
-
-```shell
-composer require brenoroosevelt/habemus
-```
-
-Then, don't forget to import Composer autoloader into your application's bootstrap script:
-
-```php
-<?php
-require 'vendor/autoload.php';
-```
-
-
-
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/brenoroosevelt/habemus/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
