@@ -32,7 +32,7 @@ $container = new Container();
 
 ## Registering services
 
-You can register anything into the container: services, references, arrays, settings, strings, numbers, etc. To register your services just call the method `add(string $id, $service)`, like this:
+You can register anything into the container: services, references, arrays, settings, strings, numbers, etc. To register your services just call the method `add(string $id, $value)`, like this:
 
 ```php
 <?php
@@ -73,6 +73,8 @@ if ($container->has('stdCreator')) {
     $newStd = $container->get('stdCreator');
 }
 ```
+
+Ok, everything seems very simple so far, we only have three methods `add`,`has` and `get`, but we can go further.
 
 ## Container options
 
