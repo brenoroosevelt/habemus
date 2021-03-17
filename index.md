@@ -78,7 +78,7 @@ Ok, everything seems very simple so far... we only have three methods (`add` `ha
 Habemus is more than this, and we can go further. So what if you need to decouple your class dependencies and inject them where they are needed? Don't worry, Habemus got you covered!
 
 
-## Interfaces and Abstract Classes
+## Auto wiring
 
 Consider the scenario below:
 
@@ -158,6 +158,36 @@ var_dump($myClass->foo === $myFoo); // true
 $foo = $container->get(FooInterface::class);
 var_dump($foo === $myFoo); // true
 ```
+
+## Primitive types
+
+As with interfaces, Auto wiring cannot resolve primitive types on its own.
+
+```php
+<?php
+class MyClass
+{
+    public function __construct(FooInterface $foo, int $x)
+    {
+    }
+}
+```
+
+```php
+<?php
+
+// container throws an UnresolvableParameterException
+$container->get(MyClass::class);
+```
+
+In this case, you need to specify constructor parameters for primitive types:
+
+```php
+<?php
+
+$container->add(MyClass::class)->constructor('x', 1);
+```
+
 
 ## Container options
 
