@@ -80,6 +80,31 @@ Habemus is more than this, and we can go further. So what if you need to decoupl
 
 ## Auto wiring
 
+Auto wiring is enabled by default and you only need to ask for an instance.
+
+```php
+<?php
+
+class Foo {}
+
+class Bar
+{
+    public function __construct(Foo $foo)
+    {
+    }
+}
+```
+
+When `Auto wiring` is enabled, Habemus Container is able to resolve instances of objects and their dependencies by inspecting type hints in the constructors. No configuration is required.
+
+```php
+<?php
+
+$bar = $container->get(Bar::class);
+```
+
+## Interfaces and Abstract Classes
+
 Consider the scenario below:
 
 ```php
@@ -105,7 +130,8 @@ class MyClass
     }
 }
 ```
-When `Auto wiring` is enabled, Habemus Container is able to resolve instances of objects and their dependencies by inspecting type hints in the constructors. However, when dealing with an interface, the container is unable to resolve the dependency. In the example below, the container does not know how to resolve an instance of FooInterface and will throw an exception.
+
+When is dealing with an interface, the container is unable to resolve the dependency. In the example below, the container does not know how to resolve an instance of FooInterface and will throw an exception.
 
 ```php
 <?php
