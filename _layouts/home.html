@@ -139,8 +139,8 @@
   <body>
   {% include top-nav.html %}
     <header class="page-header" role="banner">
-      <h1 class="project-name">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
-      <h2 class="project-tagline">Habemus Container</h2>
+      <h1 class="project-name">Habemus Container</h1>
+      <h2 class="project-tagline">{{ page.description | default: site.description | default: site.github.project_tagline }}</h2>
         {% capture p1 %}{% include badges.md %}{% endcapture %}
         {{ p1 | markdownify }}
         {% if site.github.is_project_page %}
