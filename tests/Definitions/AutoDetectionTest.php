@@ -5,11 +5,11 @@ namespace Habemus\Test\Definitions;
 
 use Habemus\Container;
 use Habemus\Definition\AutoDetection;
-use Habemus\Definition\Available\ArrayDefinition;
-use Habemus\Definition\Available\ClassDefinition;
-use Habemus\Definition\Available\FnDefinition;
-use Habemus\Definition\Available\IdDefinition;
-use Habemus\Definition\Available\RawDefinition;
+use Habemus\Definition\Build\ArrayDefinition;
+use Habemus\Definition\Build\ClassDefinition;
+use Habemus\Definition\Build\FnDefinition;
+use Habemus\Definition\Build\ReferenceDefinition;
+use Habemus\Definition\Build\RawDefinition;
 use Habemus\Definition\Definition;
 use Habemus\Definition\Identifiable\IdentifiableTrait;
 use Habemus\Test\Fixtures\ClassA;
@@ -26,7 +26,7 @@ class AutoDetectionTest extends TestCase
                 RawDefinition::class,
                 new RawDefinition(1)
             ],
-            'pure_definition'=> [
+            'a_definition'=> [
                 Definition::class,
                 new class implements Definition {
                     use IdentifiableTrait;
@@ -79,7 +79,7 @@ class AutoDetectionTest extends TestCase
             ],
             'array_with_id_alias'=> [
                 ArrayDefinition::class,
-                [1, 2, [new IdDefinition('id1')]]
+                [1, 2, [new ReferenceDefinition('id1')]]
             ],
             'null_value'=> [
                 RawDefinition::class,

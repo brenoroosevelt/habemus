@@ -9,10 +9,11 @@ use Habemus\Autowiring\ClassResolver;
 use Habemus\Autowiring\ReflectionClassResolver;
 use Habemus\Autowiring\Reflector;
 use Habemus\Definition\AutoDetection;
-use Habemus\Definition\Available\ClassDefinition;
-use Habemus\Definition\Available\RawDefinition;
+use Habemus\Definition\Build\ClassDefinition;
+use Habemus\Definition\Build\RawDefinition;
+use Habemus\Definition\Definition;
 use Habemus\Definition\DefinitionDetection;
-use Habemus\Definition\DefinitionFactory;
+use Habemus\Definition\DefinitionBuilder;
 use Habemus\Definition\DefinitionList;
 use Habemus\Definition\DefinitionResolver;
 use Habemus\Definition\DefinitionResolverInterface;
@@ -28,7 +29,7 @@ use Psr\Container\ContainerInterface;
  */
 class Container implements ContainerInterface, ArrayAccess
 {
-    use DefinitionFactory;
+    use DefinitionBuilder;
 
     /**
      * @var CircularDependencyDetection
@@ -118,7 +119,7 @@ class Container implements ContainerInterface, ArrayAccess
 
     public function add(string $id, $value = null): DefinitionWrapper
     {
-        $value = $value === null ? $id : $value;
+        $value = $value === null && count(func_get_args()) === 1 ? $id : $value;
         $definition = $this->detection->detect($value);
         $definition->setIdentity($id);
 

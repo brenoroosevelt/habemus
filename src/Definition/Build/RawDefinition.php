@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Definition\Available;
+namespace Habemus\Definition\Build;
 
 use Habemus\Definition\Definition;
 use Habemus\Definition\Identifiable\IdentifiableTrait;
@@ -13,35 +13,28 @@ use Habemus\Definition\Tag\Taggable;
 use Habemus\Definition\Tag\TaggableTrait;
 use Psr\Container\ContainerInterface;
 
-class IdDefinition implements Definition, Shareable, CallableMethod, Taggable
+class RawDefinition implements Definition, Shareable, CallableMethod, Taggable
 {
     use IdentifiableTrait;
     use ShareableTrait;
     use CallableMethodTrait;
     use TaggableTrait;
 
-    /**
-     * @var string
-     */
-    protected $id;
+    /** @var mixed */
+    protected $value;
 
-    public function __construct(string $id)
+    public function __construct($value)
     {
-        $this->id = $id;
+        $this->value = $value;
     }
 
-    public function id(): string
+    public function getValue()
     {
-        return $this->id;
+        return $this->value;
     }
 
     public function getConcrete(ContainerInterface $container)
     {
-        return $container->get($this->id);
-    }
-
-    public function __toString(): string
-    {
-        return $this->id;
+        return $this->value;
     }
 }

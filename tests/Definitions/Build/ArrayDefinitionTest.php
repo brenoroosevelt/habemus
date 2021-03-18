@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Test\Definitions\Available;
+namespace Habemus\Test\Definitions\Build;
 
 use Habemus\Container;
-use Habemus\Definition\Available\ArrayDefinition;
-use Habemus\Definition\Available\IdDefinition;
+use Habemus\Definition\Build\ArrayDefinition;
+use Habemus\Definition\Build\ReferenceDefinition;
 use Habemus\Test\TestCase;
 
 class ArrayDefinitionTest extends TestCase
@@ -37,7 +37,7 @@ class ArrayDefinitionTest extends TestCase
     {
         $container = new Container();
         $container->add('id1', 'v1');
-        $definition = new ArrayDefinition([1, 2, new IdDefinition('id1')]);
+        $definition = new ArrayDefinition([1, 2, new ReferenceDefinition('id1')]);
         $values = $definition->getConcrete($container);
         $this->assertSame([1, 2, 'v1'], $values);
     }
@@ -46,7 +46,7 @@ class ArrayDefinitionTest extends TestCase
     {
         $container = new Container();
         $container->add('id1', 'v1');
-        $definition = new ArrayDefinition([1, 2, [[new IdDefinition('id1')]]], true);
+        $definition = new ArrayDefinition([1, 2, [[new ReferenceDefinition('id1')]]], true);
         $values = $definition->getConcrete($container);
         $this->assertSame([1, 2, [['v1']]], $values);
     }
@@ -55,7 +55,7 @@ class ArrayDefinitionTest extends TestCase
     {
         $container = new Container();
         $container->add('id1', 'v1');
-        $definition = new ArrayDefinition([1, 2, [[$idDefinition = new IdDefinition('id1')]]], false);
+        $definition = new ArrayDefinition([1, 2, [[$idDefinition = new ReferenceDefinition('id1')]]], false);
         $values = $definition->getConcrete($container);
         $this->assertSame([1, 2, [[$idDefinition]]], $values);
     }

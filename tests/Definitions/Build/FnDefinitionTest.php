@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Test\Definitions\Available;
+namespace Habemus\Test\Definitions\Build;
 
 use Habemus\Container;
-use Habemus\Definition\Available\FnDefinition;
+use Habemus\Definition\Build\FnDefinition;
 use Habemus\Test\TestCase;
 use Psr\Container\ContainerInterface;
 use stdClass;

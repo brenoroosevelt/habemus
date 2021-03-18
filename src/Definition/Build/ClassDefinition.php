@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Definition\Available;
+namespace Habemus\Definition\Build;
 
 use Habemus\Autowiring\ClassResolver;
 use Habemus\Definition\Definition;
@@ -14,7 +14,6 @@ use Habemus\Definition\Tag\Taggable;
 use Habemus\Definition\Tag\TaggableTrait;
 use Habemus\Exception\ContainerException;
 use Psr\Container\ContainerInterface;
-use RuntimeException;
 
 class ClassDefinition implements Definition, Shareable, CallableMethod, Taggable
 {

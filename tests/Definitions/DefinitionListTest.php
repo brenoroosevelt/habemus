@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Test\Definitions;
 
-use Habemus\Definition\Available\RawDefinition;
+use Habemus\Definition\Build\RawDefinition;
 use Habemus\Definition\DefinitionList;
 use Habemus\Test\TestCase;
 

@@ -1,20 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Definition\Available;
+namespace Habemus\Definition\Build;
 
 use Habemus\Definition\Definition;
 use Habemus\Definition\Identifiable\IdentifiableTrait;
+use Habemus\Definition\MethodCall\CallableMethod;
+use Habemus\Definition\MethodCall\CallableMethodTrait;
 use Habemus\Definition\Sharing\Shareable;
 use Habemus\Definition\Sharing\ShareableTrait;
 use Habemus\Definition\Tag\Taggable;
 use Habemus\Definition\Tag\TaggableTrait;
 use Psr\Container\ContainerInterface;
+use Traversable;
 
-class IdsDefinition implements Definition, Shareable, Taggable
+class IterateDefinition implements Definition, Shareable, CallableMethod, Taggable
 {
     use IdentifiableTrait;
     use ShareableTrait;
+    use CallableMethodTrait;
     use TaggableTrait;
 
     /**
@@ -22,9 +26,9 @@ class IdsDefinition implements Definition, Shareable, Taggable
      */
     protected $ids;
 
-    public function __construct(string ...$ids)
+    public function __construct(string ...$id)
     {
-        $this->ids = $ids;
+        $this->ids = $id;
     }
 
     public function ids(): array
@@ -32,13 +36,10 @@ class IdsDefinition implements Definition, Shareable, Taggable
         return $this->ids;
     }
 
-    public function getConcrete(ContainerInterface $container)
+    public function getConcrete(ContainerInterface $container): Traversable
     {
-        return array_map(
-            function ($id) use ($container) {
-                return  $container->get($id);
-            },
-            $this->ids
-        ) ;
+        foreach ($this->ids as $id) {
+            yield $id => $container->get($id);
+        }
     }
 }

@@ -5,11 +5,11 @@ namespace Habemus\Definition;
 
 use Closure;
 use Habemus\Container;
-use Habemus\Definition\Available\ArrayDefinition;
-use Habemus\Definition\Available\IdDefinition;
-use Habemus\Definition\Available\ClassDefinition;
-use Habemus\Definition\Available\FnDefinition;
-use Habemus\Definition\Available\RawDefinition;
+use Habemus\Definition\Build\ArrayDefinition;
+use Habemus\Definition\Build\ReferenceDefinition;
+use Habemus\Definition\Build\ClassDefinition;
+use Habemus\Definition\Build\FnDefinition;
+use Habemus\Definition\Build\RawDefinition;
 
 class AutoDetection implements DefinitionDetection
 {
@@ -44,7 +44,7 @@ class AutoDetection implements DefinitionDetection
         if (is_array($value)) {
             $hasDefinitionInside = false;
             array_walk_recursive($value, function ($item) use (&$hasDefinitionInside) {
-                if ($item instanceof IdDefinition) {
+                if ($item instanceof ReferenceDefinition) {
                     $hasDefinitionInside = true;
                 }
             });

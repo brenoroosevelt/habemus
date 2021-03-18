@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Test\Definitions\Available;
+namespace Habemus\Test\Definitions\Build;
 
 use Habemus\Autowiring\Attributes\AttributesInjection;
 use Habemus\Autowiring\ClassResolver;
 use Habemus\Autowiring\ReflectionClassResolver;
 use Habemus\Autowiring\Reflector;
 use Habemus\Container;
-use Habemus\Definition\Available\ClassDefinition;
+use Habemus\Definition\Build\ClassDefinition;
 use Habemus\Exception\ContainerException;
 use Habemus\Exception\NotFoundException;
 use Habemus\Exception\UnresolvableParameterException;

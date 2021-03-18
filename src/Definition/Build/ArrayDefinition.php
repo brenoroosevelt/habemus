@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Definition\Available;
+namespace Habemus\Definition\Build;
 
 use Habemus\Definition\Definition;
 use Habemus\Definition\Identifiable\IdentifiableTrait;
@@ -55,11 +55,11 @@ class ArrayDefinition implements Definition, Shareable, Taggable
 
         if ($this->recursive) {
             array_walk_recursive($values, function (&$item) use ($container) {
-                $item = $item instanceof IdDefinition ? $container->get($item->id()) : $item;
+                $item = $item instanceof ReferenceDefinition ? $container->get($item->id()) : $item;
             });
         } else {
             array_walk($values, function (&$item) use ($container) {
-                $item = $item instanceof IdDefinition ? $container->get($item->id()) : $item;
+                $item = $item instanceof ReferenceDefinition ? $container->get($item->id()) : $item;
             });
         }
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Habemus\Test\Definitions;
 
 use Habemus\Container;
-use Habemus\Definition\Available\ArrayDefinition;
-use Habemus\Definition\Available\ClassDefinition;
-use Habemus\Definition\Available\RawDefinition;
+use Habemus\Definition\Build\ArrayDefinition;
+use Habemus\Definition\Build\ClassDefinition;
+use Habemus\Definition\Build\RawDefinition;
 use Habemus\Definition\Definition;
 use Habemus\Definition\DefinitionWrapper;
 use Habemus\Definition\Identifiable\IdentifiableTrait;

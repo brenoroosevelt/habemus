@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Definition\Available;
+namespace Habemus\Definition\Build;
 
 use Habemus\Definition\Definition;
 use Habemus\Definition\Identifiable\IdentifiableTrait;
@@ -12,7 +12,6 @@ use Habemus\Definition\Sharing\ShareableTrait;
 use Habemus\Definition\Tag\Taggable;
 use Habemus\Definition\Tag\TaggableTrait;
 use Habemus\Exception\DefinitionException;
-use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 
 class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggable
@@ -22,7 +21,7 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
     use CallableMethodTrait;
     use TaggableTrait;
 
-    /** @var string|object|IdDefinition */
+    /** @var string|object|ReferenceDefinition */
     protected $objectOrClass;
 
     /** @var string|object */
@@ -54,7 +53,7 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
         $this->methodParams = $methodParams;
         $this->factory = null;
         $this->staticCall = $static;
-        $this->shared = false;
+        $this->setShared(false);
     }
 
     public function methodParams(array $params): self
@@ -106,7 +105,7 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
             return $this->factory;
         }
 
-        if ($this->objectOrClass instanceof IdDefinition) {
+        if ($this->objectOrClass instanceof ReferenceDefinition) {
             return $this->factory = $container->get($this->objectOrClass->id());
         }
 

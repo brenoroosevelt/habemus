@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Definition;
 
-use Habemus\Definition\Available\ClassDefinition;
+use Habemus\Definition\Build\ClassDefinition;
 use Habemus\Definition\MethodCall\CallableMethod;
 use Habemus\Definition\Sharing\Shareable;
 use Habemus\Definition\Tag\Taggable;

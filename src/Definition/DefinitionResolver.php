@@ -5,7 +5,7 @@ namespace Habemus\Definition;
 
 use Habemus\Autowiring\Attributes\AttributesInjection;
 use Habemus\Container;
-use Habemus\Definition\Available\RawDefinition;
+use Habemus\Definition\Build\RawDefinition;
 use Habemus\ResolvedList;
 use Habemus\Definition\MethodCall\CallableMethod;
 use Habemus\Definition\Sharing\Shareable;

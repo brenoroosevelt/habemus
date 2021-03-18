@@ -5,7 +5,7 @@ namespace Habemus\Test\Definitions\MethodCall;
 
 use Closure;
 use Habemus\Container;
-use Habemus\Definition\Available\IdDefinition;
+use Habemus\Definition\Build\ReferenceDefinition;
 use Habemus\Definition\Definition;
 use Habemus\Definition\Identifiable\IdentifiableTrait;
 use Habemus\Definition\MethodCall\CallableMethod;
@@ -136,7 +136,7 @@ class CallableMethodTraitTest extends TestCase
         $container->add("id2", 100);
 
         $trait = $this->newTraitInstance();
-        $trait->addMethodCall("multiParams", [new IdDefinition('id2'), 2]);
+        $trait->addMethodCall("multiParams", [new ReferenceDefinition('id2'), 2]);
 
         $callback = $trait->getMethodCall();
         $callback($object, $container);

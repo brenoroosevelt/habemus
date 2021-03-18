@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Definition\Available;
+namespace Habemus\Definition\Build;
 
+use Closure;
 use Habemus\Definition\Definition;
 use Habemus\Definition\Identifiable\IdentifiableTrait;
 use Habemus\Definition\MethodCall\CallableMethod;
@@ -13,28 +14,31 @@ use Habemus\Definition\Tag\Taggable;
 use Habemus\Definition\Tag\TaggableTrait;
 use Psr\Container\ContainerInterface;
 
-class RawDefinition implements Definition, Shareable, CallableMethod, Taggable
+class CallbackDefinition implements Definition, Shareable, CallableMethod, Taggable
 {
     use IdentifiableTrait;
     use ShareableTrait;
     use CallableMethodTrait;
     use TaggableTrait;
 
-    /** @var mixed */
-    protected $value;
+    /**
+     * @var string
+     */
+    protected $id;
 
-    public function __construct($value)
-    {
-        $this->value = $value;
-    }
+    /**
+     * @var Closure
+     */
+    protected $fn;
 
-    public function getValue()
+    public function __construct(string $id, Closure $fn)
     {
-        return $this->value;
+        $this->id = $id;
+        $this->fn = $fn;
     }
 
     public function getConcrete(ContainerInterface $container)
     {
-        return $this->value;
+        return ($this->fn)($container->get($this->id), $container);
     }
 }

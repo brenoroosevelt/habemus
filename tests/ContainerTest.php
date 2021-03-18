@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Test;
 
 use Habemus\Container;
-use Habemus\Definition\Available\RawDefinition;
+use Habemus\Definition\Build\RawDefinition;
 use Habemus\Exception\CircularDependencyException;
 use Habemus\Exception\NotFoundException;
 use Habemus\ServiceProvider\LazyServiceProvider;
@@ -272,5 +272,19 @@ class ContainerTest extends TestCase
         $this->assertSame($classA, $object->g());
         $this->assertSame($classA, $object->h());
         $this->assertSame($classA, $object->i());
+    }
+
+    public function testShouldAddNullValue()
+    {
+        $container = new Container();
+        $container->add('id', null);
+        $this->assertNull($container->get('id'));
+    }
+
+    public function testShouldAddIdAsValue()
+    {
+        $container = new Container();
+        $container->add('anId');
+        $this->assertEquals('anId', $container->get('anId'));
     }
 }

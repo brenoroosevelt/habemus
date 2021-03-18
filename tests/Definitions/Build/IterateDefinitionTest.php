@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Test\Definitions\Available;
+namespace Habemus\Test\Definitions\Build;
 
 use Habemus\Container;
-use Habemus\Definition\Available\IterateDefinition;
+use Habemus\Definition\Build\IterateDefinition;
 use Habemus\Exception\NotFoundException;
 use Habemus\Test\TestCase;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Definition\MethodCall;
 
 use Closure;
-use Habemus\Definition\Available\ArrayDefinition;
+use Habemus\Definition\Build\ArrayDefinition;
 use Habemus\Exception\DefinitionException;
 use Psr\Container\ContainerInterface;
 

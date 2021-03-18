@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Test\Definitions\Available;
+namespace Habemus\Test\Definitions\Build;
 
 use Habemus\Container;
-use Habemus\Definition\Available\FactoryDefinition;
-use Habemus\Definition\Available\IdDefinition;
+use Habemus\Definition\Build\FactoryDefinition;
+use Habemus\Definition\Build\ReferenceDefinition;
 use Habemus\Exception\ContainerException;
 use Habemus\Exception\DefinitionException;
 use Habemus\Exception\NotFoundException;
@@ -79,7 +79,7 @@ class FactoryDefinitionTest extends TestCase
     {
         $container =  new Container();
         $container->add('factoryClass', $myFactory = new FactoryClass());
-        $factory = new FactoryDefinition(new IdDefinition('factoryClass'), 'newObject');
+        $factory = new FactoryDefinition(new ReferenceDefinition('factoryClass'), 'newObject');
         $factoryInstance = $this->invokeMethod($factory, 'factoryInstance', [$container]);
         $this->assertSame($myFactory, $factoryInstance);
     }
@@ -98,7 +98,7 @@ class FactoryDefinitionTest extends TestCase
             new FactoryDefinition(
                 FactoryClass::class,
                 'newObject',
-                ['param1', new IdDefinition('containerParam')]
+                ['param1', new ReferenceDefinition('containerParam')]
             );
 
         $container =  new Container();
