@@ -15,7 +15,8 @@ Habemus supports:
 - Property/constructor injection using PHP 8 Attributes.
 - Circular dependency detection.
 - Interfaces, Factories, Closures, Callbacks.
-- Delegated containers (container composite).
+- Delegated containers.
+- Container composite.
 - Service providers and lazy service providers.
 - Taggable services.
 - Shareable instances.
