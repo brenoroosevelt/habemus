@@ -87,11 +87,11 @@ var_dump($bar instanceof Bar); // true
 ```
 When `Auto wiring` is enabled, Habemus Container is able to resolve instances of objects and their dependencies by inspecting type hints in the constructors. No configuration is required.
 
-## Dependency Injection
+# Dependency Injection
 
 Habemus is more than an implementation of Service Locator pattern, and we can go further. So what if you need to decouple your class dependencies and inject them where they are needed? Don't worry, Habemus got you covered!
 
-### Constructor Injection
+## Constructor Injection
 
 Consider the scenario below:
 
@@ -194,6 +194,45 @@ $container->add(MyClass::class)
     ->constructor('min', Container::use('config_min'))
     ->constructor('max', Container::use('config_max'));
 ```
+
+### Constructor Injection with Attributes
+
+You can use PHP 8 Attributes to inject dependencies in constructor parameters. See how simple it is:
+```php
+<?php
+
+$container->add('config_min', 1);
+$container->add('config_max', 50);
+```
+```php
+class MyClass
+{
+    // properties are public only to simplify the example
+    public function __construct(
+        #[Inject(SimpleFoo::class)]
+        public FooInterface $foo, 
+        #[Inject('config_min')]
+        public int $min, 
+        #[Inject('config_min')]
+        public int $max
+    ) { }
+}
+```
+All constructor dependencies will be resolved by the container.
+
+```php
+<?php
+// 
+$myClass = $container->get(MyClass::class);
+var_dump($myClass->foo instanceof SimpleFoo); // true
+var_dump($myClass->min == 1); // true
+var_dump($myClass->max == 50); // true
+```
+
+
+## Setter Injection
+
+## Property Injection
 
 ## Container options
 
