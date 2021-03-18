@@ -32,7 +32,7 @@ $container = new Container();
 
 ## Registering services
 
-Containers are typically implementations of the Service Locator pattern. You can register anything into the container: services, references, arrays, settings, strings, numbers, etc. To register your services just call the method `add(string $id, $value)`, like this:
+Containers are typically implementations of the Service Locator pattern. To register your services just call the method `add(string $id, $value)`, like this:
 
 ```php
 <?php
