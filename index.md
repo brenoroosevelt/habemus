@@ -51,7 +51,7 @@ $container->add('stdCreator', fn() => new stdClass());
 
 ## Using Container
 
-Habemus is a PSR-11 compliant implementation. Therefore, to request container services, simply use the `get(string $id): mixed` method. You can check services by calling the `has(string $id): bool` method to avoid a NotFoundException.
+Habemus is a PSR-11 compliant implementation. So, to get a service, just use the `get(string $id): mixed` method. You can check services by calling the `has(string $id): bool` method to avoid a NotFoundException.
 
 ```php
 <?php
