@@ -207,7 +207,6 @@ $container->add('config_max', 50);
 ```php
 class MyClass
 {
-    // properties are public only to simplify the example
     public function __construct(
         #[Inject(SimpleFoo::class)]
         public FooInterface $foo, 
@@ -231,6 +230,45 @@ var_dump($myClass->max == 50); // true
 
 
 ## Setter Injection
+
+Habemus allows you to use setter injection.
+
+```php
+
+class Foo {}
+
+class Bar {}
+
+class MyClass
+{
+    protected $foo;
+    
+    public function __construct(Bar $bar) { }
+    
+    public function setFoo(Foo $foo)
+    {
+        $this->foo = $foo;
+    }
+    
+    public function getFoo()
+    {
+        return $this->foo;
+    }
+}
+```
+The configured methods will be called by the container after instance resolution.
+```php
+<?php
+// provide a specific instance
+$container->add(MyClass::class)
+    ->addMethodCall('setFoo', [new SimpleFoo()]);
+// or use a reference:
+$container->add(MyClass::class)
+    ->addMethodCall('setFoo', [Container::use(SimpleFoo::class)]);
+    
+$myClass = $container->get(MyClass::class);
+var_dump($myClass->getFoo() instanceof SimpleFoo); // true
+```
 
 ## Property Injection
 
