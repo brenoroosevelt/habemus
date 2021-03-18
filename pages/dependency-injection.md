@@ -32,8 +32,7 @@ class MyClass
     }
 }
 ```
-
-When is dealing with an interface, the container is unable to resolve the dependency. In the example below, the container does not know how to resolve an instance of FooInterface and will throw an exception.
+As seen before, in most cases the container is able to resolve the instances of the classes automatically (using `auto wiring`). However, when dealing with an interface, the container is unable to resolve the dependency. In the example below, the container does not know how to resolve an instance of FooInterface and will throw an exception.
 
 ```php
 <?php
