@@ -135,6 +135,8 @@ In this case, you need specify how container will resolve instances of FooInterf
 $container->add(FooInterface::class, SimpleFoo::class);
 // or you can use a specify instance:
 $container->add(FooInterface::class, new SimpleFoo() );
+// or a factory
+$container->add(FooInterface::class, fn() => new SimpleFoo()); 
 
 $foo = $container->get(FooInterface::class);
 var_dump($foo instanceof FooInterface); // true
