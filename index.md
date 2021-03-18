@@ -151,7 +151,7 @@ You can use a specific instance in a particular class.
 // a specific instance for MyClass:
 $container->add(MyClass::class)
     ->constructor('foo', new SpecialFoo());
-// or reference another entry:
+// or a reference to another service:
 $container->add(MyClass::class)
     ->constructor('foo', Container::use(SpecialFoo::class));
 
@@ -189,7 +189,7 @@ In this case, you need to specify constructor parameters for primitive types:
 $container->add(MyClass::class)
     ->constructor('min', 1)
     ->constructor('max', 50);
-// Or:
+// or a reference to another services in the container:
 $container->add(MyClass::class)
     ->constructor('min', Container::use('config_max'))
     ->constructor('max', Container::use('config_max'));
