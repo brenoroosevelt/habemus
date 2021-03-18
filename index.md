@@ -10,8 +10,6 @@ This tool was designed to be fast, simple and help you to worry less and code mo
 
 ## Features
 
-Habemus supports:
-
 - [PSR-11](http://www.php-fig.org/psr/psr-11/) compatible.
 - Auto wiring (recursively through all dependencies)
 - Constructor injection.
