@@ -227,7 +227,52 @@ var_dump($myClass->foo instanceof SimpleFoo); // true
 var_dump($myClass->min); // 1
 var_dump($myClass->max); // 50
 ```
+## Property Injection
 
+Our property injection use PHP 8 Attributes.
+
+```php
+<?php
+
+$container->add('config_min', 1);
+```
+```php
+class MyClass
+{
+    #[Inject(SimpleFoo::class)]
+    protected $foo;
+    
+    #[Inject]
+    protected SpecialFoo $specialFoo;
+    
+    #[Inject('config_min')]
+    private $min;
+    
+    public function getSpecialFoo()
+    {
+        return $this->specialFoo;
+    }
+    
+    public function getFoo()
+    {
+        return $this->foo;
+    }
+    
+    public function getMin()
+    {
+        return $this->min;
+    }
+}
+```
+
+```php
+<?php
+
+$myClass = $container->get(MyClass::class);
+var_dump($myClass->getFoo() instanceof SimpleFoo); // true
+var_dump($myClass->getSpecialFoo() instanceof SpecialFoo); // true
+var_dump($myClass->getMin()); // 1
+```
 
 ## Setter Injection
 
@@ -266,7 +311,7 @@ var_dump($myClass->getFoo() instanceof SimpleFoo); // true
 ```
 The container will resolve an instance of MyClass and then call the setter method.
 
-## Property Injection
+
 
 ## Container options
 
