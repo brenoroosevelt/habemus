@@ -178,7 +178,7 @@ class MyClass
 ```php
 <?php
 
-$container->get(MyClass::class); // throws UnresolvableParameterException
+$container->get(MyClass::class); // UnresolvableParameterException
 ```
 
 In this case, you need to specify constructor parameters for primitive types:
@@ -189,6 +189,10 @@ In this case, you need to specify constructor parameters for primitive types:
 $container->add(MyClass::class)
     ->constructor('min', 1)
     ->constructor('max', 50);
+// Or:
+$container->add(MyClass::class)
+    ->constructor('min', Container::use('config_max'))
+    ->constructor('max', Container::use('config_max'));
 ```
 
 ## Container options
