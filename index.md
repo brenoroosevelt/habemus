@@ -144,7 +144,7 @@ $myClass = $container->get(MyClass::class);
 var_dump($myClass->foo instanceof SimpleFoo); // true
 var_dump($myClass->foo instanceof SpecialFoo); // false
 ```
-You can use a specific instance in a particular class.
+Now, container will always resolve FooInterface instances with a SimpleFoo object, but you can use a specific instance in a particular class:
 ```php
 <?php
 
