@@ -21,6 +21,7 @@ Habemus supports:
 - Shareable instances.
 - Variadic arguments in the constructor.
 - Aliasing.
+- Array Access.
 
 ## Requirements
 
