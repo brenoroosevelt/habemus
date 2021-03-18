@@ -83,13 +83,13 @@ class Bar
     public function __construct(Foo $foo) {}
 }
 ```
-
-When `Auto wiring` is enabled, Habemus Container is able to resolve instances of objects and their dependencies by inspecting type hints in the constructors. No configuration is required.
-
 ```php
 <?php
-$bar = $container->get(Bar::class);
+// No registration required; no configuration:
+$bar = $container->get(Bar::class); 
+var_dump($bar instanceof Bar); // true
 ```
+When `Auto wiring` is enabled, Habemus Container is able to resolve instances of objects and their dependencies by inspecting type hints in the constructors. No configuration is required.
 
 ## Interfaces and Abstract Classes
 
@@ -191,7 +191,7 @@ $container->add(MyClass::class)
     ->constructor('max', 50);
 // or a reference to another services in the container:
 $container->add(MyClass::class)
-    ->constructor('min', Container::use('config_max'))
+    ->constructor('min', Container::use('config_min'))
     ->constructor('max', Container::use('config_max'));
 ```
 
