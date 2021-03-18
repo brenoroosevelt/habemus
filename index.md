@@ -212,7 +212,7 @@ class MyClass
         public FooInterface $foo, 
         #[Inject('config_min')]
         public int $min, 
-        #[Inject('config_min')]
+        #[Inject('config_max')]
         public int $max
     ) { }
 }
@@ -224,8 +224,8 @@ All constructor dependencies will be resolved by the container.
 // 
 $myClass = $container->get(MyClass::class);
 var_dump($myClass->foo instanceof SimpleFoo); // true
-var_dump($myClass->min == 1); // true
-var_dump($myClass->max == 50); // true
+var_dump($myClass->min); // 1
+var_dump($myClass->max); // 50
 ```
 
 
@@ -256,7 +256,7 @@ class MyClass
     }
 }
 ```
-The configured methods will be called by the container after instance resolution.
+The container will resolve an instance to MyClass and then call the setter method.
 ```php
 <?php
 // provide a specific instance
