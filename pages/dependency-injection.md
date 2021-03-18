@@ -32,7 +32,7 @@ class MyClass
     }
 }
 ```
-As seen before, in most cases the container is able to resolve the instances of the classes automatically (using `auto wiring`). However, when dealing with an interface, the container is unable to resolve the dependency. In the example below, the container does not know how to resolve an instance of FooInterface and will throw an exception.
+As seen before, Habemus Container is able to resolve instances of objects and their dependencies by inspecting type hints in the constructors and no configuration is required. However, when dealing with an interface, the container is unable to resolve the dependency. In the example below, the container does not know how to resolve an instance of FooInterface and will throw an exception.
 
 ```php
 <?php
