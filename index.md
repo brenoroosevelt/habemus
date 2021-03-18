@@ -256,19 +256,19 @@ class MyClass
     }
 }
 ```
-The container will resolve an instance to MyClass and then call the setter method.
 ```php
 <?php
-// provide a specific instance
+// configuring setter method
 $container->add(MyClass::class)
     ->addMethodCall('setFoo', [new SimpleFoo()]);
-// or use a reference:
+// configuring setter method, using a reference (parameter):
 $container->add(MyClass::class)
     ->addMethodCall('setFoo', [Container::use(SimpleFoo::class)]);
     
 $myClass = $container->get(MyClass::class);
 var_dump($myClass->getFoo() instanceof SimpleFoo); // true
 ```
+The container will resolve an instance to MyClass and then call the setter method.
 
 ## Property Injection
 
