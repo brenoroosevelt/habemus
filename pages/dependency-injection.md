@@ -110,7 +110,7 @@ $container->add(MyClass::class)
 
 ### Constructor Injection with Attributes
 
-You can use PHP 8 Attributes to inject dependencies in constructor parameters. See how simple it is:
+Hamebus allows you to use PHP 8 Attributes to inject dependencies in constructor parameters. You only need to pass the service identification as a parameter of the `Inject` attribute. See how simple it is:
 ```php
 <?php
 
