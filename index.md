@@ -4,7 +4,9 @@ layout: home
 
 # What is Habemus?
 
-Habemus is a PSR-11 compatible dependency injection container. Habemus is a tool that provides autowiring to implement Inversion of Control (IoC) containers for PHP.
+Habemus is a PSR-11 compatible dependency injection container. More than this, Habemus is a powerful tool that provides autowiring to implement Inversion of Control (IoC) containers for PHP. 
+
+Worry less, code more.
 
 ## Features
 
