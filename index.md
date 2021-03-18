@@ -39,26 +39,21 @@ Containers are typically implementations of the Service Locator pattern. You can
 
 // Interface and its implementation (instances will be resolved by container)
 $container->add(UserRepositoryInterface::class, RedisUserRepository::class);
-
 // Some (resolved) service 
 $container->add('SomeService', new SomeService());
-
 // Numbers
 $container->add('my_secret_number', 123);
-
 // Strings
 $container->add('my_string', "Hi, I'm using Habemus Container");
-
 // Array settings
 $container->add('settings', [
     'my_config' => 'value'
 ]);
-
 // Closure factory
 $container->add('stdCreator', fn() => new stdClass());
 ```
 
-## Requesting services
+## Using Container
 
 Habemus is a PSR-11 compliant implementation. Therefore, to request container services, simply use the `get(string $id): mixed` method. You can check services by calling the `has(string $id): bool` method to avoid a NotFoundException.
 
@@ -99,7 +94,6 @@ When `Auto wiring` is enabled, Habemus Container is able to resolve instances of
 
 ```php
 <?php
-
 $bar = $container->get(Bar::class);
 ```
 
@@ -136,17 +130,17 @@ When is dealing with an interface, the container is unable to resolve the depend
 ```php
 <?php
 
-// Both will throw a NotFoundException
-// "No entry was found for id (FooInterface)"
-$container->get(FooInterface::class);
-$container->get(MyClass::class); 
+$container->get(FooInterface::class); // throws a NotFoundException
+$container->get(MyClass::class);  // throws a UnresolvableParameterException
 ```
-You need specify how container will resolve instances of FooInterface: 
+In this case, you need specify how container will resolve instances of FooInterface: 
 
 ```php
 <?php
-
+// contanier will try to resolve with an instance of SpecialFoo
 $container->add(FooInterface::class, SimpleFoo::class);
+// or you can use a specify instance:
+$container->add(FooInterface::class, new SpecialFoo() );
 
 $foo = $container->get(FooInterface::class);
 var_dump($foo instanceof FooInterface); // true
@@ -157,11 +151,15 @@ var_dump($myClass->foo instanceof SimpleFoo); // true
 var_dump($myClass->foo instanceof SpecialFoo); // false
 ```
 You can be more specific in certain cases:
-
 ```php
 <?php
 
-$container->add(MyClass::class)->constructor('foo', SpecialFoo::class);
+// a specific instance:
+$container->add(MyClass::class)
+    ->constructor('foo', new SpecialFoo());
+// or reference another entry:
+$container->add(MyClass::class)
+    ->constructor('foo', Container::use(SpecialFoo::class));
 
 $myClass = $container->get(MyClass::class);
 var_dump($myClass->foo instanceof SimpleFoo); // false
@@ -171,39 +169,22 @@ $foo = $container->get(FooInterface::class);
 var_dump($foo instanceof SimpleFoo); // true
 ```
 
-You can also specify a single instance for all cases:
-
-```php
-<?php
-$myFoo = new SpecialFoo();
-$container->add(FooInterface::class, $myFoo);
-
-$myClass = $container->get(MyClass::class);
-var_dump($myClass->foo === $myFoo); // true
-
-$foo = $container->get(FooInterface::class);
-var_dump($foo === $myFoo); // true
-```
-
 ## Primitive types
 
-As with interfaces, Auto wiring cannot resolve primitive types on its own.
+As with interfaces, auto wiring cannot resolve primitive types in the constructor's parameters.
 
 ```php
 <?php
 class MyClass
 {
-    public function __construct(FooInterface $foo, int $x)
-    {
-    }
+    public function __construct(int $min, int $max) {}
 }
 ```
 
 ```php
 <?php
 
-// container throws an UnresolvableParameterException
-$container->get(MyClass::class);
+$container->get(MyClass::class); // throws UnresolvableParameterException
 ```
 
 In this case, you need to specify constructor parameters for primitive types:
@@ -211,9 +192,10 @@ In this case, you need to specify constructor parameters for primitive types:
 ```php
 <?php
 
-$container->add(MyClass::class)->constructor('x', 1);
+$container->add(MyClass::class)
+    ->constructor('min', 1)
+    ->constructor('max', 50);
 ```
-
 
 ## Container options
 
