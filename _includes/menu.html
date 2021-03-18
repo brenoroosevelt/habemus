@@ -1,0 +1,55 @@
+<!-- <div id="navcontainer">
+<ul id="navlist">
+<li id="active"><a href="#" id="current">Item one</a>
+<ul id="subnavlist">
+<li id="subactive"><a href="#" id="subcurrent">Subitem one</a></li>
+<li><a href="#">Subitem two</a></li>
+<li><a href="#">Subitem three</a></li>
+<li><a href="#">Subitem four</a></li>
+</ul>
+</li>
+<li><a href="#">Item two</a></li>
+<li><a href="#">Item three</a></li>
+<li><a href="#">Item four</a></li>
+</ul>
+ <ul id="navlist">
+<li id="active"><a href="/test" id="current">Item one</a>
+<ul id="subnavlist">
+<li id="subactive"><a href="#" id="subcurrent">Subitem one</a></li>
+<li><a href="#">Subitem two</a></li>
+<li><a href="#">Subitem three</a></li>
+<li><a href="#">Subitem four</a></li>
+</ul>
+</li> 
+<li><a href="#">Item two</a></li>
+<li><a href="#">Item three</a></li>
+<li><a href="#">Item four</a></li>
+</ul>
+</div>
+-->
+<div id="navcontainer">
+
+{% for item in site.data.menu.items %}
+ <ul id="navlist">
+ <li id="active"><a href="{{ item.url | relative_url }}" id="current">{{item.title}}</a>
+  <ul id="subnavlist">
+{% for entry in item.subfolderitems %}
+   <li><a href="{{ entry.url | relative_url }}">{{ entry.page }}</a></li>
+{% endfor %}
+  </ul>
+ </li>
+   </ul>
+{% endfor %}
+
+ </div>
+
+<!-- 
+{% for item in site.data.menu.items %}
+<h3>{{item.title}}</h3>
+{% for entry in item.subfolderitems %}
+ <a href="{{ entry.url | relative_url }}" {% if page.url == entry.url | relative_url %}class="current"{% endif %}>
+  {{ entry.page }}
+ </a><br/>
+{% endfor %}
+{% endfor %}
+ -->

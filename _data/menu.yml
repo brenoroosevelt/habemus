@@ -1,0 +1,64 @@
+items:
+  - title: Geral
+    url: /pages/installation.html
+  - title: Introduction
+    url: /pages/installation.html
+    subfolderitems:
+      - page: Getting Started
+        url: /
+      - page: Installation
+        url: /pages/installation.html
+      - page: Basic Usage
+        url: '/pages/installation.html#content'
+      - page: PSR-11 
+        url: /
+      - page: Auto-wiring
+        url: '/pages/installation.html#content'
+        
+  - title: Dependency Injection
+    url: /pages/installation.html
+    subfolderitems:
+      - page: Constructor Injection
+        url: /widget1.html
+      - page: Property Injection
+        url: /widget2.html
+      - page: Setter Injection
+        url: /widget3.html
+        
+  - title: Definitions
+    url: /pages/installation.html
+    subfolderitems:
+      - page: Raw values
+        url: /piece1.html
+      - page: Factories
+        url: /piece2.html
+      - page: Closures
+        url: /piece2.html
+      - page: Aliases
+        url: /piece3.html
+      - page: Array
+        url: /piece3.html
+      - page: Callback
+        url: /piece3.html
+      - page: Iterate
+        url: /piece3.html
+      - page: Tags
+        url: /piece3.html
+
+  - title: Service Providers
+    url: /pages/installation.html
+    subfolderitems:
+      - page: Creating Providers
+        url: /widget1.html
+      - page: Lazy Providers
+        url: /widget2.html
+  
+  - title: Advanced
+    url: /pages/installation.html
+    subfolderitems:
+      - page: Container Delegation 
+        url: /widget1.html
+      - page: Container Composition
+        url: /widget2.html
+  
+

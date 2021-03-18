@@ -1,0 +1,16 @@
+<nav>
+  <h3>Fisrt Level</h3>
+  {% for item in site.data.navigation %}
+    <a href="{{ item.link | relative_url }}" {% if page.url == item.link| relative_url %}class="current"{% endif %}>
+      {{ item.name }}
+    </a>
+  <br/>
+  {% endfor %}
+    <h3>Second Level</h3>
+  {% for item in site.data.navigation %}
+    <a href="{{ item.link | relative_url }}" {% if page.url == item.link| relative_url %}class="current"{% endif %}>
+      {{ item.name }}
+    </a>
+  <br/>
+  {% endfor %}
+</nav>
