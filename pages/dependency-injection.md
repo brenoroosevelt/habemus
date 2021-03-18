@@ -3,7 +3,7 @@ layout: default
 ---
 # Dependency Injection
 
-Habemus is more than an implementation of Service Locator pattern, and we can go further. So what if you need to decouple your class dependencies and inject them where they are needed? Don't worry, Habemus got you covered!
+With Habemus Container you can  to decouple your class dependencies and inject them where they are needed.
 
 ## Constructor Injection
 

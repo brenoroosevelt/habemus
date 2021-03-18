@@ -14,7 +14,7 @@ $container = new Container();
 
 ## Registering services
 
-Containers are typically implementations of the Service Locator pattern. To register your services just call the `add(string $id, $value)` method, like this:
+You can register your services calling the `add(string $id, $value)` method:
 
 ```php
 <?php
