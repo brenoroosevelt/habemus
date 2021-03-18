@@ -237,13 +237,9 @@ Habemus allows you to use setter injection.
 
 class Foo {}
 
-class Bar {}
-
 class MyClass
 {
     protected $foo;
-    
-    public function __construct(Bar $bar) { }
     
     public function setFoo(Foo $foo)
     {
@@ -268,7 +264,7 @@ $container->add(MyClass::class)
 $myClass = $container->get(MyClass::class);
 var_dump($myClass->getFoo() instanceof SimpleFoo); // true
 ```
-The container will resolve an instance to MyClass and then call the setter method.
+The container will resolve an instance of MyClass and then call the setter method.
 
 ## Property Injection
 
