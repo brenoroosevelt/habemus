@@ -41,14 +41,10 @@ Containers are typically implementations of the Service Locator pattern. You can
 $container->add(UserRepositoryInterface::class, RedisUserRepository::class);
 // Some (resolved) service 
 $container->add('SomeService', new SomeService());
-// Numbers
+// Numbers, strings, arrays
 $container->add('my_secret_number', 123);
-// Strings
 $container->add('my_string', "Hi, I'm using Habemus Container");
-// Array settings
-$container->add('settings', [
-    'my_config' => 'value'
-]);
+$container->add('settings', ['my_config' => 'value']);
 // Closure factory
 $container->add('stdCreator', fn() => new stdClass());
 ```
