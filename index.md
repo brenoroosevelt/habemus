@@ -84,9 +84,7 @@ class Foo {}
 
 class Bar
 {
-    public function __construct(Foo $foo)
-    {
-    }
+    public function __construct(Foo $foo) {}
 }
 ```
 
@@ -130,17 +128,17 @@ When is dealing with an interface, the container is unable to resolve the depend
 ```php
 <?php
 
-$container->get(FooInterface::class); // throws a NotFoundException
-$container->get(MyClass::class);  // throws a UnresolvableParameterException
+$container->get(FooInterface::class); // NotFoundException
+$container->get(MyClass::class);  // UnresolvableParameterException
 ```
 In this case, you need specify how container will resolve instances of FooInterface: 
 
 ```php
 <?php
-// contanier will try to resolve with an instance of SpecialFoo
+// contanier will try to resolve with an instance of SimpleFoo
 $container->add(FooInterface::class, SimpleFoo::class);
 // or you can use a specify instance:
-$container->add(FooInterface::class, new SpecialFoo() );
+$container->add(FooInterface::class, new SimpleFoo() );
 
 $foo = $container->get(FooInterface::class);
 var_dump($foo instanceof FooInterface); // true
@@ -150,11 +148,11 @@ $myClass = $container->get(MyClass::class);
 var_dump($myClass->foo instanceof SimpleFoo); // true
 var_dump($myClass->foo instanceof SpecialFoo); // false
 ```
-You can be more specific in certain cases:
+You can use a specific instance in a particular class.
 ```php
 <?php
 
-// a specific instance:
+// a specific instance for MyClass:
 $container->add(MyClass::class)
     ->constructor('foo', new SpecialFoo());
 // or reference another entry:
