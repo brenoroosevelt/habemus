@@ -64,11 +64,6 @@ if ($container->has('stdCreator')) {
     $newStd = $container->get('stdCreator');
 }
 ```
-
-Ok, everything seems very simple so far... we only have three methods (`add` `has` `get`) and a standard behavior of Service Locator pattern.
-Habemus is more than this, and we can go further. So what if you need to decouple your class dependencies and inject them where they are needed? Don't worry, Habemus got you covered!
-
-
 ## Auto wiring
 
 Auto wiring is enabled by default and you only need to ask for an instance.
@@ -83,6 +78,7 @@ class Bar
     public function __construct(Foo $foo) {}
 }
 ```
+
 ```php
 <?php
 // No registration required; no configuration:
@@ -91,7 +87,11 @@ var_dump($bar instanceof Bar); // true
 ```
 When `Auto wiring` is enabled, Habemus Container is able to resolve instances of objects and their dependencies by inspecting type hints in the constructors. No configuration is required.
 
-## Interfaces and Abstract Classes
+## Dependency Injection
+
+Habemus is more than an implementation of Service Locator pattern, and we can go further. So what if you need to decouple your class dependencies and inject them where they are needed? Don't worry, Habemus got you covered!
+
+### Constructor Injection
 
 Consider the scenario below:
 
@@ -164,8 +164,6 @@ var_dump($myClass->foo instanceof SpecialFoo); // true
 $foo = $container->get(FooInterface::class);
 var_dump($foo instanceof SimpleFoo); // true
 ```
-
-## Primitive types
 
 As with interfaces, the container cannot resolve primitive types in the constructor.
 
