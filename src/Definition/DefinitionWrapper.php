@@ -31,7 +31,7 @@ final class DefinitionWrapper
         return $this;
     }
 
-    public function shared(bool $share): self
+    public function setShared(bool $share): self
     {
         if (! $this->definition instanceof Shareable) {
             throw DefinitionException::unshareable($this->definition);

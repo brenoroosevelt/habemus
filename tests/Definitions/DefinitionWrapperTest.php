@@ -33,7 +33,7 @@ class DefinitionWrapperTest extends TestCase
     {
         $definition = new RawDefinition('value');
         $wrapper = new DefinitionWrapper($definition);
-        $wrapper->shared(true);
+        $wrapper->setShared(true);
         $this->assertTrue($definition->isShared());
     }
 
@@ -41,7 +41,7 @@ class DefinitionWrapperTest extends TestCase
     {
         $definition = new RawDefinition('value');
         $wrapper = new DefinitionWrapper($definition);
-        $wrapper->shared(false);
+        $wrapper->setShared(false);
         $this->assertFalse($definition->isShared());
     }
 
@@ -87,7 +87,7 @@ class DefinitionWrapperTest extends TestCase
 
         $wrapper = new DefinitionWrapper($definition);
         $this->expectExceptionObject(DefinitionException::unshareable($definition));
-        $wrapper->shared(true);
+        $wrapper->setShared(true);
     }
 
     public function testShouldDefinitionWrapperThrowExceptionWhenConstructorParametersIsNotAvailable()
