@@ -2,7 +2,7 @@
 layout: home
 ---
 
-# Why Do I Need A Container?
+# What is Habemus?
 
 Habemus is a PSR-11 compatible dependency injection container. This package provides autowiring to implement Inversion of Control (IoC) containers for PHP.
 
