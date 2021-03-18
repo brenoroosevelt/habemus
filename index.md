@@ -243,7 +243,7 @@ class MyClass
     protected $foo;
     
     #[Inject]
-    protected SpecialFoo $specialFoo;
+    protected SpecialFoo $specialFoo; // use type hint
     
     #[Inject('config_min')]
     private $min;
