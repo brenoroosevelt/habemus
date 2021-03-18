@@ -6,13 +6,13 @@ You need PHP >= 7.1 to use Habemus Container.
 
 ### Composer
 
-Composer is the recommended way of installing Habemus. Make sure you have the current version of Composer and then import the Habemus package for your project.
+Make sure you have the current version of Composer and then import the Habemus package for your project.
 
 ```shell
 composer require brenoroosevelt/habemus
 ```
 
-Don't forget to import Composer autoloader in your bootstrap script:
+Import Composer autoloader in your bootstrap script:
 
 ```php
 <?php
@@ -21,7 +21,7 @@ require 'vendor/autoload.php';
 
 # Getting started
 
-After installation, you need an instance of Habemus Container. Usually a single container is used for the whole application. It is often configured in the application's bootstrap script.
+After installation, you need an instance of Habemus Container. Usually a single container is used for the whole application. It is often configured in your bootstrap script.
 
 ```php
 <?php
