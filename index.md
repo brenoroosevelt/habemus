@@ -32,7 +32,7 @@ $container = new Container();
 
 ## Registering services
 
-Containers are typically implementations of the Service Locator pattern. To register your services just call the method `add(string $id, $value)`, like this:
+Containers are typically implementations of the Service Locator pattern. To register your services just call the `add(string $id, $value)` method, like this:
 
 ```php
 <?php
@@ -167,7 +167,7 @@ var_dump($foo instanceof SimpleFoo); // true
 
 ## Primitive types
 
-As with interfaces, auto wiring cannot resolve primitive types in the constructor's parameters.
+As with interfaces, the container cannot resolve primitive types in the constructor.
 
 ```php
 <?php
