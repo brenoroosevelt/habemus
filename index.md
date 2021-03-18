@@ -229,7 +229,7 @@ var_dump($myClass->max); // 50
 ```
 ## Property Injection
 
-Our property injection use PHP 8 Attributes.
+Our property injection use PHP 8 Attributes.You only need to pass the service identification as a parameter of the `Inject` attribute. If no identification is provided, the container will attempt to use the type hint. 
 
 ```php
 <?php
