@@ -168,6 +168,18 @@
   </head>
   <body>
   {% include top-nav.html %}
+  {% if page.url == '/' %}
+      <header class="page-header" role="banner">
+          <h1 class="project-name">Habemus Container</h1>
+          <h2 class="project-tagline">{{ page.description | default: site.description | default: site.github.project_tagline }}</h2>
+          {% capture p1 %}{% include badges.md %}{% endcapture %}
+          {{ p1 | markdownify }}
+          {% if site.github.is_project_page %}
+          <a href="{{ site.github.repository_url }}" class="btn">View on GitHub</a>
+          {% endif %}
+          <a href="#" class="btn">Getting started</a>
+      </header>
+  {% endif %}
   <main id="content" class="main-content" role="main" style="max-width:100%">
       <div style="display: flex">
           <div class="column-1">
