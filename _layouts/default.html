@@ -140,6 +140,7 @@
   z-index: 1;
   top: 0;
   left: 0;
+  /*background-color: #111;*/
   background-color: #EEEEEE;
   overflow-x: hidden;
   transition: 0.3s;
@@ -198,7 +199,7 @@
           </div>
       </div>
        
-    <div id="mySidenav" class="sidenav">
+    <div id="mySidenav" class="sidenav" onclick="closeNav()">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     {% include menu.html %}
 
