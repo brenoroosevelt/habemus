@@ -1,17 +1,17 @@
 items:
-  - title: Home
+  - title: Introduction
     url: /
   - title: Instalation
     url: /pages/installation.html
   - title: Getting Started
-      url: /pages/getting-started.html
-      subfolderitems:
-        - page: Registering services
-          url: /pages/getting-started.html#registering-services
-        - page: Basic Usage
-          url: /pages/getting-started.html#basic-usage
-        - page: Auto Wiring
-          url: /pages/getting-started.html#auto-wiring
+    url: /pages/getting-started.html
+    subfolderitems:
+      - page: Registering services
+        url: /pages/getting-started.html#registering-services
+      - page: Basic Usage
+        url: /pages/getting-started.html#basic-usage
+      - page: Auto Wiring
+        url: /pages/getting-started.html#auto-wiring
   - title: Dependency Injection
     url: /pages/installation.html
     subfolderitems:
