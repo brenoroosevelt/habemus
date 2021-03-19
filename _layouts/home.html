@@ -150,7 +150,7 @@
     </header>
     <main id="content" class="main-content" role="main">
         {{ content }}
-        {% if page.url == '/' | relative_url %} ESTAMOS NA NOME {% endif %}
+        {% if page.url == '/' %} ESTAMOS NA NOME {% endif %}
         {{ page.url }} -
         {{ page.url | relative_url }}
         {% include footer.html %}
