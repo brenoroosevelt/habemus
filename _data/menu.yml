@@ -17,7 +17,7 @@ items:
     subfolderitems:
       - page: Constructor Injection
         url: /pages/dependency-injection.html#constructor-injection
-     - page: Constructor Injection (PHP8 Attributes)
+      - page: Constructor Injection (PHP8 Attributes)
         url: /pages/dependency-injection.html#constructor-injection-with-attributes
       - page: Property Injection (PHP8 Attributes)
         url: /pages/dependency-injection.html#property-injection
