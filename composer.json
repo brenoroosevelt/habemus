@@ -8,11 +8,14 @@
     "autowire",
     "auto-wiring",
     "attributes",
-    "property dependency injection"
+    "php8 attributes",
+    "property injection",
+    "constructor injection",
+    "setter injection"
   ],
   "minimum-stability": "stable",
   "license": "MIT",
-  "homepage": "https://github.com/brenoroosevelt/habemus",
+  "homepage": "https://brenoroosevelt.github.io/habemus",
   "authors": [
     {
       "name": "Breno Roosevelt",
