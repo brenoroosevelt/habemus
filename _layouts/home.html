@@ -151,6 +151,7 @@
     <main id="content" class="main-content" role="main">
         {{ content }}
         {% if page.url == '/habemus' | relative_url %} ESTAMOS NA NOME {% endif %}
+        {{ page.url }}
         {% include footer.html %}
     </main>
   </body>
