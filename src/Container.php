@@ -24,9 +24,6 @@ use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\ServiceProvider\ServiceProviderManager;
 use Psr\Container\ContainerInterface;
 
-/**
- * @method DefinitionWrapper add(string $id, $value)
- */
 class Container implements ContainerInterface, ArrayAccess
 {
     use DefinitionBuilder;
