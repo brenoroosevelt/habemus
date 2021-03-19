@@ -27,29 +27,21 @@ items:
 #  - title: Definitions
 #    url: /pages/installation.html
 #    subfolderitems:
-#      - page: Raw values
+#      - page: Shareable Instances
 #        url: /piece1.html
+#      - page: Taggable Services
+#        url: /piece2.html
 #      - page: Factories
 #        url: /piece2.html
-#      - page: Closures
-#        url: /piece2.html
 #      - page: Aliases
-#        url: /piece3.html
-#      - page: Array
-#        url: /piece3.html
-#      - page: Callback
-#        url: /piece3.html
-#      - page: Iterate
-#        url: /piece3.html
-#      - page: Tags
 #        url: /piece3.html
 #
 #  - title: Service Providers
 #    url: /pages/installation.html
 #    subfolderitems:
-#      - page: Creating Providers
+#      - page: Service Providers
 #        url: /widget1.html
-#      - page: Lazy Providers
+#      - page: Lazy Service Providers
 #        url: /widget2.html
 #
 #  - title: Advanced
