@@ -24,6 +24,16 @@
     <link rel="stylesheet" href="{{ '/assets/css/app.css?v=' | append: site.github.build_revision | relative_url }}">
     <style>
 
+        .column-1 {
+            width: 30%;
+            background: #f9f9f9;
+            border-radius: 5px;
+            padding: 10px 0 10px 0;
+        }
+
+        .column-2 {
+            width: 70%; padding-left: 1em;
+        }
       .topnav {
   overflow: hidden;
   background-color: #333;
@@ -71,12 +81,30 @@
   display: none;
 }
 
+.topnav .menu {
+  display: none;
+}
+
 @media screen and (max-width: 600px) {
   .topnav a:not(.menu) {display: none;}
   .topnav a.icon {
     float: right;
     display: block;
   }
+
+    .topnav .menu {
+        display: block;
+    }
+
+    .column-1 {
+        display: none;
+    }
+
+    .column-2 {
+        width: 100%;
+        padding-left: 0;
+    }
+
   .topnav-inner {
     padding:0 ;
    }
@@ -142,10 +170,10 @@
   {% include top-nav.html %}
   <main id="content" class="main-content" role="main" style="max-width:100%">
       <div style="display: flex">
-          <div style="width: 30%; background: #f9f9f9; border-radius: 5px; padding: 10px 0 10px 0">
+          <div class="column-1">
               {% include menu.html %}
           </div>
-          <div style="width: 70%; padding-left: 1em;">
+          <div class="column-2">
               {{ content }}
           </div>
       </div>
