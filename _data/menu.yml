@@ -13,14 +13,16 @@ items:
       - page: Auto Wiring
         url: /pages/getting-started.html#auto-wiring
   - title: Dependency Injection
-    url: /pages/installation.html
+    url: /pages/dependency-injection.html#
     subfolderitems:
       - page: Constructor Injection
-        url: /widget1.html
-      - page: Property Injection
-        url: /widget2.html
+        url: /pages/dependency-injection.html#constructor-injection
+     - page: Constructor Injection (PHP8 Attributes)
+        url: /pages/dependency-injection.html#constructor-injection-with-attributes
+      - page: Property Injection (PHP8 Attributes)
+        url: /pages/dependency-injection.html#property-injection
       - page: Setter Injection
-        url: /widget3.html
+        url: /pages/dependency-injection.html#setter-injection
         
   - title: Definitions
     url: /pages/installation.html
