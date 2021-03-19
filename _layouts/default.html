@@ -139,7 +139,15 @@
   </head>
   <body>
   {% include top-nav.html %}
-  <main id="content" class="main-content" role="main">
+  <main id="content" class="main-content" role="main" style="max-width:100%">
+      <div style="display: flex">
+          <div style="width: 30%; background: #f9f9f9; border-radius: 5px; padding: 10px 0 10px 0">
+              {% include menu.html %}
+          </div>
+          <div style="width: 70%; padding-left: 1em;">
+              {{ content }}
+          </div>
+      </div>
        
     <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -150,8 +158,6 @@
     <a href="#">Contact</a>
     </div>
 
-    <h2>Animated Sidenav Example</h2>
-    <p>Click on the element below to open the side navigation menu.</p>
     <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
 
 
