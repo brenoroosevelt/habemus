@@ -1,20 +1,17 @@
 items:
-  - title: Geral
+  - title: Home
+    url: /
+  - title: Instalation
     url: /pages/installation.html
-  - title: Introduction
-    url: /pages/installation.html
-    subfolderitems:
-      - page: Getting Started
-        url: /
-      - page: Installation
-        url: /pages/installation.html
-      - page: Basic Usage
-        url: '/pages/installation.html#content'
-      - page: PSR-11 
-        url: /
-      - page: Auto-wiring
-        url: '/pages/installation.html#content'
-        
+  - title: Getting Started
+      url: /pages/getting-started.html
+      subfolderitems:
+        - page: Registering services
+          url: /pages/getting-started.html#registering-services
+        - page: Basic Usage
+          url: /pages/getting-started.html#basic-usage
+        - page: Auto Wiring
+          url: /pages/getting-started.html#auto-wiring
   - title: Dependency Injection
     url: /pages/installation.html
     subfolderitems:

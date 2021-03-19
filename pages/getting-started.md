@@ -31,7 +31,7 @@ $container->add('settings', ['my_config' => 'value']);
 $container->add('stdCreator', fn() => new stdClass());
 ```
 
-## Using Container
+## Basic Usage
 
 Habemus is a PSR-11 compliant implementation. So, to get a service, just use the `get(string $id): mixed` method. You can check services by calling the `has(string $id): bool` method to avoid a NotFoundException.
 
