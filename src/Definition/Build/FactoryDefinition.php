@@ -24,7 +24,7 @@ class FactoryDefinition implements Definition, Shareable, CallableMethod, Taggab
     /** @var string|object|ReferenceDefinition */
     protected $objectOrClass;
 
-    /** @var string|object */
+    /** @var string|object|null */
     protected $factory;
 
     /**

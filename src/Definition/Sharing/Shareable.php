@@ -9,7 +9,7 @@ interface Shareable
 
     /**
      * @param bool $share
-     * @return self
+     * @return $this
      */
     public function setShared(bool $share);
 }

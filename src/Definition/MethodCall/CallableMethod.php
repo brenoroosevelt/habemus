@@ -10,7 +10,7 @@ interface CallableMethod
     /**
      * @param string $method
      * @param array $parameters
-     * @return self
+     * @return $this
      */
     public function addMethodCall(string $method, array $parameters = []);
 

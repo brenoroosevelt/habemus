@@ -16,12 +16,12 @@ class NotFoundException extends ContainerException implements NotFoundExceptionI
 
     public static function noEntryWasFound(string $id): self
     {
-        return new static($id);
+        return new self($id);
     }
 
     public static function classNotFound(string $class): self
     {
-        return new static(
+        return new self(
             $class,
             sprintf("Class not found (%s)", $class)
         );

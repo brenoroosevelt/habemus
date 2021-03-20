@@ -14,6 +14,12 @@ class CircularDependencyDetection
      */
     protected $executing = [];
 
+    /**
+     * @param $id
+     * @param Closure $process
+     * @return mixed
+     * @throws CircularDependencyException
+     */
     public function execute($id, Closure $process)
     {
         if ($this->isExecuting($id)) {

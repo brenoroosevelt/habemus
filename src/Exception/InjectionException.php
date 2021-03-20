@@ -11,7 +11,7 @@ class InjectionException extends ContainerException
 
     public static function notAnObject($value)
     {
-        return new static(
+        return new self(
             sprintf(
                 "Expected object to inject property dependencies. Got (%s).",
                 gettype($value)
@@ -21,7 +21,7 @@ class InjectionException extends ContainerException
 
     public static function unresolvablePropertyInjection(ReflectionProperty $property, $object): self
     {
-        return new static(
+        return new self(
             sprintf(
                 "Cannot resolve the injection for property ($%s) in (%s).",
                 $property->getName(),
@@ -37,7 +37,7 @@ class InjectionException extends ContainerException
     public static function invalidInjection($propertyOrParameter): self
     {
         $type = $propertyOrParameter instanceof ReflectionProperty ? "property" : "constructor parameter";
-        return new static(
+        return new self(
             sprintf(
                 "Impossible to determine the injection for %s ($%s) in (%s).",
                 $type,

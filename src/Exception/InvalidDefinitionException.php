@@ -7,7 +7,7 @@ class InvalidDefinitionException extends ContainerException
 {
     public static function unavailable($name): self
     {
-        return new static(
+        return new self(
             sprintf(
                 "The definition of type (%s) is invalid or unavailable.",
                 $name

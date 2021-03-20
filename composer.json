@@ -24,7 +24,8 @@
   ],
   "require": {
     "php": "^7.1 || ^8.0",
-    "psr/container": "^1.0"
+    "psr/container": "^1.0",
+    "phpstan/phpstan": "^0.12.82"
   },
   "require-dev": {
     "phpunit/phpunit": "^6 || ^9",
@@ -46,7 +47,8 @@
   "scripts": {
     "test": [
       "phpunit tests",
-      "phpcs -p src tests"
+      "phpcs -p src tests",
+      "phpstan analyse src"
     ]
   }
 }

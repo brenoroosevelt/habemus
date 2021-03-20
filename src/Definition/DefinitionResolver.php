@@ -81,7 +81,7 @@ class DefinitionResolver implements DefinitionResolverInterface
     }
 
     /**
-     * @param $instance
+     * @param mixed $instance
      * @param Definition $definition
      * @return bool
      */

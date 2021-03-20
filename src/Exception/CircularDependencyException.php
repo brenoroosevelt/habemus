@@ -16,7 +16,7 @@ class CircularDependencyException extends Exception implements ContainerExceptio
 
     public static function forId($id, array $executionStack): self
     {
-        $error = new static(sprintf("Circular dependency detected for id (%s).", $id));
+        $error = new self(sprintf("Circular dependency detected for id (%s).", $id));
         $error->executionStack = $executionStack;
         return $error;
     }

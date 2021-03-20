@@ -33,7 +33,7 @@ class ServiceProviderManager
         $this->add(...$providers);
     }
 
-    public function add(ServiceProvider ...$providers)
+    public function add(ServiceProvider ...$providers): void
     {
         foreach ($providers as $provider) {
             if ($this->providers->contains($provider)) {
@@ -49,7 +49,7 @@ class ServiceProviderManager
         }
     }
 
-    public function registerLazyProviderFor(string $id)
+    public function registerLazyProviderFor(string $id): void
     {
         foreach ($this->lazyProviders as $provider) {
             if ($provider->provides($id)) {

@@ -40,6 +40,9 @@ jobs:
     - name: Check Code Standard (phpcs)
       run: "vendor/bin/phpcs -p src tests"
 
+    - name: PHP Stan
+      run: "vendor/bin/phpstan analyse src"
+
   codecov:
 
     name: Code Coverage

@@ -25,7 +25,7 @@ class DefinitionException extends ContainerException
 
     public static function invalidMethodCall(Definition $definition, $instance, $method): self
     {
-        return new static(
+        return new self(
             $definition,
             sprintf(
                 "The definition of %s (%s) cannot to call the method (%s::%s).",
@@ -39,7 +39,7 @@ class DefinitionException extends ContainerException
 
     public static function unavailableConstructorParameters(Definition $definition): self
     {
-        return new static(
+        return new self(
             $definition,
             sprintf(
                 "The definition of %s (%s) does not accept constructor parameters.",
@@ -51,7 +51,7 @@ class DefinitionException extends ContainerException
 
     public static function unavailableMethodCall(Definition $definition): self
     {
-        return new static(
+        return new self(
             $definition,
             sprintf(
                 "The definition of %s (%s) does not accept method calls.",
@@ -63,7 +63,7 @@ class DefinitionException extends ContainerException
 
     public static function unshareable(Definition $definition): self
     {
-        return new static(
+        return new self(
             $definition,
             sprintf(
                 "The definition of %s (%s) is not shareable.",
@@ -75,7 +75,7 @@ class DefinitionException extends ContainerException
 
     public static function untaggable(Definition $definition): self
     {
-        return new static(
+        return new self(
             $definition,
             sprintf(
                 "The definition of %s (%s) is not taggable.",

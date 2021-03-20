@@ -7,7 +7,7 @@ interface Identifiable
 {
     /**
      * @param string $id
-     * @return self
+     * @return $this
      */
     public function setIdentity(string $id);
 

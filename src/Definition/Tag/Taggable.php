@@ -7,7 +7,7 @@ interface Taggable
 {
     /**
      * @param string $tag
-     * @return self
+     * @return $this
      */
     public function addTag(string $tag);
     public function hasTag(string $tag): bool;
