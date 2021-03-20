@@ -49,7 +49,7 @@ class ArrayDefinition implements Definition, Shareable, Taggable
         return $this->recursive;
     }
 
-    public function getConcrete(ContainerInterface $container = null): array
+    public function getConcrete(ContainerInterface $container): array
     {
         $values = $this->values;
 

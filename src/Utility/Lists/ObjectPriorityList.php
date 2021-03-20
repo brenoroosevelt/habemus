@@ -37,7 +37,7 @@ class ObjectPriorityList implements IteratorAggregate, Countable
 
     private function objectID($object)
     {
-        return PHPVersion::current() >= PHPVersion::V7_2 ? spl_object_id($object) : spl_object_hash($object);
+        return spl_object_hash($object);
     }
 
     private function assertObject($object): void
