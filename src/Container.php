@@ -104,11 +104,11 @@ class Container implements ContainerInterface, ArrayAccess
         $this->definitions = new DefinitionList();
         $this->resolved = new ResolvedList();
         $this->delegates = new ContainerComposite();
-        $this->detection = new AutoDetection($this);
         $this->providers = new ServiceProviderManager($this);
         $this->attributesInjection = new AttributesInjection($this, $this->reflector);
         $this->classResolver = new ReflectionResolver($this, $this->attributesInjection, $this->reflector);
         $this->definitionResolver = new DefinitionResolver($this, $this->resolved, $this->attributesInjection);
+        $this->detection = new AutoDetection($this, $this->classResolver);
 
         $this->add(ContainerInterface::class, new RawDefinition($this));
         $this->add(self::class, new RawDefinition($this));
@@ -129,10 +129,6 @@ class Container implements ContainerInterface, ArrayAccess
 
         if ($definition instanceof RawDefinition) {
             $this->resolved->share($id, $definition->getValue());
-        }
-
-        if ($definition instanceof ClassDefinition) {
-            $definition->setClassResolver($this->classResolver);
         }
 
         return new DefinitionWrapper($definition);

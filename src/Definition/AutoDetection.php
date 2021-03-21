@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Definition;
 
 use Closure;
+use Habemus\Autowiring\ClassResolver;
 use Habemus\Container;
 use Habemus\Definition\Build\ArrayDefinition;
 use Habemus\Definition\Build\ReferenceDefinition;
@@ -18,9 +19,15 @@ class AutoDetection implements DefinitionDetection
      */
     protected $container;
 
-    public function __construct(Container $container)
+    /**
+     * @var ClassResolver
+     */
+    protected $classResolver;
+
+    public function __construct(Container $container, ClassResolver $classResolver)
     {
         $this->container = $container;
+        $this->classResolver = $classResolver;
     }
 
     public function detect($value): Definition
@@ -38,7 +45,7 @@ class AutoDetection implements DefinitionDetection
         }
 
         if ($this->isAutowire($value)) {
-            return new ClassDefinition($value);
+            return (new ClassDefinition($value))->setClassResolver($this->classResolver);
         }
 
         if ($this->isArrayDefinition($value)) {

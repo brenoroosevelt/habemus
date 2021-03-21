@@ -23,9 +23,8 @@ use Habemus\Test\TestCase;
 use Habemus\Utility\PHPVersion;
 use ReflectionException;
 use ReflectionFunction;
-use TypeError;
 
-class ReflectionClassResolverTest extends TestCase
+class ReflectionResolverTest extends TestCase
 {
     /**
      * @var Container

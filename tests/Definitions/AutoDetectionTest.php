@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Habemus\Test\Definitions;
 
+use Habemus\Autowiring\Attributes\AttributesInjection;
+use Habemus\Autowiring\ReflectionResolver;
+use Habemus\Autowiring\Reflector;
 use Habemus\Container;
 use Habemus\Definition\AutoDetection;
 use Habemus\Definition\Build\ArrayDefinition;
@@ -132,7 +135,12 @@ class AutoDetectionTest extends TestCase
      */
     public function testShouldDetectDefinitionsInstances($expected, $value)
     {
-        $detection = new AutoDetection(new Container());
+        $container = new Container();
+        $reflector = new Reflector();
+        $attributesInjection = new AttributesInjection($container, $reflector);
+        $classResolver = new ReflectionResolver($container, $attributesInjection, $reflector);
+
+        $detection = new AutoDetection($container, $classResolver);
         $result = $detection->detect($value);
         $this->assertInstanceOf($expected, $result);
     }

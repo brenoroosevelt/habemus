@@ -12,10 +12,6 @@ class UserDefinedParameterResolver implements ParameterResolver
      */
     public function resolve(ReflectionParameter $parameter, array $arguments, array &$resolved, array &$result): void
     {
-        if (array_key_exists($parameter->getName(), $resolved)) {
-            return;
-        }
-
         $name = $parameter->getName();
         if (!array_key_exists($parameter->getName(), $arguments)) {
             return;
