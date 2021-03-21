@@ -58,6 +58,7 @@ class AttributesInjection
     /**
      * @param ReflectionProperty|ReflectionParameter $subject
      * @return string|null
+     * @throws InjectionException
      */
     public function getInjection($subject): ?string
     {
