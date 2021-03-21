@@ -38,7 +38,7 @@ class AttributesInjection
         $reflectionClass = new ReflectionClass($object);
         foreach ($reflectionClass->getProperties() as $property) {
             $injection = $this->getInjection($property);
-            if (is_null($injection)) {
+            if (empty($injection)) {
                 continue;
             }
 
