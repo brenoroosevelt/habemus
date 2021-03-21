@@ -287,4 +287,20 @@ class ContainerTest extends TestCase
         $container->add('anId');
         $this->assertEquals('anId', $container->get('anId'));
     }
+
+    public function testShouldDeleteEntry()
+    {
+        $container = new Container();
+        $container->add('anId');
+        $container->delete('anId');
+        $this->assertFalse($container->has('anId'));
+    }
+
+    public function testShouldExtendAnEntry()
+    {
+        $container = new Container();
+        $container->add('anId')->setShared(false);
+        $container->extend('anId')->setShared(true);
+        $this->assertTrue($container->extend('anId')->isShared());
+    }
 }

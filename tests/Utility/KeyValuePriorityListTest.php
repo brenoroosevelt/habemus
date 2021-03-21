@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Test\Util;
 
+use Habemus\Exception\NotFoundException;
 use Habemus\Test\TestCase;
 use Habemus\Utility\Lists\KeyValuePriorityList;
 use http\Exception;
@@ -45,7 +46,7 @@ class KeyValuePriorityListTest extends TestCase
     public function testShouldKeyValuePriorityGetErrorIfNotFound()
     {
         $list = $this->newKeyValuePriorityList();
-        $this->expectException(\Exception::class);
+        $this->expectException(NotFoundException::class);
         $list->get(1);
     }
 

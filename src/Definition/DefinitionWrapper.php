@@ -23,7 +23,7 @@ final class DefinitionWrapper
 
     public function constructor(string $param, $value): self
     {
-        if (! $this->definition instanceof ClassDefinition) {
+        if (!$this->acceptConstructorParameters()) {
             throw DefinitionException::unavailableConstructorParameters($this->definition);
         }
 
@@ -33,7 +33,7 @@ final class DefinitionWrapper
 
     public function setShared(bool $share): self
     {
-        if (! $this->definition instanceof Shareable) {
+        if (!$this->isShareable()) {
             throw DefinitionException::unshareable($this->definition);
         }
 
@@ -41,9 +41,18 @@ final class DefinitionWrapper
         return $this;
     }
 
+    public function isShared(): ?bool
+    {
+        if ($this->isShareable()) {
+            return $this->definition->isShared();
+        }
+
+        return null;
+    }
+
     public function addMethodCall(string $method, array $parameters = []): self
     {
-        if (! $this->definition instanceof CallableMethod) {
+        if (!$this->isCallableMethod()) {
             throw DefinitionException::unavailableMethodCall($this->definition);
         }
 
@@ -53,7 +62,7 @@ final class DefinitionWrapper
 
     public function addTag(string ...$tag): self
     {
-        if (! $this->definition instanceof Taggable) {
+        if (!$this->isTaggable()) {
             throw DefinitionException::untaggable($this->definition);
         }
 
@@ -62,5 +71,25 @@ final class DefinitionWrapper
         }
 
         return $this;
+    }
+
+    public function isCallableMethod(): bool
+    {
+        return $this->definition instanceof CallableMethod;
+    }
+
+    public function isTaggable(): bool
+    {
+        return $this->definition instanceof Taggable;
+    }
+
+    public function isShareable(): bool
+    {
+        return $this->definition instanceof Shareable;
+    }
+
+    public function acceptConstructorParameters(): bool
+    {
+        return $this->definition instanceof ClassDefinition;
     }
 }

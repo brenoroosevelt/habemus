@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Habemus\Test;
 
+use Habemus\Exception\NotFoundException;
 use Habemus\ResolvedList;
-use LogicException;
 
 class ResolvedListTest extends TestCase
 {
@@ -117,7 +117,7 @@ class ResolvedListTest extends TestCase
     public function testShouldThrowsExceptionIfElementDoesNotExists()
     {
         $resolvedList = new ResolvedList();
-        $this->expectException(LogicException::class);
+        $this->expectException(NotFoundException::class);
         $resolvedList->get('id1');
     }
 }

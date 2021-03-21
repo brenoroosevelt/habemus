@@ -188,6 +188,17 @@ class Container implements ContainerInterface, ArrayAccess
         throw NotFoundException::noEntryWasFound($id);
     }
 
+    public function delete(string $id): void
+    {
+        $this->definitions->delete($id);
+        $this->resolved->delete($id);
+    }
+
+    public function extend(string $id): DefinitionWrapper
+    {
+        return new DefinitionWrapper($this->definitions->get($id));
+    }
+
     public function injectDependency($object)
     {
         $this->attributesInjection->inject($object);
@@ -264,7 +275,6 @@ class Container implements ContainerInterface, ArrayAccess
 
     public function offsetUnset($offset)
     {
-        $this->definitions->delete($offset);
-        $this->resolved->delete($offset);
+        $this->delete($offset);
     }
 }

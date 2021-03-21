@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus\Utility\Lists;
 
 use Generator;
+use Habemus\Exception\NotFoundException;
 use LogicException;
 
 /*
@@ -48,9 +49,7 @@ trait KeyValuePriorityList
             }
         }
 
-        throw new LogicException(
-            sprintf("Element (%s) not found in list (%s).", $id, get_class($this))
-        );
+        throw NotFoundException::noEntryWasFound((string) $id);
     }
 
     private function setId($id, $value, int $priority = 0): void

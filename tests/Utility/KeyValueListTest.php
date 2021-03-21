@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Test\Util;
 
+use Habemus\Exception\NotFoundException;
 use Habemus\Test\TestCase;
 use Habemus\Utility\Lists\KeyValueList;
 use IteratorAggregate;
@@ -98,7 +99,7 @@ class KeyValueListTest extends TestCase
     public function testShouldKeyValueListThrowsErrorIfItemNotExists()
     {
         $list = $this->newTraitInstance();
-        $this->expectException(\LogicException::class);
+        $this->expectException(NotFoundException::class);
         $list->get(1);
     }
 
