@@ -5,7 +5,6 @@ namespace Habemus;
 
 use Closure;
 use Habemus\Exception\CircularDependencyException;
-use RuntimeException;
 
 class CircularDependencyDetection
 {

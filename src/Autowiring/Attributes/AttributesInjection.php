@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Habemus\Autowiring\Attributes;
 
-use Exception;
 use Habemus\Autowiring\Reflector;
+use Habemus\Exception\ContainerException;
 use Habemus\Exception\InjectionException;
-use LogicException;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionParameter;
@@ -38,7 +37,8 @@ class AttributesInjection
 
         $reflectionClass = new ReflectionClass($object);
         foreach ($reflectionClass->getProperties() as $property) {
-            if (! $injection = $this->getInjection($property)) {
+            $injection = $this->getInjection($property);
+            if (is_null($injection)) {
                 continue;
             }
 
@@ -58,22 +58,22 @@ class AttributesInjection
     /**
      * @param ReflectionProperty|ReflectionParameter $subject
      * @return string|null
-     * @throws InjectionException
+     * @throws InjectionException|ContainerException
      */
     public function getInjection($subject): ?string
     {
         /** @var Inject|null $inject */
         $inject = $this->reflector->getFirstAttribute($subject, Inject::class);
-        if ($inject === null) {
+        if (! $inject instanceof Inject) {
             return null;
         }
 
-        if ($inject->getId() !== null) {
+        if (!empty($inject->getId())) {
             return $inject->getId();
         }
 
         $typeHint = $this->reflector->getTypeHint($subject, false);
-        if ($typeHint === null) {
+        if (empty($typeHint)) {
             throw InjectionException::invalidInjection($subject);
         }
 

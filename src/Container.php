@@ -194,7 +194,7 @@ class Container implements ContainerInterface, ArrayAccess
         $this->resolved->delete($id);
     }
 
-    public function extend(string $id): DefinitionWrapper
+    public function definition(string $id): DefinitionWrapper
     {
         return new DefinitionWrapper($this->definitions->get($id));
     }
@@ -245,7 +245,7 @@ class Container implements ContainerInterface, ArrayAccess
 
     public function useAttributes(bool $useAttributes): self
     {
-        if ($useAttributes === true) {
+        if ($useAttributes) {
             $this->reflector->assertAttributesAvailable();
         }
 

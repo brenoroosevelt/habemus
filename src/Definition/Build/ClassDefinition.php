@@ -67,7 +67,7 @@ class ClassDefinition implements Definition, Shareable, CallableMethod, Taggable
 
     public function getConcrete(ContainerInterface $container)
     {
-        if ($this->classResolver === null) {
+        if (! $this->classResolver instanceof ClassResolver) {
             throw new ContainerException('No ClassResolver implementation has been set.');
         }
 

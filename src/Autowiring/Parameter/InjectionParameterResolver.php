@@ -41,7 +41,7 @@ class InjectionParameterResolver implements ParameterResolver
         }
 
         $inject = $this->injection->getInjection($parameter);
-        if ($inject === null) {
+        if (empty($inject)) {
             return;
         }
 

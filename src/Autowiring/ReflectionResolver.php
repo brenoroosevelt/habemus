@@ -17,6 +17,7 @@ use Habemus\Exception\NotInstantiableException;
 use Habemus\Exception\UnresolvableParameterException;
 use ReflectionClass;
 use ReflectionFunctionAbstract;
+use ReflectionMethod;
 
 class ReflectionResolver implements ClassResolver, ArgumentResolver
 {
@@ -42,7 +43,7 @@ class ReflectionResolver implements ClassResolver, ArgumentResolver
      */
     public function resolveClass(string $className, array $constructorArguments = [])
     {
-        if (!class_exists($className)) {
+        if (!$this->canResolve($className)) {
             throw NotFoundException::classNotFound($className);
         }
 
@@ -52,14 +53,14 @@ class ReflectionResolver implements ClassResolver, ArgumentResolver
         }
 
         $constructor = $class->getConstructor();
-        if ($constructor === null) {
-            return new $className();
+        if ($constructor instanceof ReflectionMethod) {
+            return
+                $class->newInstanceArgs(
+                    $this->resolveArguments($constructor, $constructorArguments)
+                );
         }
 
-        return
-            $class->newInstanceArgs(
-                $this->resolveArguments($constructor, $constructorArguments)
-            );
+        return new $className();
     }
 
     /**

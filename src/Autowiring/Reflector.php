@@ -5,6 +5,7 @@ namespace Habemus\Autowiring;
 
 use Habemus\Exception\ContainerException;
 use Habemus\Utility\PHPVersion;
+use ReflectionAttribute;
 use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionProperty;
@@ -39,12 +40,17 @@ class Reflector
      * @param ReflectionParameter|ReflectionProperty $subject
      * @param string $attribute
      * @return mixed
+     * @throws ContainerException
      */
     public function getFirstAttribute($subject, string $attribute)
     {
         $this->assertAttributesAvailable();
         $attribute = $subject->getAttributes($attribute)[0] ?? null;
-        return $attribute !== null ? $attribute->newInstance() : null;
+        if ($attribute instanceof ReflectionAttribute) {
+            return $attribute->newInstance();
+        }
+
+        return null;
     }
 
     public function attributesAvailable(): bool
@@ -52,6 +58,9 @@ class Reflector
         return PHPVersion::current() >= PHPVersion::V8_0;
     }
 
+    /**
+     * @throws ContainerException
+     */
     public function assertAttributesAvailable(): void
     {
         if (!$this->attributesAvailable()) {

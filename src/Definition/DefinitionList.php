@@ -34,7 +34,7 @@ class DefinitionList implements IteratorAggregate
 
     /**
      * @param string $tag
-     * @return Definition[]
+     * @return Definition[]|Taggable[]
      */
     public function getTagged(string $tag): array
     {

@@ -36,7 +36,7 @@ class TypeHintParameterResolver implements ParameterResolver
         }
 
         $typeHint = $this->reflector->getTypeHint($parameter, false);
-        if ($typeHint === null || !$this->container->has($typeHint)) {
+        if (!is_string($typeHint) || !$this->container->has($typeHint)) {
             return;
         }
 

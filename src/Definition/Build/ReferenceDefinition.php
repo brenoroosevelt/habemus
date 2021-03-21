@@ -34,9 +34,13 @@ class ReferenceDefinition implements Definition, Shareable, CallableMethod, Tagg
     public function __construct(string $id, Closure $fn = null)
     {
         $this->id = $id;
-        $this->fn = $fn !== null ? $fn : function ($instance, ContainerInterface $c) {
-            return $instance;
-        };
+        $this->fn = $fn;
+
+        if (! $this->fn instanceof Closure) {
+            $this->fn = function ($instance, ContainerInterface $c) {
+                return $instance;
+            };
+        }
     }
 
     public function id(): string

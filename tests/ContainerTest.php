@@ -300,7 +300,7 @@ class ContainerTest extends TestCase
     {
         $container = new Container();
         $container->add('anId')->setShared(false);
-        $container->extend('anId')->setShared(true);
-        $this->assertTrue($container->extend('anId')->isShared());
+        $container->definition('anId')->setShared(true);
+        $this->assertTrue($container->definition('anId')->isShared());
     }
 }

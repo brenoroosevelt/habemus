@@ -36,7 +36,7 @@ class ContainerComposite implements ContainerInterface
      */
     public function add(ContainerInterface $container, ?int $priority = null): self
     {
-        if ($priority === null) {
+        if (!is_int($priority)) {
             $priority = $this->getLowestPriority() + 1;
         }
 

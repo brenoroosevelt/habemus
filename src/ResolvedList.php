@@ -13,6 +13,10 @@ class ResolvedList implements IteratorAggregate, Countable
         set as private;
     }
 
+    /**
+     * @param string $id
+     * @param mixed $resolved
+     */
     public function share(string $id, $resolved): void
     {
         $this->set($id, $resolved);
