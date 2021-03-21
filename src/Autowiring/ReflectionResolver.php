@@ -21,38 +21,19 @@ use ReflectionFunctionAbstract;
 class ReflectionResolver implements ClassResolver, ArgumentResolver
 {
     /**
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * @var Reflector
-     */
-    protected $reflector;
-
-    /**
-     * @var AttributesInjection
-     */
-    protected $injection;
-
-    /**
      * @var ParameterResolver[]
      */
     protected $parameterResolverChain;
 
     public function __construct(Container $container, AttributesInjection $injection, Reflector $reflector)
     {
-        $this->container = $container;
-        $this->injection = $injection;
-        $this->reflector = $reflector;
-
         $this->parameterResolverChain = [
             new UserDefinedParameterResolver(),
-            new InjectionParameterResolver($this->container, $this->injection),
+            new InjectionParameterResolver($container, $injection),
             new DefaultValueParameterResolver(),
             new NullableParameterResolver(),
             new OptionalParameterResolver(),
-            new TypeHintParameterResolver($this->container, $this->reflector)
+            new TypeHintParameterResolver($container, $reflector)
         ];
     }
 
