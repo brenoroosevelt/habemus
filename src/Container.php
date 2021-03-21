@@ -234,7 +234,7 @@ class Container implements ContainerInterface, ArrayAccess
 
     public function useAttributes(bool $useAttributes): self
     {
-        if ($useAttributes == true) {
+        if ($useAttributes === true) {
             $this->reflector->assertAttributesAvailable();
         }
 
