@@ -36,7 +36,6 @@ class AttributesInjection
             throw InjectionException::notAnObject($object);
         }
 
-        $this->reflector->assertAttributesAvailable();
         $reflectionClass = new ReflectionClass($object);
         foreach ($reflectionClass->getProperties() as $property) {
             if (! $injection = $this->getInjection($property)) {
@@ -62,7 +61,6 @@ class AttributesInjection
      */
     public function getInjection($subject): ?string
     {
-        $this->reflector->assertAttributesAvailable();
         /** @var Inject|null $inject */
         $inject = $this->reflector->getFirstAttribute($subject, Inject::class);
         if ($inject === null) {
