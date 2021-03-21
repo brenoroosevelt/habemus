@@ -18,6 +18,7 @@ use Habemus\Exception\InvalidDefinitionException;
 /**
  * @method static ReferenceDefinition use(string $id, Closure $fn = null)
  * @method static ReferenceDefinition reference(string $id, Closure $fn = null)
+ * @method static ReferenceDefinition entry(string $id, Closure $fn = null)
  * @method static RawDefinition raw(mixed $value)
  * @method static ClassDefinition class(string $class, array $args = [])
  * @method static FactoryDefinition factory($class, string $method, array $params = [], bool $static = false)

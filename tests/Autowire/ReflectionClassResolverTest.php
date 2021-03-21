@@ -7,7 +7,7 @@ use Closure;
 use Exception;
 use Habemus\Autowiring\Attributes\AttributesInjection;
 use Habemus\Autowiring\Attributes\Inject;
-use Habemus\Autowiring\ReflectionClassResolver;
+use Habemus\Autowiring\ReflectionResolver;
 use Habemus\Autowiring\Reflector;
 use Habemus\Container;
 use Habemus\Exception\NotFoundException;
@@ -43,7 +43,7 @@ class ReflectionClassResolverTest extends TestCase
     protected $attributesInjection;
 
     /**
-     * @var ReflectionClassResolver
+     * @var ReflectionResolver
      */
     protected $classResolver;
 
@@ -53,7 +53,7 @@ class ReflectionClassResolverTest extends TestCase
         $this->reflector = new Reflector();
         $this->attributesInjection = new AttributesInjection($this->container, $this->reflector);
         $this->classResolver =
-            new ReflectionClassResolver($this->container, $this->attributesInjection, $this->reflector);
+            new ReflectionResolver($this->container, $this->attributesInjection, $this->reflector);
         parent::setUp();
     }
 
@@ -234,9 +234,9 @@ class ReflectionClassResolverTest extends TestCase
         $reflectionFunction = new ReflectionFunction($fn);
         if (is_string($expected)) {
             $this->expectException($expected);
-            $this->classResolver->resolveParameters($reflectionFunction, $arguments);
+            $this->classResolver->resolveArguments($reflectionFunction, $arguments);
         } else {
-            $actual = $this->classResolver->resolveParameters($reflectionFunction, $arguments);
+            $actual = $this->classResolver->resolveArguments($reflectionFunction, $arguments);
             $this->assertEquals($expected, $actual);
         }
     }
@@ -314,9 +314,9 @@ class ReflectionClassResolverTest extends TestCase
         $reflectionFunction = new ReflectionFunction($fn);
         if (is_string($expected)) {
             $this->expectException($expected);
-            $this->classResolver->resolveParameters($reflectionFunction, $arguments);
+            $this->classResolver->resolveArguments($reflectionFunction, $arguments);
         } else {
-            $actual = $this->classResolver->resolveParameters($reflectionFunction, $arguments);
+            $actual = $this->classResolver->resolveArguments($reflectionFunction, $arguments);
             $this->assertEquals($expected, $actual);
         }
     }

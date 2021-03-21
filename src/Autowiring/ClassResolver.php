@@ -12,5 +12,10 @@ interface ClassResolver
      * @return mixed An instance
      */
     public function resolveClass(string $className, array $constructorArguments = []);
+
+    /**
+     * @param string $className
+     * @return bool
+     */
     public function canResolve(string $className): bool;
 }

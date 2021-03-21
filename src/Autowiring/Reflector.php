@@ -8,7 +8,6 @@ use Habemus\Utility\PHPVersion;
 use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionProperty;
-use RuntimeException;
 
 class Reflector
 {

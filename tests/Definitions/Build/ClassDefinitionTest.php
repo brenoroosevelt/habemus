@@ -5,7 +5,7 @@ namespace Habemus\Test\Definitions\Build;
 
 use Habemus\Autowiring\Attributes\AttributesInjection;
 use Habemus\Autowiring\ClassResolver;
-use Habemus\Autowiring\ReflectionClassResolver;
+use Habemus\Autowiring\ReflectionResolver;
 use Habemus\Autowiring\Reflector;
 use Habemus\Container;
 use Habemus\Definition\Build\ClassDefinition;
@@ -45,7 +45,7 @@ class ClassDefinitionTest extends TestCase
         $this->reflector = new Reflector();
         $this->attributesInjecton = new AttributesInjection($this->container, $this->reflector);
         $this->classResolver
-            = new ReflectionClassResolver($this->container, $this->attributesInjecton, $this->reflector);
+            = new ReflectionResolver($this->container, $this->attributesInjecton, $this->reflector);
         parent::setUp();
     }
 
