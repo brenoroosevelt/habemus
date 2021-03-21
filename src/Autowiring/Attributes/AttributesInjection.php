@@ -50,8 +50,8 @@ class AttributesInjection
                 throw InjectionException::unresolvablePropertyInjection($property, $object);
             }
 
-            $instance = $this->container->get($injection);
-            $property->setValue($object, $instance);
+            $value = $this->container->get($injection);
+            $property->setValue($object, $value);
         }
     }
 
