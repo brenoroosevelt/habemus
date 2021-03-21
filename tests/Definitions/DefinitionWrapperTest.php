@@ -39,7 +39,21 @@ class DefinitionWrapperTest extends TestCase
 
     public function testShouldDefinitionWrapperGetUndefinedSharing()
     {
-        $definition = new RawDefinition('value');
+        $definition = new class implements Definition {
+            public function setIdentity(string $id)
+            {
+            }
+
+            public function getIdentity(): ?string
+            {
+                return null;
+            }
+
+            public function getConcrete(ContainerInterface $container)
+            {
+                return null;
+            }
+        };
         $wrapper = new DefinitionWrapper($definition);
         $this->assertNull($wrapper->isShared());
     }
