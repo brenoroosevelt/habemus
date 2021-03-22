@@ -5,7 +5,6 @@ namespace Habemus\Autowiring;
 
 use Habemus\Exception\ContainerException;
 use Habemus\Utility\PHPVersion;
-use ReflectionAttribute;
 use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionProperty;
