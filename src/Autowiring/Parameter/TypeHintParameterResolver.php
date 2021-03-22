@@ -35,7 +35,7 @@ class TypeHintParameterResolver implements ParameterResolver
             return false;
         }
 
-        $result[] = $this->container->get($typeHint);
-        return true;
+        $value = $this->container->get($typeHint);
+        return (new VariadicParameterResolver($value))->resolve($parameter, $arguments, $result);
     }
 }

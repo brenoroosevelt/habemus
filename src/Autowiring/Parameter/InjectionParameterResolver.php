@@ -47,7 +47,7 @@ class InjectionParameterResolver implements ParameterResolver
             );
         }
 
-        $result[] = $this->container->get($inject);
-        return true;
+        $value = $this->container->get($inject);
+        return (new VariadicParameterResolver($value))->resolve($parameter, $arguments, $result);
     }
 }
