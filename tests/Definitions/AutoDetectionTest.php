@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace Habemus\Test\Definitions;
 
 use Habemus\Autowiring\Attributes\AttributesInjection;
-use Habemus\Autowiring\ReflectionResolver;
+use Habemus\Autowiring\Parameter\ParameterResolverChain;
+use Habemus\Autowiring\ReflectionClassResolver;
 use Habemus\Autowiring\Reflector;
 use Habemus\Container;
 use Habemus\Definition\AutoDetection;
@@ -138,7 +139,9 @@ class AutoDetectionTest extends TestCase
         $container = new Container();
         $reflector = new Reflector();
         $attributesInjection = new AttributesInjection($container, $reflector);
-        $classResolver = new ReflectionResolver($container, $attributesInjection, $reflector);
+        $classResolver = new ReflectionClassResolver(
+            ParameterResolverChain::default($container, $attributesInjection, $reflector)
+        );
 
         $detection = new AutoDetection($container, $classResolver);
         $result = $detection->detect($value);

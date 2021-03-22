@@ -10,19 +10,13 @@ class UserDefinedParameterResolver implements ParameterResolver
     /**
      * @inheritDoc
      */
-    public function resolve(ReflectionParameter $parameter, array $arguments, array &$resolved, array &$result): void
+    public function resolve(ReflectionParameter $parameter, array $arguments, array &$result): bool
     {
         $name = $parameter->getName();
-        if (!array_key_exists($parameter->getName(), $arguments)) {
-            return;
+        if (!array_key_exists($name, $arguments)) {
+            return false;
         }
 
-        $resolved[$name] = true;
-        if ($parameter->isVariadic()) {
-            $_argument = !is_array($arguments[$name]) ? [$arguments[$name]] : $arguments[$name];
-            $result =  array_merge($result, $_argument);
-        } else {
-            $result[] = $arguments[$name];
-        }
+        return (new VariadicParameterResolver($arguments[$name]))->resolve($parameter, $arguments, $result);
     }
 }

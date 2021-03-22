@@ -28,19 +28,14 @@ class TypeHintParameterResolver implements ParameterResolver
     /**
      * @inheritDoc
      */
-    public function resolve(ReflectionParameter $parameter, array $arguments, array &$resolved, array &$result): void
+    public function resolve(ReflectionParameter $parameter, array $arguments, array &$result): bool
     {
-        $name = $parameter->getName();
-        if (array_key_exists($name, $resolved)) {
-            return;
-        }
-
         $typeHint = $this->reflector->getTypeHint($parameter, false);
         if (!is_string($typeHint) || !$this->container->has($typeHint)) {
-            return;
+            return false;
         }
 
-        $resolved[$name] = true;
         $result[] = $this->container->get($typeHint);
+        return true;
     }
 }

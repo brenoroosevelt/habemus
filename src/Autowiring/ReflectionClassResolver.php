@@ -3,15 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Autowiring;
 
-use Habemus\Autowiring\Attributes\AttributesInjection;
-use Habemus\Autowiring\Parameter\DefaultValueParameterResolver;
-use Habemus\Autowiring\Parameter\InjectionParameterResolver;
-use Habemus\Autowiring\Parameter\NullableParameterResolver;
-use Habemus\Autowiring\Parameter\OptionalParameterResolver;
 use Habemus\Autowiring\Parameter\ParameterResolver;
-use Habemus\Autowiring\Parameter\TypeHintParameterResolver;
-use Habemus\Autowiring\Parameter\UserDefinedParameterResolver;
-use Habemus\Container;
 use Habemus\Exception\NotFoundException;
 use Habemus\Exception\NotInstantiableException;
 use Habemus\Exception\UnresolvableParameterException;
@@ -19,23 +11,16 @@ use ReflectionClass;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
 
-class ReflectionResolver implements ClassResolver, ArgumentResolver
+class ReflectionClassResolver implements ClassResolver
 {
     /**
-     * @var ParameterResolver[]
+     * @var ParameterResolver
      */
-    protected $parameterResolverChain;
+    protected $parameterResolver;
 
-    public function __construct(Container $container, AttributesInjection $injection, Reflector $reflector)
+    public function __construct(ParameterResolver $parameterResolver)
     {
-        $this->parameterResolverChain = [
-            new UserDefinedParameterResolver(),
-            new InjectionParameterResolver($container, $injection),
-            new DefaultValueParameterResolver(),
-            new NullableParameterResolver(),
-            new OptionalParameterResolver(),
-            new TypeHintParameterResolver($container, $reflector)
-        ];
+        $this->parameterResolver = $parameterResolver;
     }
 
     /**
@@ -63,21 +48,12 @@ class ReflectionResolver implements ClassResolver, ArgumentResolver
         return new $className();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function resolveArguments(ReflectionFunctionAbstract $function, array $arguments = []): array
     {
-        $resolved = [];
         $params = [];
         foreach ($function->getParameters() as $parameter) {
-            foreach ($this->parameterResolverChain as $resolver) {
-                $resolver->resolve($parameter, $arguments, $resolved, $params);
-            }
-
-            $name = $parameter->getName();
-            if (!array_key_exists($name, $resolved)) {
-                throw UnresolvableParameterException::createForFunction($function, $name);
+            if (!$this->parameterResolver->resolve($parameter, $arguments, $params)) {
+                throw UnresolvableParameterException::createForFunction($function, $parameter->getName());
             }
         }
 

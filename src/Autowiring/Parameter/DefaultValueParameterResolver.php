@@ -10,16 +10,13 @@ class DefaultValueParameterResolver implements ParameterResolver
     /**
      * @inheritDoc
      */
-    public function resolve(ReflectionParameter $parameter, array $arguments, array &$resolved, array &$result): void
+    public function resolve(ReflectionParameter $parameter, array $arguments, array &$result): bool
     {
-        $name = $parameter->getName();
-        if (array_key_exists($name, $resolved)) {
-            return;
+        if ($parameter->isDefaultValueAvailable()) {
+            $result[] = $parameter->getDefaultValue();
+            return true;
         }
 
-        if ($parameter->isDefaultValueAvailable()) {
-            $resolved[$name] = true;
-            $result[] = $parameter->getDefaultValue();
-        }
+        return false;
     }
 }

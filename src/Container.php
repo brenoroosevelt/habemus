@@ -6,7 +6,8 @@ namespace Habemus;
 use ArrayAccess;
 use Habemus\Autowiring\Attributes\AttributesInjection;
 use Habemus\Autowiring\ClassResolver;
-use Habemus\Autowiring\ReflectionResolver;
+use Habemus\Autowiring\Parameter\ParameterResolverChain;
+use Habemus\Autowiring\ReflectionClassResolver;
 use Habemus\Autowiring\Reflector;
 use Habemus\Definition\AutoDetection;
 use Habemus\Definition\Build\ClassDefinition;
@@ -107,7 +108,9 @@ class Container implements ContainerInterface, ArrayAccess
         $this->delegates = new ContainerComposite();
         $this->providers = new ServiceProviderManager($this);
         $this->attributesInjection = new AttributesInjection($this, $this->reflector);
-        $this->classResolver = new ReflectionResolver($this, $this->attributesInjection, $this->reflector);
+        $this->classResolver = new ReflectionClassResolver(
+            ParameterResolverChain::default($this, $this->attributesInjection, $this->reflector)
+        );
         $this->definitionResolver = new DefinitionResolver($this, $this->resolved, $this->attributesInjection);
         $this->detection = new AutoDetection($this, $this->classResolver);
 

@@ -10,8 +10,8 @@ interface ParameterResolver
     /**
      * @param ReflectionParameter $parameter
      * @param array $arguments pre defined arguments
-     * @param array $resolved resolved arguments indexed by name
      * @param array $result
+     * @return bool returns 'true' if the parameter has been resolved
      */
-    public function resolve(ReflectionParameter $parameter, array $arguments, array &$resolved, array &$result): void;
+    public function resolve(ReflectionParameter $parameter, array $arguments, array &$result): bool;
 }

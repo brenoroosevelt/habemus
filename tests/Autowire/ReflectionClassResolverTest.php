@@ -7,7 +7,8 @@ use Closure;
 use Exception;
 use Habemus\Autowiring\Attributes\AttributesInjection;
 use Habemus\Autowiring\Attributes\Inject;
-use Habemus\Autowiring\ReflectionResolver;
+use Habemus\Autowiring\Parameter\ParameterResolverChain;
+use Habemus\Autowiring\ReflectionClassResolver;
 use Habemus\Autowiring\Reflector;
 use Habemus\Container;
 use Habemus\Exception\NotFoundException;
@@ -24,7 +25,7 @@ use Habemus\Utility\PHPVersion;
 use ReflectionException;
 use ReflectionFunction;
 
-class ReflectionResolverTest extends TestCase
+class ReflectionClassResolverTest extends TestCase
 {
     /**
      * @var Container
@@ -42,7 +43,7 @@ class ReflectionResolverTest extends TestCase
     protected $attributesInjection;
 
     /**
-     * @var ReflectionResolver
+     * @var ReflectionClassResolver
      */
     protected $classResolver;
 
@@ -52,7 +53,9 @@ class ReflectionResolverTest extends TestCase
         $this->reflector = new Reflector();
         $this->attributesInjection = new AttributesInjection($this->container, $this->reflector);
         $this->classResolver =
-            new ReflectionResolver($this->container, $this->attributesInjection, $this->reflector);
+            new ReflectionClassResolver(
+                ParameterResolverChain::default($this->container, $this->attributesInjection, $this->reflector)
+            );
         parent::setUp();
     }
 

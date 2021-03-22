@@ -10,15 +10,8 @@ class OptionalParameterResolver implements ParameterResolver
     /**
      * @inheritDoc
      */
-    public function resolve(ReflectionParameter $parameter, array $arguments, array &$resolved, array &$result): void
+    public function resolve(ReflectionParameter $parameter, array $arguments, array &$result): bool
     {
-        $name = $parameter->getName();
-        if (array_key_exists($name, $resolved)) {
-            return;
-        }
-
-        if ($parameter->isOptional()) {
-            $resolved[$name] = true;
-        }
+        return $parameter->isOptional();
     }
 }

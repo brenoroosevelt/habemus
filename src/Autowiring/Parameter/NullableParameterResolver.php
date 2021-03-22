@@ -10,16 +10,13 @@ class NullableParameterResolver implements ParameterResolver
     /**
      * @inheritDoc
      */
-    public function resolve(ReflectionParameter $parameter, array $arguments, array &$resolved, array &$result): void
+    public function resolve(ReflectionParameter $parameter, array $arguments, array &$result): bool
     {
-        $name = $parameter->getName();
-        if (array_key_exists($name, $resolved)) {
-            return;
+        if (!$parameter->isOptional() && $parameter->allowsNull()) {
+            $result[] = null;
+            return true;
         }
 
-        if (!$parameter->isOptional() && $parameter->allowsNull()) {
-            $resolved[$name] = true;
-            $result[] = null;
-        }
+        return false;
     }
 }

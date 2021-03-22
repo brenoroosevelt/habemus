@@ -29,27 +29,25 @@ class InjectionParameterResolver implements ParameterResolver
     /**
      * @inheritDoc
      */
-    public function resolve(ReflectionParameter $parameter, array $arguments, array &$resolved, array &$result): void
+    public function resolve(ReflectionParameter $parameter, array $arguments, array &$result): bool
     {
-        $name = $parameter->getName();
-        if (array_key_exists($name, $resolved)) {
-            return;
-        }
-
         if (!$this->container->attributesEnabled()) {
-            return;
+            return false;
         }
 
         $inject = $this->injection->getInjection($parameter);
         if (empty($inject)) {
-            return;
+            return false;
         }
 
         if (!$this->container->has($inject)) {
-            throw UnresolvableParameterException::createForFunction($parameter->getDeclaringFunction(), $name);
+            throw UnresolvableParameterException::createForFunction(
+                $parameter->getDeclaringFunction(),
+                $parameter->getName()
+            );
         }
 
-        $resolved[$name] = true;
         $result[] = $this->container->get($inject);
+        return true;
     }
 }
