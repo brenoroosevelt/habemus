@@ -24,13 +24,12 @@
   ],
   "require": {
     "php": "^7.1 || ^8.0",
-    "psr/container": "^1.0",
-    "phpstan/phpstan": "^0.12.82",
-    "league/pipeline": "@stable"
+    "psr/container": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^6 || ^9",
-    "squizlabs/php_codesniffer": "@stable"
+    "squizlabs/php_codesniffer": "@stable",
+    "phpstan/phpstan": "^0.12.82"
   },
   "provide": {
         "psr/container-implementation": "^1.0"
