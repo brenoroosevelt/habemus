@@ -21,7 +21,11 @@ class ParameterResolverChain implements ParameterResolver
     }
 
     /**
-     * @inheritDoc
+     * Stops processing when any of the chain resolves the parameter
+     * @param ReflectionParameter $parameter
+     * @param array $arguments
+     * @param array $result
+     * @return bool
      */
     public function resolve(ReflectionParameter $parameter, array $arguments, array &$result): bool
     {
