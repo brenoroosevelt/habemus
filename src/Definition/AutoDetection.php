@@ -56,12 +56,14 @@ class AutoDetection implements DefinitionDetection
     }
 
     /**
+     * Accepts anonymous functions only.
+     * Objects that implement the "__invoke" method are not accepted as a closure definition
      * @param mixed $value
      * @return bool
      */
     protected function isClosure($value): bool
     {
-        return !is_scalar($value) && !is_array($value) && !is_resource($value) && get_class($value) === Closure::class;
+        return is_object($value) && get_class($value) === Closure::class;
     }
 
     /**
