@@ -19,6 +19,7 @@ use Habemus\Definition\DefinitionResolver;
 use Habemus\Definition\DefinitionResolverInterface;
 use Habemus\Definition\DefinitionWrapper;
 use Habemus\Definition\Sharing\Shareable;
+use Habemus\Exception\ContainerException;
 use Habemus\Exception\NotFoundException;
 use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\ServiceProvider\ServiceProviderManager;
@@ -136,6 +137,7 @@ class Container implements ContainerInterface, ArrayAccess
 
     public function has($id): bool
     {
+        $this->assertString($id);
         return
             $this->resolved->has($id)           ||
             $this->definitions->has($id)        ||
@@ -147,15 +149,15 @@ class Container implements ContainerInterface, ArrayAccess
 
     public function get($id)
     {
+        $this->assertString($id);
         if ($this->resolved->has($id)) {
             return $this->resolved->get($id);
         }
 
         return
-            $this->circularDependencyDetection
-                ->execute($id, function () use ($id) {
-                    return $this->resolve($id);
-                });
+            $this->circularDependencyDetection->execute($id, function () use ($id) {
+                return $this->resolve($id);
+            });
     }
 
     protected function resolve(string $id)
@@ -276,5 +278,17 @@ class Container implements ContainerInterface, ArrayAccess
     public function offsetUnset($offset)
     {
         $this->delete($offset);
+    }
+
+    protected function assertString($value): void
+    {
+        if (!is_string($value)) {
+            throw new ContainerException(
+                sprintf(
+                    "Expected string. Got: %s.",
+                    is_object($value) ? get_class($value) : gettype($value)
+                )
+            );
+        }
     }
 }

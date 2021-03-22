@@ -6,6 +6,7 @@ namespace Habemus\Test;
 use Habemus\Container;
 use Habemus\Definition\Build\RawDefinition;
 use Habemus\Exception\CircularDependencyException;
+use Habemus\Exception\ContainerException;
 use Habemus\Exception\NotFoundException;
 use Habemus\ServiceProvider\LazyServiceProvider;
 use Habemus\ServiceProvider\ServiceProvider;
@@ -302,5 +303,19 @@ class ContainerTest extends TestCase
         $container->add('anId')->setShared(false);
         $container->definition('anId')->setShared(true);
         $this->assertTrue($container->definition('anId')->isShared());
+    }
+
+    public function testShouldGetMethodThrowsExceptionNotString()
+    {
+        $container = new Container();
+        $this->expectException(ContainerException::class);
+        $container->get(1);
+    }
+
+    public function testShouldHasMethodThrowsExceptionNotString()
+    {
+        $container = new Container();
+        $this->expectException(ContainerException::class);
+        $container->has(1);
     }
 }
