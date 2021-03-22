@@ -46,11 +46,11 @@ class Reflector
     {
         $this->assertAttributesAvailable();
         $attribute = $subject->getAttributes($attribute)[0] ?? null;
-        if ($attribute instanceof ReflectionAttribute) {
-            return $attribute->newInstance();
+        if (empty($attribute)) {
+            return null;
         }
 
-        return null;
+        return $attribute->newInstance();
     }
 
     public function attributesAvailable(): bool
