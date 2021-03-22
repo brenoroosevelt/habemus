@@ -52,7 +52,7 @@ Read the [full documentation](http://brenoroosevelt.github.io/habemus).
 
 ## Contributing
 
-Please read the Contributing guide to learn about contributing to this project.
+Please read the [Contributing](CONTRIBUTING.md) guide to learn about contributing to this project.
 
 ## License
 
