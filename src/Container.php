@@ -209,6 +209,46 @@ class Container implements ContainerInterface, ArrayAccess
         $this->attributesInjection->inject($object);
     }
 
+    /**
+     * @param string|array|\Closure $target
+     * @param array $args
+     * @return mixed
+     * @throws Exception\UnresolvableParameterException
+     * @throws \ReflectionException
+     */
+    public function invoke($target, array $args = [])
+    {
+        if ((is_string($target) && function_exists($target)) || $target instanceof \Closure) {
+            $reflectionFunction = new \ReflectionFunction($target);
+            $arguments = $this->classResolver->resolveArguments($reflectionFunction, $args);
+            return $reflectionFunction->invokeArgs($arguments);
+        }
+
+        if (is_object($target) && method_exists($target, '__invoke')) {
+            $target = [$target, "__invoke"];
+        }
+
+        if (is_string($target) && class_exists($target)) {
+            $target = [$target, "__invoke"];
+        }
+
+        if (is_array($target) && count($target) === 2) {
+            list($objectOrClass, $method) = $target;
+            $reflectionMethod = new \ReflectionMethod($objectOrClass, $method);
+            $arguments = $this->classResolver->resolveArguments($reflectionMethod, $args);
+
+            if ($reflectionMethod->isStatic()) {
+                $objectOrClass = null;
+            } elseif (is_string($objectOrClass) && $this->has($objectOrClass)) {
+                $objectOrClass = $this->get($objectOrClass);
+            }
+
+            return $reflectionMethod->invokeArgs($objectOrClass, $arguments);
+        }
+        $targetName = is_string($target) ? $target : gettype($target);
+        throw new ContainerException('Target is not invokable: ' . $targetName);
+    }
+
     public function addProvider(ServiceProvider ...$providers): self
     {
         $this->providers->add(...$providers);

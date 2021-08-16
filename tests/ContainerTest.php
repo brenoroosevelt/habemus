@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Habemus\Test;
 
+use Habemus\Autowiring\Attributes\Inject;
 use Habemus\Container;
 use Habemus\Definition\Build\RawDefinition;
 use Habemus\Exception\CircularDependencyException;
@@ -12,6 +13,7 @@ use Habemus\ServiceProvider\LazyServiceProvider;
 use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\Test\Fixtures\ClassA;
 use Habemus\Test\Fixtures\ClassC;
+use Habemus\Test\Fixtures\ClassInvoke;
 use Habemus\Test\Fixtures\ClassWithAttributes;
 use Habemus\Test\Fixtures\ConstructorSelfDependency;
 use Habemus\Test\Fixtures\DependencyClassA;
@@ -317,5 +319,92 @@ class ContainerTest extends TestCase
         $container = new Container();
         $this->expectException(ContainerException::class);
         $container->has(1);
+    }
+
+
+    public function invokeProvider(): array
+    {
+        $container = new Container();
+        $container->add('property_id', 15);
+        // phpcs:disable
+        $cases = [
+            'closure' => [
+                $container,
+                function (float $a, int $b = null) {
+                    return $a;
+                },
+                ['a' => 4],
+                4
+            ],
+            'closure_typehint' => [
+                $container,
+                function (classC $a) {
+                    return 2;
+                },
+                [],
+                2
+            ],
+            'class_invoke' => [
+                $container,
+                ClassInvoke::class,
+                ['a' => 10],
+                10
+            ],
+            'object_closure' => [
+                $container,
+                new class {
+                    public function __invoke(ClassC $c)
+                    {
+                        return 10;
+                    }
+                },
+                [],
+                10
+            ],
+        ];
+
+        if (PHPVersion::current() < PHPVersion::V8_0) {
+            return $cases;
+        }
+
+        $cases['object_closure_injection'] = [
+            $container,
+            new class {
+                public function __invoke(
+                    #[Inject('property_id')]
+                    int $c
+                ) {
+                    return $c;
+                }
+            },
+            [],
+            $container->attributesEnabled() ? 15 : null
+        ];
+
+        $cases['class_invoke_method'] = [
+            $container,
+            [ClassInvoke::class, 'method'],
+            [],
+            10
+        ];
+
+        $cases['class_property_injection'] = [
+            $container,
+            [ClassA::class, 'property'],
+            [],
+            15
+        ];
+
+        return $cases;
+        // phpcs:enable
+    }
+
+    /**
+     * @dataProvider invokeProvider
+     */
+    public function testShouldInvokeClosure($container, $target, $args, $expected)
+    {
+        $result = $container->invoke($target, $args);
+        $this->assertEquals($expected, $result);
     }
 }

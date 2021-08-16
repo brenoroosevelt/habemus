@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Habemus\Test\Util;
+namespace Habemus\Test\Utility;
 
 use Habemus\Test\TestCase;
 use Habemus\Utility\Lists\ObjectPriorityList;
