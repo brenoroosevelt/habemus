@@ -320,7 +320,7 @@ class ContainerTest extends TestCase
         $this->expectException(ContainerException::class);
         $container->has(1);
     }
-    
+
     public function invokeProvider(): array
     {
         $container = new Container();
