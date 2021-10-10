@@ -5,7 +5,7 @@ namespace Habemus\Autowiring\Parameter;
 
 use Habemus\Autowiring\Attributes\AttributesInjection;
 use Habemus\Autowiring\Reflector;
-use Habemus\Container;
+use Psr\Container\ContainerInterface;
 use ReflectionParameter;
 
 class ParameterResolverChain implements ParameterResolver
@@ -38,7 +38,7 @@ class ParameterResolverChain implements ParameterResolver
         return false;
     }
 
-    public static function default(Container $container, AttributesInjection $injection, Reflector $reflector): self
+    public static function default(ContainerInterface $container, AttributesInjection $injection, Reflector $reflector): self
     {
         return new self(
             new UserDefinedParameterResolver(),

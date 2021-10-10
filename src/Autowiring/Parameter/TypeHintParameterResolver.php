@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace Habemus\Autowiring\Parameter;
 
 use Habemus\Autowiring\Reflector;
-use Habemus\Container;
+use Psr\Container\ContainerInterface;
 use ReflectionParameter;
 
 class TypeHintParameterResolver implements ParameterResolver
 {
     /**
-     * @var Container
+     * @var ContainerInterface
      */
     protected $container;
 
@@ -19,7 +19,7 @@ class TypeHintParameterResolver implements ParameterResolver
      */
     protected $reflector;
 
-    public function __construct(Container $container, Reflector $reflector)
+    public function __construct(ContainerInterface $container, Reflector $reflector)
     {
         $this->container = $container;
         $this->reflector = $reflector;

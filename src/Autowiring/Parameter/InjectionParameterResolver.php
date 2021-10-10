@@ -6,12 +6,13 @@ namespace Habemus\Autowiring\Parameter;
 use Habemus\Autowiring\Attributes\AttributesInjection;
 use Habemus\Container;
 use Habemus\Exception\UnresolvableParameterException;
+use Psr\Container\ContainerInterface;
 use ReflectionParameter;
 
 class InjectionParameterResolver implements ParameterResolver
 {
     /**
-     * @var Container
+     * @var ContainerInterface
      */
     protected $container;
 
@@ -20,7 +21,7 @@ class InjectionParameterResolver implements ParameterResolver
      */
     protected $injection;
 
-    public function __construct(Container $container, AttributesInjection $injection)
+    public function __construct(ContainerInterface $container, AttributesInjection $injection)
     {
         $this->container = $container;
         $this->injection = $injection;
@@ -31,7 +32,7 @@ class InjectionParameterResolver implements ParameterResolver
      */
     public function resolve(ReflectionParameter $parameter, array $arguments, array &$result): bool
     {
-        if (!$this->container->attributesEnabled()) {
+        if ($this->container instanceof Container && !$this->container->attributesEnabled()) {
             return false;
         }
 
