@@ -38,8 +38,11 @@ class ParameterResolverChain implements ParameterResolver
         return false;
     }
 
-    public static function default(ContainerInterface $container, AttributesInjection $injection, Reflector $reflector): self
-    {
+    public static function default(
+        ContainerInterface $container,
+        AttributesInjection $injection,
+        Reflector $reflector
+    ): self {
         return new self(
             new UserDefinedParameterResolver(),
             new InjectionParameterResolver($container, $injection),
