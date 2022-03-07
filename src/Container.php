@@ -27,6 +27,7 @@ use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\ServiceProvider\ServiceProviderManager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
@@ -313,10 +314,10 @@ class Container implements ContainerInterface, ArrayAccess
     }
 
     /**
-     * @param $offset
+     * @param mixed $offset
      * @return mixed
      * @throws ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
