@@ -312,7 +312,14 @@ class Container implements ContainerInterface, ArrayAccess
         return $this->has($offset);
     }
 
-    public function offsetGet($offset): mixed
+    /**
+     * @param $offset
+     * @return mixed
+     * @throws ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
         return $this->get($offset);
     }
