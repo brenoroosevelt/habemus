@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Habemus;
 
 use ArrayAccess;
+use Closure;
 use Habemus\Autowiring\Attributes\AttributesInjection;
 use Habemus\Autowiring\ClassResolver;
 use Habemus\Autowiring\Parameter\ParameterResolverChain;
@@ -24,7 +25,11 @@ use Habemus\Exception\ContainerException;
 use Habemus\Exception\NotFoundException;
 use Habemus\ServiceProvider\ServiceProvider;
 use Habemus\ServiceProvider\ServiceProviderManager;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use ReflectionException;
+use ReflectionFunction;
+use ReflectionMethod;
 
 class Container implements ContainerInterface, ArrayAccess
 {
@@ -56,7 +61,7 @@ class Container implements ContainerInterface, ArrayAccess
     protected $definitionResolver;
 
     /**
-     * @var ClassResolver
+     * @var ReflectionClassResolver
      */
     protected $classResolver;
 
@@ -210,31 +215,29 @@ class Container implements ContainerInterface, ArrayAccess
     }
 
     /**
-     * @param string|array|\Closure $target
+     * @param callable|string|array $target
      * @param array $args
      * @return mixed
      * @throws Exception\UnresolvableParameterException
-     * @throws \ReflectionException
+     * @throws ReflectionException
+     * @throws ContainerExceptionInterface
      */
     public function invoke($target, array $args = [])
     {
-        if ((is_string($target) && function_exists($target)) || $target instanceof \Closure) {
-            $reflectionFunction = new \ReflectionFunction($target);
+        if (is_callable($target)) {
+            $reflectionFunction = new ReflectionFunction(Closure::fromCallable($target));
             $arguments = $this->classResolver->resolveArguments($reflectionFunction, $args);
+
             return $reflectionFunction->invokeArgs($arguments);
         }
 
-        if (is_object($target) && method_exists($target, '__invoke')) {
-            $target = [$target, "__invoke"];
-        }
-
-        if (is_string($target) && class_exists($target)) {
+        if (is_string($target) && class_exists($target) && method_exists($target, '__invoke')) {
             $target = [$target, "__invoke"];
         }
 
         if (is_array($target) && count($target) === 2) {
             list($objectOrClass, $method) = $target;
-            $reflectionMethod = new \ReflectionMethod($objectOrClass, $method);
+            $reflectionMethod = new ReflectionMethod($objectOrClass, $method);
             $arguments = $this->classResolver->resolveArguments($reflectionMethod, $args);
 
             if ($reflectionMethod->isStatic()) {
@@ -245,6 +248,7 @@ class Container implements ContainerInterface, ArrayAccess
 
             return $reflectionMethod->invokeArgs($objectOrClass, $arguments);
         }
+
         $targetName = is_string($target) ? $target : gettype($target);
         throw new ContainerException('Target is not invokable: ' . $targetName);
     }
@@ -308,17 +312,17 @@ class Container implements ContainerInterface, ArrayAccess
         return $this->has($offset);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->get($offset);
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->add($offset, $value);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->delete($offset);
     }

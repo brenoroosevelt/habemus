@@ -5,12 +5,10 @@ namespace Habemus\Definition;
 
 use Closure;
 use Habemus\Definition\Build\ArrayDefinition;
-use Habemus\Definition\Build\CallbackDefinition;
 use Habemus\Definition\Build\ClassDefinition;
 use Habemus\Definition\Build\FactoryDefinition;
 use Habemus\Definition\Build\FnDefinition;
 use Habemus\Definition\Build\ReferenceDefinition;
-use Habemus\Definition\Build\IdsDefinition;
 use Habemus\Definition\Build\RawDefinition;
 use Habemus\Definition\Build\IterateDefinition;
 use Habemus\Exception\InvalidDefinitionException;

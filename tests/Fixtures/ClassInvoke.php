@@ -18,7 +18,6 @@ class ClassInvoke
         int $p,
         ClassC $c
     ) {
-        var_dump($p);
         return 10;
     }
     // phpcs:enable

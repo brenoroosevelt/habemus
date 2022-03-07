@@ -237,7 +237,7 @@ class ContainerTest extends TestCase
         $container->useAttributes(true);
         $container->useDefaultShared(false); // important! shared instance can avoid circular dependency
         $this->expectException(CircularDependencyException::class);
-        var_dump($container->get(PropertySelfCircularDependency::class));
+        $container->get(PropertySelfCircularDependency::class);
     }
 
     public function testShouldContainerDetectCircularDependency()

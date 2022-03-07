@@ -7,7 +7,7 @@ use Habemus\Container;
 
 final class Habemus
 {
-    /** @var Container */
+    /** @var Container|null */
     private static $instance = null;
 
     public static function instance(): Container

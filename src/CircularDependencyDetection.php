@@ -14,7 +14,7 @@ class CircularDependencyDetection
     protected $executing = [];
 
     /**
-     * @param $id
+     * @param mixed $id
      * @param Closure $process
      * @return mixed
      * @throws CircularDependencyException

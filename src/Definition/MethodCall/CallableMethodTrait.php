@@ -11,9 +11,9 @@ use Psr\Container\ContainerInterface;
 trait CallableMethodTrait
 {
     /**
-     * @var Closure
+     * @var Closure|null
      */
-    protected $methodsCallback;
+    protected $methodsCallback = null;
 
     public function addMethodCall(string $method, array $parameters = [])
     {
